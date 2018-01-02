@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cug.hyl</groupId>
+    <artifactId>ParsePowerPointWithApachePOI</artifactId>
+    <packaging>war</packaging>
+    <version>1.0.0</version>
+    <name>ParsePowerPointWithApachePOI Maven Webapp</name>
+
+    <properties>
+        <spring.version>5.0.2.RELEASE</spring.version>
+        <mybatis.version>3.4.5</mybatis.version>
+        <poi.version>3.17</poi.version>
+    </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+
+
+
+
+    </dependencies>
+    <build>
+        <finalName>ParsePowerPointWithApachePOI</finalName>
+    </build>
+</project>
