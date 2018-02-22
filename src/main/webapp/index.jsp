@@ -82,7 +82,8 @@
     <canvas id="canvas" style="z-index: 50"></canvas>
 
     <div class="input-group col-md-4 col-md-offset-4 searchBox " style="z-index: 1000">
-        <input type="text" class="form-control" id="searchBoxID" name="searchBoxKeyWord" onclick="" placeholder="请输入关键词，多个关键词用空格隔开"/>
+        <input type="text" class="form-control" id="keyWord" name="searchBoxKeyWord" onclick="sendKeyWord()"
+               placeholder="请输入关键词，多个关键词用空格隔开"/>
         <span class="input-group-btn">
                <button class="btn btn-info btn-search">搜索</button>
         </span>
@@ -96,6 +97,27 @@
     var CanvasStar = new CanvasStar;
     CanvasStar.init();
 </script>
+
+<script>
+    function sendKeyWord() {
+        var regUserInfo = {
+            kewWord: $("#keyWord").val()
+        };
+        $.ajax({
+            type: "post",
+            url: "/loginPage/servlet/RegUserInfoServlet",
+            produces: "text/html;charset=UTF-8",
+            data: regUserInfo,
+            error: function (request) {
+                alert("连接错误");
+            },
+            success: function (data) {
+                alert("❤注册成功！❤")
+            }
+        });
+    }
+</script>
+
 
 </body>
 </html>
