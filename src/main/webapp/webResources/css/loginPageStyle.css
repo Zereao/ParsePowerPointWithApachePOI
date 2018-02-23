@@ -32,7 +32,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     text-align: center;
-    background: url("../images/background.jpg");
+    background: url("../images/login_background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -139,7 +139,7 @@ ul.tick li input[type="checkbox"]+label span:first-child {
 
 ul.tick li input[type="checkbox"]:checked+label span:first-child:before {
     content: "";
-    background: url(../images/tick.png)no-repeat;
+    background: url(../images/login_checkbox_yes.png)no-repeat;
     position: absolute;
     left: 3px;
     top: 3px;
@@ -178,24 +178,24 @@ li.twt {
 }
 
 .social-icons ul li span.icons {
-    background: url("../images/i1.png") no-repeat center;
+    background: url("../images/login_facebook_icon.png") no-repeat center;
     width: 30px;
     height: 30px;
     display: inline-block;
 }
 
 .social-icons ul li.weixin span.icons {
-    background: url("../images/weixin.png") no-repeat;
+    background: url("../images/login_wechat_icon.png") no-repeat;
     background-size: 100%;
 }
 .social-icons ul li.qq span.icons {
-    background: url("../images/QQ.png") no-repeat;
+    background: url("../images/login_qq_icon.png") no-repeat;
     background-size: 100%;
 }
 .social-icons ul li.weibo span.icons {
     /*--w3layouts--*/
     /*--agileits--*/
-    background: url("../images/weibo.png") no-repeat;
+    background: url("../images/login_weibo_icon.png") no-repeat;
     background-size: 100%;
 }
 

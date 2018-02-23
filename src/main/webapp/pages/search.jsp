@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
 
     <!--网站图标-->
-    <link rel="shortcut icon" type="image/x-icon" href="../../webResources/favicon/sun.ico" media="screen"/>
+    <link rel="shortcut icon" type="image/x-icon" href="../webResources/favicon/sun.ico" media="screen"/>
     <!--网站名称-->
     <title>故事长满天涯海角，包括你和你的故乡。</title>
 
-    <script src="../../webResources/js/jquery-3.2.1.min.js"></script>
-    <script src="../../webResources/js/bootstrap.min.js"></script>
+    <script src="../webResources/js/jquery-3.2.1.min.js"></script>
+    <script src="../webResources/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="../../webResources/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../webResources/css/bootstrap.min.css"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -91,7 +91,7 @@
 </div>
 
 <%--自定义动画的 JavaScript ,必须定义在上面这条语句之后，原因是下面这个 JS 的第32行 【canvas = document.getElementById('canvas')】 获取了上面这个ID--%>
-<script src="../../webResources/js/canvasstar.js"></script>
+<script src="../webResources/js/canvasstar.js"></script>
 
 <script>
     var CanvasStar = new CanvasStar;

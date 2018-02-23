@@ -8,33 +8,31 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>当一个人不能拥有的时候，他唯一能做的便是不要忘记。</title>
-    <!--网站图标-->
-    <link rel="shortcut icon" type="image/x-icon" href="../../webResources/favicon/sun.ico" media="screen"  />
-
-    <!-- Meta-Tags -->
+    <title>欢迎登陆/注册❤当一个人不能拥有的时候，他唯一能做的便是不要忘记。</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../webResources/favicon/sun.ico" media="screen"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <!-- //Meta-Tags -->
 
-    <script src="../../webResources/js/jquery-3.2.1.min.js"></script>         <!-- jQuery (https://jquery.com/download/) -->
+    <script src="../webResources/js/jquery-3.2.1.min.js"></script>
+
     <script type="application/x-javascript">
-        addEventListener("load", function() {
+        <%--因为chrome等浏览器会有滚动缓存功能，比如你在A页面滚动后跳转到B页面，
+             点击返回键回到A页面，会发现滚动条位置仍然保持。
+             所以每次页面加载，都将页面滚动到 (0,1) 位置 --%>
+        addEventListener("load", function () {
             setTimeout(hideURLbar, 0);
         }, false);
-        function hideURLbar(){
-            window.scrollTo(0,1);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
         }
     </script>
 
-    <!-- Style -->
-    <link rel="stylesheet" href="../../webResources/css/loginPageStyle.css" type="text/css" media="all">
-    <%--<link rel="stylesheet" href="../resources/mainPage/css/templatemo-style.css">--%>
-    <!-- Templatemo style -->
+    <link rel="stylesheet" href="../webResources/css/loginPageStyle.css" type="text/css" media="all">
 </head>
 <body>
 
-<h1>欢迎登陆</h1>
+<h1>欢迎登陆/注册</h1>
 <div class="container w3layouts agileits">
     <div class="login w3layouts agileits">
         <h2>登 录</h2>
@@ -97,9 +95,9 @@
 </div>
 
 <%--<div class="footer w3layouts agileits ">--%>
-    <%--<p class="tm-copyright-text" style="font-size: 1.2rem">Copyright &copy; 2016-2017--%>
-        <%--<a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>--%>
-        <%--All Rights Reserved</p>--%>
+<%--<p class="tm-copyright-text" style="font-size: 1.2rem">Copyright &copy; 2016-2017--%>
+<%--<a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>--%>
+<%--All Rights Reserved</p>--%>
 <%--</div>--%>
 
 
@@ -109,17 +107,17 @@
             user_name: $("#reg_account").val(),
             e_mail: $("#reg_e_mail").val(),
             password: $("#reg_password").val(),
-            phone_num:$("#reg_phone_num").val()
+            phone_num: $("#reg_phone_num").val()
         };
         $.ajax({
             type: "post",
-            url:"/loginPage/servlet/RegUserInfoServlet",
-            produces:"text/html;charset=UTF-8",
-            data:regUserInfo,
-            error: function(request) {
+            url: "/loginPage/servlet/RegUserInfoServlet",
+            produces: "text/html;charset=UTF-8",
+            data: regUserInfo,
+            error: function (request) {
                 alert("连接错误");
             },
-            success: function(data) {
+            success: function (data) {
                 alert("❤注册成功！❤")
             }
         });
@@ -132,13 +130,13 @@
         };
         $.ajax({
             type: "post",
-            url:"/loginPage/servlet/LoginUserInfoServlet",
-            produces:"text/html;charset=UTF-8",
-            data:regUserInfo,
-            error: function(request) {
+            url: "/loginPage/servlet/LoginUserInfoServlet",
+            produces: "text/html;charset=UTF-8",
+            data: regUserInfo,
+            error: function (request) {
                 alert("连接错误");
             },
-            success: function(data) {
+            success: function (data) {
                 alert(data)
             }
         });
