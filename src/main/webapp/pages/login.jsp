@@ -134,9 +134,11 @@
             data: regUserInfo,
             error: function (request) {
                 alert("连接错误");
+                window.location.href = "error.jsp"
             },
             success: function (data) {
-                alert(data)
+                alert(data);
+                window.location.href = "../index.jsp"
             }
         });
     }
