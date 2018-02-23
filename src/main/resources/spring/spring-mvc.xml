@@ -6,6 +6,8 @@
     <!-- 默认的注解映射的支持 -->
     <mvc:annotation-driven/>
 
+    <mvc:default-servlet-handler/>
+
 
     <!--避免IE执行AJAX时，返回JSON出现下载文件-->
     <bean id="mappingJacksonHttpMessageConverter"

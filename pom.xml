@@ -11,6 +11,8 @@
         <spring.version>5.0.2.RELEASE</spring.version>
         <mybatis.version>3.4.5</mybatis.version>
         <poi.version>3.17</poi.version>
+        <jackson.version>2.9.4</jackson.version>
+        <apache.commons.version>1.3.3</apache.commons.version>
     </properties>
 
 
@@ -39,6 +41,17 @@
             <version>${poi.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${apache.commons.version}</version>
+        </dependency>
 
 
 
