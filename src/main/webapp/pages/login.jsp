@@ -28,7 +28,7 @@
         }
     </script>
 
-    <link rel="stylesheet" href="../webResources/css/loginPageStyle.css" type="text/css" media="all">
+    <link rel="stylesheet" href="../webResources/css/login_style.css" type="text/css" media="all">
 </head>
 <body>
 
@@ -48,7 +48,7 @@
         </ul>
         <div class="send-button w3layouts agileits">
             <div>
-                <input type="submit" onclick="getLoginUserInfo()" value="登&emsp;录">
+                <input type="submit" onclick="userLogin()" value="登&emsp;录">
             </div>
         </div>
         <!--<a href="#">记住密码?</a>-->
@@ -69,7 +69,6 @@
         </div>
         <div class="clear"></div>
     </div>
-    <!--<div class="copyrights">Collect from <a href="http://www.cssmoban.com/" >企业网站模板</a></div>-->
     <div class="register w3layouts agileits">
         <h2>注 册</h2>
         <!--<form action="#" method="post">-->
@@ -83,7 +82,7 @@
         <div class="send-button w3layouts agileits">
             <!--<form>-->
             <div>
-                <input type="submit" onclick="addRegUserInfo()" value="注&emsp;册">
+                <input type="submit" onclick="registerUser()" value="注&emsp;册">
             </div>
             <!--</form>-->
         </div>
@@ -94,15 +93,15 @@
 
 </div>
 
-<%--<div class="footer w3layouts agileits ">--%>
-<%--<p class="tm-copyright-text" style="font-size: 1.2rem">Copyright &copy; 2016-2017--%>
-<%--<a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>--%>
-<%--All Rights Reserved</p>--%>
-<%--</div>--%>
+<div class="footer">
+    <p style="font-size: 1.2rem">Copyright &copy; 2017-2018
+        <a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>
+        All Rights Reserved</p>
+</div>
 
 
 <script>
-    function addRegUserInfo() {
+    function registerUser() {
         var regUserInfo = {
             user_name: $("#reg_account").val(),
             e_mail: $("#reg_e_mail").val(),
@@ -123,7 +122,7 @@
         });
     }
 
-    function getLoginUserInfo() {
+    function userLogin() {
         var regUserInfo = {
             account: $("#login_account").val(),
             password: $("#login_password").val()

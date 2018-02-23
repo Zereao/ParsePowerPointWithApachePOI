@@ -1,31 +1,99 @@
+/*-- Reset Code --*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+ol, ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.txt-rt {
+    text-align: right;
+}
+
+.txt-lt {
+    text-align: left;
+}
+
+.txt-center {
+    text-align: center;
+}
+
+.float-rt {
+    float: right;
+}
+
+.float-lt {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+.pos-relative {
+    position: relative;
+}
+
+.pos-absolute {
+    position: absolute;
+}
+
+.vertical-base {
+    vertical-align: baseline;
+}
+
+.vertical-top {
+    vertical-align: top;
+}
+
+.underline {
+    padding-bottom: 3px;
+    border-bottom: 1px solid #eee;
+}
+
+nav.vertical ul li {
+    display: block;
+}
+
+nav.horizontal ul li {
+    display: inline-block;
+}
+
+img {
+    max-width: 100%;
+}
 
 /*-- Reset Code --*/
-
-	html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,dl,dt,dd,ol,nav ul,nav li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
-	article, aside, details, figcaption, figure,footer, header, hgroup, menu, nav, section {display: block;}
-	ol,ul{list-style:none;padding:0;margin:0;}
-	blockquote,q{quotes:none;}
-	blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
-	table{border-collapse:collapse;border-spacing:0;}
-	a{text-decoration:none;}
-	.txt-rt{text-align:right;}
-	.txt-lt{text-align:left;}
-	.txt-center{text-align:center;}
-	.float-rt{float:right;}
-	.float-lt{float:left;}
-	.clear{clear:both;}
-	.pos-relative{position:relative;}
-	.pos-absolute{position:absolute;}
-	.vertical-base{vertical-align:baseline;}
-	.vertical-top{vertical-align:top;}
-	.underline{	padding-bottom:3px;	border-bottom: 1px solid #eee;}
-	nav.vertical ul li{display:block;}
-	nav.horizontal ul li{display: inline-block;}
-	img{max-width:100%;}
-
-/*-- Reset Code --*/
-
-
 
 /*-- Index-Page-Styling --*/
 
@@ -43,11 +111,11 @@ body {
 }
 
 body a {
-    transition:0.5s all;
-    -webkit-transition:0.5s all;
-    -moz-transition:0.5s all;
-    -o-transition:0.5s all;
-    -ms-transition:0.5s all;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
     text-decoration: none;
 }
 
@@ -117,7 +185,7 @@ ul.tick li input[type="checkbox"] {
     display: none;
 }
 
-ul.tick li input[type="checkbox"]+label {
+ul.tick li input[type="checkbox"] + label {
     position: relative;
     padding-left: 30px;
     border: #F0F8FF;
@@ -126,7 +194,7 @@ ul.tick li input[type="checkbox"]+label {
     color: #EEE;
 }
 
-ul.tick li input[type="checkbox"]+label span:first-child {
+ul.tick li input[type="checkbox"] + label span:first-child {
     width: 17px;
     height: 17px;
     display: inline-block;
@@ -137,9 +205,9 @@ ul.tick li input[type="checkbox"]+label span:first-child {
     bottom: 4px;
 }
 
-ul.tick li input[type="checkbox"]:checked+label span:first-child:before {
+ul.tick li input[type="checkbox"]:checked + label span:first-child:before {
     content: "";
-    background: url(../images/login_checkbox_yes.png)no-repeat;
+    background: url(../images/login_checkbox_yes.png) no-repeat;
     position: absolute;
     left: 3px;
     top: 3px;
@@ -162,13 +230,21 @@ ul.tick li input[type="checkbox"]:checked+label span:first-child:before {
     float: left;
     width: 32.9%;
 }
-.copyrights{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
+
+.copyrights {
+    text-indent: -9999px;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+}
+
 li.twt {
     margin: 0 2px;
 }
 
 .social-icons ul li a {
-    display:block;
+    display: block;
 }
 
 .social-icons ul li a span {
@@ -188,10 +264,12 @@ li.twt {
     background: url("../images/login_wechat_icon.png") no-repeat;
     background-size: 100%;
 }
+
 .social-icons ul li.qq span.icons {
     background: url("../images/login_qq_icon.png") no-repeat;
     background-size: 100%;
 }
+
 .social-icons ul li.weibo span.icons {
     /*--w3layouts--*/
     /*--agileits--*/
@@ -236,11 +314,11 @@ input[type="text"], input[type="password"] {
     border-width: thin;
     cursor: pointer;
     outline: none;
-    transition:0.5s all;
-    -webkit-transition:0.5s all;
-    -moz-transition:0.5s all;
-    -o-transition:0.5s all;
-    -ms-transition:0.5s all;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
     text-decoration: none;
 }
 
@@ -250,11 +328,11 @@ input[type="text"], input[type="password"] {
     background-color: #000;
     border: 1px solid #FFF;
     color: #FFF;
-    transition:0.5s all;
-    -webkit-transition:0.5s all;
-    -moz-transition:0.5s all;
-    -o-transition:0.5s all;
-    -ms-transition:0.5s all;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
     text-decoration: none;
 }
 
@@ -291,33 +369,26 @@ input[type="text"], input[type="password"] {
     text-align: center;
     margin: 100px 20px 20px;
 }
+
 .footer p {
     color: #CCC;
     line-height: 25px;
     /*--w3layouts--*/
     /*--agileits--*/
 }
+
 .footer a {
     color: #CCC;
     text-decoration: none;
 }
+
 .footer a:hover {
     color: #FFF;
 }
 
 /*-- Index-Page-Styling --*/
 
-
-
-
-
-
-
-
-
 /*--- Responsive Code ---*/
-
-
 
 @media screen and (max-width: 1920px) {
     h1 {
@@ -341,9 +412,11 @@ input[type="text"], input[type="password"] {
     h1 {
         margin: 50px 0;
     }
+
     .container {
         width: 57%;
     }
+
     /*--w3layouts--*/
     /*--agileits--*/
 }
@@ -364,6 +437,7 @@ input[type="text"], input[type="password"] {
     .container {
         width: 80%;
     }
+
     .footer {
         margin: 50px 20px 20px;
     }
@@ -373,12 +447,15 @@ input[type="text"], input[type="password"] {
     .login {
         padding-right: 36px;
     }
+
     .register {
         padding-left: 36px;
     }
+
     .social-icons ul li {
         width: 32.8%;
     }
+
     .register p {
         font-size: 14px;
     }
@@ -388,12 +465,15 @@ input[type="text"], input[type="password"] {
     h1 {
         font-size: 43px;
     }
+
     .login {
         padding-right: 35px;
     }
+
     .register {
         padding-left: 34px;
     }
+
     .social-icons ul li span.icons {
         width: 28px;
     }
@@ -403,6 +483,7 @@ input[type="text"], input[type="password"] {
     .container {
         width: 85%;
     }
+
     .register p {
         font-size: 13.8px;
     }
@@ -412,19 +493,24 @@ input[type="text"], input[type="password"] {
     h1 {
         font-size: 40px;
     }
+
     .container {
         width: 87%;
         padding: 35px;
     }
+
     .login {
         padding-right: 34px;
     }
+
     .register {
         padding-left: 33px;
     }
+
     .social-icons ul li a span {
         font-size: 14px;
     }
+
     .register p {
         font-size: 13.2px;
     }
@@ -435,15 +521,18 @@ input[type="text"], input[type="password"] {
         font-size: 35px;
         letter-spacing: 3px;
     }
+
     .container {
         width: 55%;
         padding: 50px;
     }
+
     .login {
         padding: 0;
         width: 100%;
         margin-bottom: 50px;
     }
+
     .register {
         padding: 40px 0 0 0;
         width: 100%;
@@ -463,6 +552,7 @@ input[type="text"], input[type="password"] {
         letter-spacing: 1px;
         margin: 30px 0;
     }
+
     .container {
         width: 60%;
         padding: 40px;
@@ -480,6 +570,7 @@ input[type="text"], input[type="password"] {
         width: 70%;
         padding: 35px;
     }
+
     .send-button input[type="submit"] {
         width: 50%;
         padding: 8px 0;
@@ -490,20 +581,25 @@ input[type="text"], input[type="password"] {
     h1 {
         font-size: 30px;
     }
+
     .container {
         width: 75%;
         padding: 25px;
     }
+
     .login {
         margin-bottom: 30px;
     }
+
     h2 {
         font-size: 30px;
         margin-bottom: 15px;
     }
+
     .register {
         padding: 30px 0 0 0;
     }
+
     .footer p {
         font-size: 14px;
     }
@@ -519,6 +615,7 @@ input[type="text"], input[type="password"] {
     .social-icons ul li span.icons {
         width: 27px;
     }
+
     .register p {
         font-size: 13px;
         line-height: 23px;
@@ -536,14 +633,12 @@ input[type="text"], input[type="password"] {
     .social-icons ul li {
         width: 32.7%;
     }
+
     .social-icons ul li span.icons {
         width: 25px;
     }
+
     .social-icons ul li a span {
         font-size: 12.4px;
     }
 }
-
-
-
-/*--- Responsive Code ---*/
