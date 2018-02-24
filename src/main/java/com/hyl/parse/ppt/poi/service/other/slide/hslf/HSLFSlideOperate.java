@@ -1,10 +1,9 @@
-package com.hyl.parse.ppt.poi.service.slide.hslf;
+package com.hyl.parse.ppt.poi.service.other.slide.hslf;
 
 import org.apache.poi.hslf.usermodel.HSLFSlide;
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.List;

@@ -20,7 +20,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>springMVC</servlet-name>
-        <!-- 此处可以配置成 *.do ，学习Struts的后缀习惯 -->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>

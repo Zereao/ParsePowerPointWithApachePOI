@@ -1,6 +1,6 @@
-package com.hyl.parse.ppt.poi.service.impl.slide.hslf;
+package com.hyl.parse.ppt.poi.service.other.impl.slide.hslf;
 
-import com.hyl.parse.ppt.poi.service.slide.hslf.HSLFSlideOperate;
+import com.hyl.parse.ppt.poi.service.other.slide.hslf.HSLFSlideOperate;
 import org.apache.poi.hslf.usermodel.*;
 import org.apache.poi.sl.usermodel.PictureData;
 
@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.hyl.parse.ppt.poi.service.common.CommonUtil.IMAGE_BATH_PATH;
-import static com.hyl.parse.ppt.poi.service.common.CommonUtil.getPicExt;
+import static com.hyl.parse.ppt.poi.service.other.common.CommonUtil.IMAGE_BATH_PATH;
+import static com.hyl.parse.ppt.poi.service.other.common.CommonUtil.getPicExt;
 
 
 /**

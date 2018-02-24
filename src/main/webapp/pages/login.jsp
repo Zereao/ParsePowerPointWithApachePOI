@@ -42,8 +42,8 @@
         </div>
         <ul class="tick w3layouts agileits">
             <li>
-                <input type="checkbox" id="brand1" value="">
-                <label for="brand1"><span></span>记住我</label>
+                <input type="checkbox" id="rememberTag" checked="checked">
+                <label for="rememberTag"><span></span>一天内记住我</label>
             </li>
         </ul>
         <div class="send-button w3layouts agileits">
@@ -51,7 +51,6 @@
                 <input type="submit" onclick="userLogin()" value="登&emsp;录">
             </div>
         </div>
-        <!--<a href="#">记住密码?</a>-->
         <div class="social-icons w3layouts agileits">
             <p>- 其他方式登录 -</p>
             <ul>
@@ -101,6 +100,39 @@
 
 
 <script>
+    <%-- 用户登录 按钮点击事件 --%>
+
+    function userLogin() {
+        var regUserInfo = {
+            account: $("#login_account").val(),
+            password: $("#login_password").val(),
+            rememberTag: $("#rememberTag").is(":checked")
+        };
+        $.ajax({
+            type: "post",
+            url: "/login/userLogin",
+            produces: "text/html;charset=UTF-8",
+            data: regUserInfo,
+            error: function (request) {
+                alert("网络连接错误！");
+                // window.location.href = "error.jsp"
+            },
+            success: function (data) {
+                // alert(data);
+                // window.location.href = "../index.jsp"
+            }
+        });
+    }
+
+
+    <%-- 检查登录返回结果 --%>
+
+    function checkLoginResult() {
+
+    }
+
+    <%-- 用户注册 按钮点击事件 --%>
+
     function registerUser() {
         var regUserInfo = {
             user_name: $("#reg_account").val(),
@@ -117,31 +149,13 @@
                 alert("连接错误");
             },
             success: function (data) {
+
                 alert("❤注册成功！❤")
             }
         });
     }
 
-    function userLogin() {
-        var regUserInfo = {
-            account: $("#login_account").val(),
-            password: $("#login_password").val()
-        };
-        $.ajax({
-            type: "post",
-            url: "/loginPage/servlet/LoginUserInfoServlet",
-            produces: "text/html;charset=UTF-8",
-            data: regUserInfo,
-            error: function (request) {
-                alert("连接错误");
-                window.location.href = "error.jsp"
-            },
-            success: function (data) {
-                alert(data);
-                window.location.href = "../index.jsp"
-            }
-        });
-    }
+
 </script>
 
 
