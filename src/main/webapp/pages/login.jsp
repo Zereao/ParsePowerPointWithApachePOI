@@ -38,8 +38,8 @@
     <div class="login w3layouts agileits">
         <h2>登 录</h2>
         <div>
-            <input type="text" id="login_account" Name="account" placeholder="邮箱/手机号" required="">
-            <input type="password" id="login_password" Name="password" placeholder="密码" required="">
+            <input type="text" id="login_account" Name="account" placeholder="邮箱/手机号" required="required">
+            <input type="password" id="login_password" Name="password" placeholder="密码" required="required">
         </div>
         <ul class="tick w3layouts agileits">
             <li>
@@ -73,10 +73,10 @@
         <h2>注 册</h2>
         <!--<form action="#" method="post">-->
         <div>
-            <input type="text" id="reg_account" Name="user_name" placeholder="用户名" required="">
-            <input type="text" id="reg_e_mail" Name="e_mail" placeholder="邮箱" required="">
-            <input type="password" id="reg_password" Name="password" placeholder="密码" required="">
-            <input type="text" id="reg_phone_num" Name="phone_num" placeholder="手机号码" required="">
+            <input type="text" id="reg_username" Name="username" placeholder="用户名" required="required">
+            <input type="text" id="reg_e_mail" Name="e_mail" placeholder="邮箱" required="required">
+            <input type="password" id="reg_password" Name="password" placeholder="密码" required="required">
+            <input type="text" id="reg_phoneNum" Name="phone_num" placeholder="手机号码" required="required">
         </div>
         <!--</form>-->
         <div class="send-button w3layouts agileits">
@@ -104,8 +104,9 @@
 
 <script>
     <%-- 用户登录 按钮点击事件 --%>
+
     function userLogin() {
-        var regUserInfo = {
+        var userInfo = {
             account: $("#login_account").val(),
             password: md5($("#login_password").val()),
             rememberTag: $("#rememberTag").is(":checked")
@@ -114,7 +115,7 @@
             type: "post",
             url: "/login/userLogin",
             produces: "text/html;charset=UTF-8",
-            data: regUserInfo,
+            data: userInfo,
             error: function (request) {
                 alert("网络连接错误！");
                 // window.location.href = "error.jsp"
@@ -137,14 +138,14 @@
 
     function registerUser() {
         var regUserInfo = {
-            user_name: $("#reg_account").val(),
-            e_mail: $("#reg_e_mail").val(),
-            password: $("#reg_password").val(),
-            phone_num: $("#reg_phone_num").val()
+            username: $("#reg_username").val(),
+            email: $("#reg_e_mail").val(),
+            phoneNum: $("#reg_phoneNum").val(),
+            password: md5($("#reg_password").val())
         };
         $.ajax({
             type: "post",
-            url: "/loginPage/servlet/RegUserInfoServlet",
+            url: "/login/userRegister",
             produces: "text/html;charset=UTF-8",
             data: regUserInfo,
             error: function (request) {

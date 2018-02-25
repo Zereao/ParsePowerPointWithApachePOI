@@ -28,7 +28,7 @@ public interface UserDao {
      * @param user 增加的用户对象
      * @return 返回值
      */
-    int addUser(User user);
+    void addUser(User user);
 
     /**
      * 更新用户信息

@@ -31,7 +31,7 @@
     </select>
 
     <insert id="addUser" parameterType="com.parse.ppt.poi.entity.User">
-        INSERT INTO user (username, email, password, phone_num)
+        INSERT INTO user (username, email, phone_num, password)
         VALUES (#{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
                 #{password,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR})
     </insert>

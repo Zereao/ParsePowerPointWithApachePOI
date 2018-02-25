@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.service.login;
 
+import com.parse.ppt.poi.entity.User;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,15 +11,17 @@ import org.springframework.stereotype.Service;
 public interface UserLoginService {
     /**
      * 验证用户信息是否正确
+     *
      * @param account 用户账号，可能是e-mail，也可能是手机号
      * @return 返回信息
      */
-    String verifyUser(String account,String password);
+    String verifyUser(String account, String password);
 
     /**
-     * 根据手机号码来验证用户
-     * @param phoneNum 用户手机号
+     * 用户注册
+     *
+     * @param user 注册用户对象
      * @return 返回信息
      */
-    String registerUser(String phoneNum);
+    String registerUser(User user);
 }

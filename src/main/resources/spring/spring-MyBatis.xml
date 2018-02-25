@@ -7,10 +7,10 @@
     <context:property-placeholder location="classpath:properties/db_config.properties"/>
     <!-- 定义数据源 -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${driverClass}"/>
-        <property name="url" value="${jdbcUrl}"/>
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
+        <property name="driverClassName" value="${mysql.driverClass}"/>
+        <property name="url" value="${mysql.jdbcUrl}"/>
+        <property name="username" value="${mysql.username}"/>
+        <property name="password" value="${mysql.password}"/>
         <!-- 初始化连接大小 -->
         <property name="initialSize" value="${initialSize}"/>
         <!-- 连接池最大数量 -->
