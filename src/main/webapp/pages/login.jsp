@@ -14,6 +14,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script src="../webResources/js/jquery-3.2.1.min.js"></script>
+    <script src="../webResources/js/md5.min.js"></script>
 
     <script type="application/x-javascript">
         <%--因为chrome等浏览器会有滚动缓存功能，比如你在A页面滚动后跳转到B页面，
@@ -98,14 +99,15 @@
         All Rights Reserved</p>
 </div>
 
+<%
+%>
 
 <script>
     <%-- 用户登录 按钮点击事件 --%>
-
     function userLogin() {
         var regUserInfo = {
             account: $("#login_account").val(),
-            password: $("#login_password").val(),
+            password: md5($("#login_password").val()),
             rememberTag: $("#rememberTag").is(":checked")
         };
         $.ajax({
