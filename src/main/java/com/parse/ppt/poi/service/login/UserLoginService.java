@@ -10,12 +10,21 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserLoginService {
     /**
-     * 验证用户信息是否正确
+     * 根据账号获取用户对象
      *
      * @param account 用户账号，可能是e-mail，也可能是手机号
+     * @return 用户对象
+     */
+    User getUser(String account);
+
+    /**
+     * 验证用户信息是否正确
+     *
+     * @param user     前端传递过来的 account对应的用户对象
+     * @param password 前端传递过来的 password
      * @return 返回信息
      */
-    String verifyUser(String account, String password);
+    String verifyUser(User user, String password);
 
     /**
      * 用户注册

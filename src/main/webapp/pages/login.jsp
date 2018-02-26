@@ -98,18 +98,48 @@
         <a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>
         All Rights Reserved</p>
 </div>
+<%-- 在下面这个标签中 写java方法 --%>
+<%--<%!--%>
+<%--public String addUserCookie(HttpServletRequest request, HttpServletResponse response) {--%>
+<%--//首先判断用户是否选择了记住登陆状态--%>
 
-<%
-%>
+<%--String[] isUseCookie = request.getParameterValues("isUseCookie");--%>
+<%--if (isUseCookie != null && isUseCookie.length > 0) {--%>
+<%--//把用户名和密码保存在Cookie对象里面--%>
+<%--String username = request.getParameter("username");--%>
+<%--String password = request.getParameter("password");--%>
+<%--Cookie usernameCookie = new Cookie("username", username);--%>
+<%--Cookie passwordCookie = new Cookie("password", password);--%>
+<%--usernameCookie.setMaxAge(86400);--%>
+<%--passwordCookie.setMaxAge(86400);--%>
+<%--response.addCookie(usernameCookie);--%>
+<%--response.addCookie(passwordCookie);--%>
+<%--} else {--%>
+<%--//已保存Cookie设置失效--%>
+<%--Cookie[] cookies = request.getCookies();--%>
+<%--if (cookies != null && cookies.length > 0) {--%>
+<%--for (Cookie c : cookies) {--%>
+<%--if (c.getName().equalsIgnoreCase("username") || c.getName().equalsIgnoreCase("password")) {--%>
+<%--c.setMaxAge(0); //设置Cookie失效--%>
+<%--response.addCookie(c); //重新保存Cookie--%>
+<%--}--%>
+<%--}--%>
+<%--}--%>
+<%--}--%>
+<%--}--%>
+
+<%--%>--%>
 
 <script>
     <%-- 用户登录 按钮点击事件 --%>
 
     function userLogin() {
+        var svavTag = $("#rememberTag").is(":checked");
+        // alert(svavTag);
         var userInfo = {
             account: $("#login_account").val(),
             password: md5($("#login_password").val()),
-            rememberTag: $("#rememberTag").is(":checked")
+            rememberTag: (svavTag)
         };
         $.ajax({
             type: "post",
@@ -118,10 +148,10 @@
             data: userInfo,
             error: function (request) {
                 alert("网络连接错误！");
-                // window.location.href = "error.jsp"
+                window.location.href = "error.jsp"
             },
             success: function (data) {
-                // alert(data);
+                alert(data);
                 // window.location.href = "../index.jsp"
             }
         });

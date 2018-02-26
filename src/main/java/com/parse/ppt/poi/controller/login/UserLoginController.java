@@ -1,22 +1,30 @@
 package com.parse.ppt.poi.controller.login;
 
+import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.entity.User;
+import com.parse.ppt.poi.service.cookie.CookieService;
 import com.parse.ppt.poi.service.login.UserLoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/login")
 public class UserLoginController {
-    private static Logger logger = LogManager.getLogger(UserLoginController.class);
+    private Logger logger = LogManager.getLogger(UserLoginController.class);
 
     @Autowired
     private UserLoginService userLoginService;
+
+    @Autowired
+    private CookieService cookieService;
 
     @RequestMapping("/userLogin")
     @ResponseBody
@@ -25,13 +33,21 @@ public class UserLoginController {
                                  @RequestParam("rememberTag") String rememberTag) {
         logger.info("UserLoginController.checkUserLogin   ------->  start! " +
                 "  account = " + account +
-                "  password = " + password);
+                "  password = " + password +
+                "  rememberTag = " + rememberTag);
 
-        String result = userLoginService.verifyUser(account, password);
+        User user = userLoginService.getUser(account);
+        String result = userLoginService.verifyUser(user, password);
+        if (result.equals(ReturnCode.SUCCESS)) {
+            if ("true".equals(rememberTag.toLowerCase())) {
+                // 把用户名和密码保存到Cookie对象中
+                result = cookieService.addUserCookie(user);
+            }
 
+        }
         logger.info("UserLoginController.checkUserLogin   ------->  end! " +
                 "  result = " + result);
-        return "index";
+        return result;
     }
 
     @RequestMapping("/userRegister")

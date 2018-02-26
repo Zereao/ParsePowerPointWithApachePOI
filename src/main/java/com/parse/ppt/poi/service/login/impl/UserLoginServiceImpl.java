@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.service.login.impl;
 
+import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.dao.UserDao;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.login.UserLoginService;
@@ -16,49 +17,66 @@ public class UserLoginServiceImpl implements UserLoginService {
     private UserDao userDao;
 
     @Override
-    public String verifyUser(String account, String password) {
-        logger.info("UserLoginServiceImpl.verifyUser   ------->  start! " +
-                "  account = " + account +
-                "  password = " + password);
-
-        String result = "SUCCESS";
+    public User getUser(String account) {
+        logger.info("UserLoginServiceImpl.getUser   ------->  start! " +
+                "  account = " + account);
+        String result = ReturnCode.SUCCESS;
         User user = null;
         if (account.contains("@")) {
             try {
-                logger.info("userDao.getUserByEmail()" + account);
+                logger.info("userDao.getUserByEmail()   ------->  start!  email = " + account);
                 user = userDao.getUserByEmail(account);
-                logger.info("after userDao.getUserByEmail()   theUser = " + user);
+                logger.info("after userDao.getUserByEmail()   ------->  start!  theUser = " + user);
             } catch (Exception e) {
                 logger.error(e.getMessage());
-                result = "FAILED";
+                result = ReturnCode.FAILED;
             }
         } else {
             try {
+                logger.info("userDao.getUserByPhoneNum()   ------->  start!  phoneNum = " + account);
                 user = userDao.getUserByPhoneNum(account);
+                logger.info("after userDao.getUserByPhoneNum()   ------->  start!  theUser = " + user);
             } catch (Exception e) {
                 logger.error(e.getMessage());
-                result = "FAILED";
+                result = ReturnCode.FAILED;
             }
         }
+        logger.info("UserLoginServiceImpl.getUser   ------->  end! " +
+                "  result = " + result +
+                "  theUser = " + user);
+        return user;
+    }
+
+    @Override
+    public String verifyUser(User user, String password) {
+        logger.info("UserLoginServiceImpl.verifyUser   ------->  start! " +
+                "  user = " + user +
+                "  password = " + password);
+
+        String result = ReturnCode.SUCCESS;
         assert user != null;
         if (!(user.getPassword().equals(password))) {
-            result = "FAILED";
+            result = ReturnCode.WRONG_PASSWORD;
         }
         logger.info("UserLoginServiceImpl.verifyUser   ------->  end! " +
                 "  result = " + result);
         return result;
     }
 
+
     @Override
     public String registerUser(User user) {
         logger.info("UserLoginServiceImpl.registerUser   ------->  start! " +
-                "  user = " + user.toString());
-        String result = "SUCCESS";
+                "  user = " + user);
+        String result = ReturnCode.SUCCESS;
         try {
+            logger.info("UserLoginServiceImpl.registerUser   ------->  start! " +
+                    "  user = " + user);
             userDao.addUser(user);
+            logger.info("UserLoginServiceImpl.registerUser   ------->  end! ");
         } catch (Exception e) {
             logger.error(e.getMessage());
-            result = "FAILED!";
+            result = ReturnCode.FAILED;
         }
         logger.info("UserLoginServiceImpl.registerUser   ------->  end! " +
                 "  result = " + result);

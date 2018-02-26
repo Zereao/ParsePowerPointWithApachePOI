@@ -66,10 +66,10 @@
             }
         }
     }
-    String user = (String) request.getSession().getAttribute("username");
-    if (!("".equals(user)) && user != null) {
-        username = user;
-    }
+//    String user = (String) request.getSession().getAttribute("username");
+//    if (!("".equals(user)) && user != null) {
+//        username = user;
+//    }
     String welcomeWord = "Hi,Melody";
     if (!("".equals(username)) && username != null) {
         welcomeWord = "Hi," + username;
