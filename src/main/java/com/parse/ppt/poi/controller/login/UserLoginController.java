@@ -30,7 +30,8 @@ public class UserLoginController {
     @ResponseBody
     public String checkUserLogin(@RequestParam("account") String account,
                                  @RequestParam("password") String password,
-                                 @RequestParam("rememberTag") String rememberTag) {
+                                 @RequestParam("rememberTag") String rememberTag,
+                                 HttpSession session) {
         logger.info("UserLoginController.checkUserLogin   ------->  start! " +
                 "  account = " + account +
                 "  password = " + password +
@@ -38,12 +39,15 @@ public class UserLoginController {
 
         User user = userLoginService.getUser(account);
         String result = userLoginService.verifyUser(user, password);
+        // 如果密码校验通过
         if (result.equals(ReturnCode.SUCCESS)) {
+            // 如果 前端用户点选了 1天内记住我
             if ("true".equals(rememberTag.toLowerCase())) {
                 // 把用户名和密码保存到Cookie对象中
                 result = cookieService.addUserCookie(user);
             }
-
+            // 把该用户对象放在session中
+            session.setAttribute("user", user);
         }
         logger.info("UserLoginController.checkUserLogin   ------->  end! " +
                 "  result = " + result);

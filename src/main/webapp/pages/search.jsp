@@ -40,7 +40,7 @@
             height: 100%;
             overflow: hidden;
             background: black;
-            background: url("../../webResources/image/main_bg.jpg");
+            background: url("../webResources/images/login_background.jpg");
         }
 
         #main-canvas {

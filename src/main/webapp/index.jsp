@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.parse.ppt.poi.entity.User" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -57,23 +58,30 @@
 </head>
 <body>
 <%
-    String username = "";
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null && cookies.length > 0) {
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equalsIgnoreCase("username")) {
-                username = cookie.getValue();
-            }
-        }
-    }
-//    String user = (String) request.getSession().getAttribute("username");
-//    if (!("".equals(user)) && user != null) {
-//        username = user;
+    //    Cookie[] cookies = request.getCookies();
+//    if (cookies != null && cookies.length > 0) {
+//        for (Cookie cookie : cookies) {
+//            if (cookie.getName().equalsIgnoreCase("username")) {
+//                username = cookie.getValue();
+//            }
+//        }
 //    }
     String welcomeWord = "Hi,Melody";
+    String welcomeTitle = "点我登录/注册";
+    String username = "";
+    User user = (User) session.getAttribute("user");
+    System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    System.out.println(" the user = " + user);
+    System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    if (user != null) {
+        username = user.getUsername();
+        welcomeTitle = "愁依阑干，愁依阑干等你。欢迎回来，" + username;
+    }
     if (!("".equals(username)) && username != null) {
         welcomeWord = "Hi," + username;
     }
+
+
 %>
 
 <!-- Content -->
@@ -84,7 +92,7 @@
             <div class="tm-navbar-bg">
 
                 <!--<a class="navbar-brand text-uppercase" href="#">-->
-                <a class="navbar-brand" href="pages/login.jsp" title="点我登陆/注册">
+                <a class="navbar-brand" href="pages/login.jsp" title="<%=welcomeTitle%>">
 
                     <i class="fa fa-send-o tm-brand-icon"></i><%=welcomeWord%>
                 </a>

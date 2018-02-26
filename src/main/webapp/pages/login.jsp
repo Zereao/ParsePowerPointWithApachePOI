@@ -151,7 +151,11 @@
                 window.location.href = "error.jsp"
             },
             success: function (data) {
-                alert(data);
+                if (data.toString() === "SUCCESS"){
+                    alert(data);
+                    window.location.href = "../index.jsp"
+                }
+
                 // window.location.href = "../index.jsp"
             }
         });
