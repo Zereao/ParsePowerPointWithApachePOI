@@ -33,38 +33,87 @@
     <script src="webResources/mainPage/js/masonry.pkgd.min.js"></script>
     <script src="webResources/mainPage/js/jquery.magnific-popup.min.js"></script>
 
+
+    <script>
+        function listenLoginMouseClick() {
+            $('#login').mousedown(function (e) {
+                if (1 === e.which) {
+                    // alert('这是左键单击事件');
+                    <%
+                        if (session.getAttribute("user") == null){
+                    %>
+                    window.location.href = "pages/login.jsp";
+                    <%
+                        }
+                    %>
+                } else if (2 === e.which) {
+                    alert('这是中键单击事件');
+
+                } else if (e.which === 3) {
+                    alert('这是右键单击事件');
+
+                }
+            })
+        }
+
+        <%-- 页面加载成功时便加载 监听 登录按钮的鼠标点击事件 --%>
+        window.onload = listenLoginMouseClick();
+    </script>
     <style>
         .myFonts {
             font-family: 黑体, sans-serif;
         }
     </style>
 </head>
-<body>
+<body onload="listenLoginMouseClick()">
 <%
-    //    Cookie[] cookies = request.getCookies();
-//    if (cookies != null && cookies.length > 0) {
-//        for (Cookie cookie : cookies) {
-//            if (cookie.getName().equalsIgnoreCase("username")) {
-//                username = cookie.getValue();
-//            }
-//        }
-//    }
     String welcomeWord = "Hi,Melody";
     String welcomeTitle = "点我登录/注册";
     String username = "";
     User user = (User) session.getAttribute("user");
     System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    System.out.println(" the user = " + user);
+    System.out.println(" the user of session = " + user);
     System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     if (user != null) {
         username = user.getUsername();
-        welcomeTitle = "愁依阑干，愁依阑干等你。欢迎回来，亲爱的" + username + "。";
+        welcomeTitle = "欢迎回来，亲爱的" + username + "。右键点击退出登录";
+    } else {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length > 0) {
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            System.out.println(" 尝试从Cookie中获取用户信息");
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            String email = "";
+            String phoneNum = "";
+            String password = "";
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equalsIgnoreCase("username")) {
+                    username = cookie.getValue();
+                } else if (cookie.getName().equalsIgnoreCase("email")) {
+                    email = cookie.getValue();
+                } else if (cookie.getName().equalsIgnoreCase("phoneNum")) {
+                    phoneNum = cookie.getValue();
+                } else if (cookie.getName().equalsIgnoreCase("password")) {
+                    password = cookie.getValue();
+                }
+            }
+            boolean notRealCookie = username.equals("") || email.equals("") || phoneNum.equals("") || password.equals("");
+            if (!notRealCookie) {
+                User newUser = new User(username, email, phoneNum, password);
+                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                System.out.println(" 从Cookie中获取到用户信息  the user of cookie = " + newUser);
+                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                session.setAttribute("user", newUser);
+            }
+        }
     }
     if (!("".equals(username)) && username != null) {
         welcomeWord = "Hi," + username;
     }
 
-
+    System.out.println();
+    System.out.println();
+    System.out.println();
 %>
 
 <!-- Content -->
@@ -73,9 +122,8 @@
     <div class="cd-slider-nav">
         <nav class="navbar">
             <div class="tm-navbar-bg">
-
-                <!--<a class="navbar-brand text-uppercase" href="#">-->
-                <a class="navbar-brand" href="pages/login.jsp" title="<%=welcomeTitle%>">
+                <a id="login" class="navbar-brand" href="javascript:void(0);"
+                   title="<%=welcomeTitle%>">
                     <i class="fa fa-send-o tm-brand-icon"></i><%=welcomeWord%>
                 </a>
 
@@ -127,12 +175,7 @@
                                     </div>
                                 </div>
 
-                                <p class="tm-text">&emsp;&emsp;Motion web template integrates a very active video
-                                    background for each page. Download and use this for your website and tell your
-                                    friends about it.<br>
-                                    &nbsp;This HTML CSS template is brought to you by <a
-                                            href="http://plus.google.com/+templatemo" target="_blank">templatemo</a>.
-                                    You can fully customize it to meet your website needs.</p>
+                                <p class="tm-text"></p>
                                 <!--  <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-left">
                                         <div class="text-xs-left tm-textbox tm-2-col-textbox">
@@ -520,7 +563,7 @@
             <a href="#" class="tm-social-link"><i class="fa fa-linkedin"></i></a>
         </div>
         <div class="text-xs-center">
-            <p class="tm-copyright-text text-xs-center">Copyright &copy; 2016-2017
+            <p class="tm-copyright-text text-xs-center">Copyright &copy; 2017-2018
                 <a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>
                 All Rights Reserved</p>
         </div>
@@ -540,25 +583,18 @@
 
 
 <script>
-
     function adjustHeightOfPage(pageNo) {
-
         var offset = 80;
         var pageContentHeight = $(".cd-hero-slider li:nth-of-type(" + pageNo + ") .js-tm-page-content").height();
-
         if ($(window).width() >= 992) {
             offset = 120;
         }
         else if ($(window).width() < 480) {
             offset = 40;
         }
-
-        // Get the page height
         var totalPageHeight = 15 + $('.cd-slider-nav').height()
             + pageContentHeight + offset
             + $('.tm-footer').height();
-
-        // Adjust layout based on page height and window height
         if (totalPageHeight > $(window).height()) {
             $('.cd-hero-slider').addClass('small-screen');
             $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", totalPageHeight + "px");
@@ -569,58 +605,34 @@
         }
     }
 
-    /*
-        Everything is loaded including images.
-    */
     $(window).load(function () {
-
-        adjustHeightOfPage(1); // Adjust page height
-
-        /* Gallery One pop up
-        -----------------------------------------*/
+        adjustHeightOfPage(1);
         $('.gallery-one').magnificPopup({
-            delegate: 'a', // child items selector, by clicking on it popup will open
+            delegate: 'a',
             type: 'image',
             gallery: {enabled: true}
         });
-
-        /* Gallery Two pop up
-        -----------------------------------------*/
         $('.gallery-two').magnificPopup({
             delegate: 'a',
             type: 'image',
             gallery: {enabled: true}
         });
-
-        /* Collapse menu after click
-        -----------------------------------------*/
         $('#tmNavbar a').click(function () {
             $('#tmNavbar').collapse('hide');
-
-            adjustHeightOfPage($(this).data("no")); // Adjust page height
+            adjustHeightOfPage($(this).data("no"));
         });
-
-        /* Browser resized
-        -----------------------------------------*/
         $(window).resize(function () {
             var currentPageNo = $(".cd-hero-slider li.selected .js-tm-page-content").data("page-no");
-
-            // wait 3 seconds
             setTimeout(function () {
                 adjustHeightOfPage(currentPageNo);
             }, 1000);
-
         });
-
-        // Remove preloader (https://ihatetomatoes.net/create-custom-preloading-screen/)
         $('body').addClass('loaded');
-
     });
-
-
 </script>
 
 <script>
+
     function ajaxAddAboutPageInfo() {
         var aboutPageInfo = {
             user_name: $("#about_user_name").val(),

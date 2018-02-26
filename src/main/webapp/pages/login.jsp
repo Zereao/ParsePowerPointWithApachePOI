@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.parse.ppt.poi.entity.User" %><%--
   Created by IntelliJ IDEA.
   User: Jupiter
   Date: 2018/2/23
@@ -16,6 +16,8 @@
     <script src="../webResources/js/jquery-3.2.1.min.js"></script>
     <script src="../webResources/js/md5.min.js"></script>
 
+    <link rel="stylesheet" href="../webResources/css/login_style.css" type="text/css" media="all">
+
     <script type="application/x-javascript">
         <%--因为chrome等浏览器会有滚动缓存功能，比如你在A页面滚动后跳转到B页面，
              点击返回键回到A页面，会发现滚动条位置仍然保持。
@@ -29,7 +31,14 @@
         }
     </script>
 
-    <link rel="stylesheet" href="../webResources/css/login_style.css" type="text/css" media="all">
+    <%
+        User user = (User) session.getAttribute("user");
+        // 用户已经登录在线，session中存在用户信息，则返回主页
+        boolean isOnline = user != null && !("".equals(user.getUsername()));
+        if (isOnline) {
+            response.sendRedirect("../");
+        }
+    %>
 </head>
 <body>
 
