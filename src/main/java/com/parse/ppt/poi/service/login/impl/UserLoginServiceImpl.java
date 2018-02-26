@@ -9,6 +9,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Jupiter
+ */
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
     private Logger logger = LogManager.getLogger(this.getClass());
@@ -70,10 +73,17 @@ public class UserLoginServiceImpl implements UserLoginService {
                 "  user = " + user);
         String result = ReturnCode.SUCCESS;
         try {
-            logger.info("UserLoginServiceImpl.registerUser   ------->  start! " +
-                    "  user = " + user);
+            logger.info("UserLoginServiceImpl.registerUser   ------->  检查用户是否已经注册过 ");
+            User userByEmail = userDao.getUserByEmail(user.getEmail());
+            User userByPhoneNum = userDao.getUserByPhoneNum(user.getPhoneNum());
+            if (userByEmail != null || userByPhoneNum != null) {
+                logger.info("UserLoginServiceImpl.registerUser   ------->  用户已经存在 ！");
+                return ReturnCode.ACCOUNT_ALREADY_EXISTS;
+            }
+            logger.info("UserLoginServiceImpl.registerUser   ------->  检查完成，用户不存在于数据库中，可以注册 ");
+            logger.info("userDao.addUser   ------->  start! user = " + user);
             userDao.addUser(user);
-            logger.info("UserLoginServiceImpl.registerUser   ------->  end! ");
+            logger.info("userDao.addUser   ------->  end! ");
         } catch (Exception e) {
             logger.error(e.getMessage());
             result = ReturnCode.FAILED;

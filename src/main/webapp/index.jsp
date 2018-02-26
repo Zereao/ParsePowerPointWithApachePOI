@@ -50,8 +50,11 @@
                     alert('这是中键单击事件');
 
                 } else if (e.which === 3) {
-                    alert('这是右键单击事件');
+                    // alert('这是右键单击事件');
+                    <%
+                    session.removeAttribute("user");
 
+                    %>
                 }
             })
         }
@@ -72,9 +75,9 @@
     String username = "";
     User user = (User) session.getAttribute("user");
     System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    System.out.println(" the user of session = " + user);
-    System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    System.out.println("从session中获取到用户信息： the user of session = " + user);
     if (user != null) {
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         username = user.getUsername();
         welcomeTitle = "欢迎回来，亲爱的" + username + "。右键点击退出登录";
     } else {
@@ -93,14 +96,13 @@
                     email = cookie.getValue();
                 } else if (cookie.getName().equalsIgnoreCase("phoneNum")) {
                     phoneNum = cookie.getValue();
-                } else if (cookie.getName().equalsIgnoreCase("password")) {
+                } else if (cookie.getName().equals("password")) {
                     password = cookie.getValue();
                 }
             }
             boolean notRealCookie = username.equals("") || email.equals("") || phoneNum.equals("") || password.equals("");
             if (!notRealCookie) {
                 User newUser = new User(username, email, phoneNum, password);
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 System.out.println(" 从Cookie中获取到用户信息  the user of cookie = " + newUser);
                 System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 session.setAttribute("user", newUser);
@@ -110,10 +112,6 @@
     if (!("".equals(username)) && username != null) {
         welcomeWord = "Hi," + username;
     }
-
-    System.out.println();
-    System.out.println();
-    System.out.println();
 %>
 
 <!-- Content -->
@@ -632,6 +630,28 @@
 </script>
 
 <script>
+    function userLogout() {
+        var aboutPageInfo = {
+            user_name: $("#about_user_name").val(),
+            e_mail: $("#about_email").val(),
+            summary: $("#about_summary").val(),
+            description: $("#about_description").val()
+        };
+        $.ajax({
+            type: "post",
+            dataType: "text",
+            url: "/mainPage/servlet/AboutPageInfoServlet",
+            produces: "text/html;charset=UTF-8",
+            data: aboutPageInfo,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (data) {
+                alert("❤发送成功，谢谢来信❤")
+//                        tag = JSON.parse(data);
+            }
+        });
+    }
 
     function ajaxAddAboutPageInfo() {
         var aboutPageInfo = {

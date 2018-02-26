@@ -77,4 +77,10 @@ public class UserLoginController {
                 "result = " + result);
         return result;
     }
+
+    @RequestMapping("/userLogout")
+    @ResponseBody
+    public String userLogout(HttpSession session) {
+        return ReturnCode.SUCCESS;
+    }
 }

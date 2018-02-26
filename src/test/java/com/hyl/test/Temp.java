@@ -8,9 +8,9 @@ import static com.parse.ppt.poi.service.other.common.CommonUtil.IMAGE_BATH_PATH;
 
 public class Temp {
     public static void main(String[] args) {
-        User user1 = new User("111","111111","11122211","2222");
-        System.out.println(user1);
-
+        String a = "   dsdas a@qq.co m  ";
+        System.out.println(a.trim());
+        System.out.println(a.trim().contains(" "));
     }
 
 }

@@ -1,4 +1,4 @@
-<%@ page import="com.parse.ppt.poi.entity.User" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Jupiter
   Date: 2018/2/23
@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.parse.ppt.poi.entity.User" %>
+<%@ page import="com.parse.ppt.poi.commom.ReturnCode" %>
 <html>
 <head>
     <title>欢迎登陆/注册❤当一个人不能拥有的时候，他唯一能做的便是不要忘记。</title>
@@ -107,44 +109,13 @@
         <a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>
         All Rights Reserved</p>
 </div>
-<%-- 在下面这个标签中 写java方法 --%>
-<%--<%!--%>
-<%--public String addUserCookie(HttpServletRequest request, HttpServletResponse response) {--%>
-<%--//首先判断用户是否选择了记住登陆状态--%>
 
-<%--String[] isUseCookie = request.getParameterValues("isUseCookie");--%>
-<%--if (isUseCookie != null && isUseCookie.length > 0) {--%>
-<%--//把用户名和密码保存在Cookie对象里面--%>
-<%--String username = request.getParameter("username");--%>
-<%--String password = request.getParameter("password");--%>
-<%--Cookie usernameCookie = new Cookie("username", username);--%>
-<%--Cookie passwordCookie = new Cookie("password", password);--%>
-<%--usernameCookie.setMaxAge(86400);--%>
-<%--passwordCookie.setMaxAge(86400);--%>
-<%--response.addCookie(usernameCookie);--%>
-<%--response.addCookie(passwordCookie);--%>
-<%--} else {--%>
-<%--//已保存Cookie设置失效--%>
-<%--Cookie[] cookies = request.getCookies();--%>
-<%--if (cookies != null && cookies.length > 0) {--%>
-<%--for (Cookie c : cookies) {--%>
-<%--if (c.getName().equalsIgnoreCase("username") || c.getName().equalsIgnoreCase("password")) {--%>
-<%--c.setMaxAge(0); //设置Cookie失效--%>
-<%--response.addCookie(c); //重新保存Cookie--%>
-<%--}--%>
-<%--}--%>
-<%--}--%>
-<%--}--%>
-<%--}--%>
-
-<%--%>--%>
 
 <script>
     <%-- 用户登录 按钮点击事件 --%>
 
     function userLogin() {
         var saveTag = $("#rememberTag").is(":checked");
-        // alert(svavTag);
         var userInfo = {
             account: $("#login_account").val(),
             password: md5($("#login_password").val()),
@@ -160,10 +131,13 @@
                 window.location.href = "error.jsp";
             },
             success: function (data) {
-                if (data.toString() === "SUCCESS") {
+                var result = data.toString();
+                if (result === "SUCCESS") {
                     alert("登录成功！");
                     //登录成功，返回首页
                     window.location.href = "../";
+                } else if (result === "WRONG_PASSWORD") {
+                    alert("账户与密码不匹配！");
                 }
 
                 // window.location.href = "../index.jsp"
@@ -191,12 +165,15 @@
                 window.location.href = "error.jsp";
             },
             success: function (data) {
-                if (data.toString() === "SUCCESS") {
-                    alert("❤注册成功！❤！");
+                var result = data.toString();
+                if (result === "SUCCESS") {
+                    alert("❤注册成功❤");
                     //注册成功，返回首页
                     window.location.href = "../";
+                } else if (result === "ACCOUNT_ALREADY_EXISTS") {
+                    // 该账户已经存在于数据库中，提示登录
+                    alert("该账户已经存在！请登录！")
                 }
-
             }
         });
     }

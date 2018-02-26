@@ -4,6 +4,9 @@ import com.parse.ppt.poi.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+/**
+ * @author Jupiter
+ */
 @Component
 public interface UserDao {
     /**
