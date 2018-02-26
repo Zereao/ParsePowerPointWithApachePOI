@@ -18,31 +18,14 @@
     <!--网站名称-->
     <title>故事长满天涯海角，包括你和你的故乡。</title>
 
-    <!-- load stylesheets -->
-    <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">-->
-    <!--<link rel="stylesheet" href="webResources/mainPage/css/GoogleOpenSansFonts.css">-->
-    <!-- Google web font "Open Sans" -->
     <link rel="stylesheet" href="webResources/mainPage/font-awesome-4.5.0/css/font-awesome.min.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="webResources/mainPage/css/bootstrap.min.css">
-    <!-- Bootstrap style -->
     <link rel="stylesheet" href="webResources/mainPage/css/hero-slider-style.css">
-    <!-- Hero slider style (https://codyhouse.co/gem/hero-slider/) -->
     <link rel="stylesheet" href="webResources/mainPage/css/magnific-popup.css">
-    <!-- Magnific popup style (http://dimsemenov.com/plugins/magnific-popup/) -->
     <link rel="stylesheet" href="webResources/mainPage/css/templatemo-style.css">
-    <!-- Templatemo style -->
 
-    <!-- load JS files -->
     <script src="webResources/mainPage/js/html5shiv.min.js"></script>
     <script src="webResources/mainPage/js/respond.min.js"></script>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
-    <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
-    <!--<![endif]&ndash;&gt;-->
-
     <script src="webResources/mainPage/js/jquery-1.11.3.min.js"></script>
     <script src="webResources/mainPage/js/tether.min.js"></script>
     <script src="webResources/mainPage/js/bootstrap.min.js"></script>
@@ -75,7 +58,7 @@
     System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     if (user != null) {
         username = user.getUsername();
-        welcomeTitle = "愁依阑干，愁依阑干等你。欢迎回来，" + username;
+        welcomeTitle = "愁依阑干，愁依阑干等你。欢迎回来，亲爱的" + username + "。";
     }
     if (!("".equals(username)) && username != null) {
         welcomeWord = "Hi," + username;
@@ -93,13 +76,9 @@
 
                 <!--<a class="navbar-brand text-uppercase" href="#">-->
                 <a class="navbar-brand" href="pages/login.jsp" title="<%=welcomeTitle%>">
-
                     <i class="fa fa-send-o tm-brand-icon"></i><%=welcomeWord%>
                 </a>
 
-                <!--<button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#tmNavbar">-->
-                <!--&#9776;-->
-                <!--</button>-->
                 <div class="collapse navbar-toggleable-md text-xs-center text-uppercase tm-navbar" id="tmNavbar">
                     <ul class="nav navbar-nav">
                         <li class="nav-item active selected">

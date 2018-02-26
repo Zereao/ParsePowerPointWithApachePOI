@@ -7,13 +7,13 @@
             <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="phone_num" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, username, email, password, phone_num
+        id, username, email, phone_num, password
     </sql>
 
     <select id="getUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -33,7 +33,7 @@
     <insert id="addUser" parameterType="com.parse.ppt.poi.entity.User">
         INSERT INTO user (username, email, phone_num, password)
         VALUES (#{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-                #{password,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR})
+                #{phoneNum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateUser" parameterType="com.parse.ppt.poi.entity.User">
@@ -45,11 +45,11 @@
             <if test="email != null">
                 email = #{email,jdbcType=VARCHAR},
             </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
             <if test="phoneNum != null">
                 phone_num = #{phoneNum,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

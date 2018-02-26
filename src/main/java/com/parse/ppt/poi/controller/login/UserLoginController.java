@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/login")
 public class UserLoginController {
-    private Logger logger = LogManager.getLogger(UserLoginController.class);
+    private Logger logger = LogManager.getLogger(this.getClass());
 
     @Autowired
     private UserLoginService userLoginService;
@@ -59,7 +59,8 @@ public class UserLoginController {
     public String userRegister(@RequestParam("username") String username,
                                @RequestParam("email") String email,
                                @RequestParam("phoneNum") String phoneNum,
-                               @RequestParam("password") String password) {
+                               @RequestParam("password") String password,
+                               HttpSession session) {
         logger.info("UserLoginController.userRegister   ------->  start! " +
                 "  username = " + username +
                 "  email = " + email +
@@ -68,10 +69,12 @@ public class UserLoginController {
 
         User user = new User(username, email, phoneNum, password);
         String result = userLoginService.registerUser(user);
-
+        // 如果注册成功，则将当前用户信息写入session
+        if (ReturnCode.SUCCESS.equals(result)) {
+            session.setAttribute("user", user);
+        }
         logger.info("UserLoginController.userRegister   ------->  end! " +
                 "result = " + result);
-
-        return "index";
+        return result;
     }
 }

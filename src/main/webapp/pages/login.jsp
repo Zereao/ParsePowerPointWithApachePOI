@@ -134,12 +134,12 @@
     <%-- 用户登录 按钮点击事件 --%>
 
     function userLogin() {
-        var svavTag = $("#rememberTag").is(":checked");
+        var saveTag = $("#rememberTag").is(":checked");
         // alert(svavTag);
         var userInfo = {
             account: $("#login_account").val(),
             password: md5($("#login_password").val()),
-            rememberTag: (svavTag)
+            rememberTag: (saveTag)
         };
         $.ajax({
             type: "post",
@@ -148,12 +148,13 @@
             data: userInfo,
             error: function (request) {
                 alert("网络连接错误！");
-                window.location.href = "error.jsp"
+                window.location.href = "error.jsp";
             },
             success: function (data) {
-                if (data.toString() === "SUCCESS"){
-                    alert(data);
-                    window.location.href = "../index.jsp"
+                if (data.toString() === "SUCCESS") {
+                    alert("登录成功！");
+                    //登录成功，返回首页
+                    window.location.href = "../";
                 }
 
                 // window.location.href = "../index.jsp"
@@ -161,12 +162,6 @@
         });
     }
 
-
-    <%-- 检查登录返回结果 --%>
-
-    function checkLoginResult() {
-
-    }
 
     <%-- 用户注册 按钮点击事件 --%>
 
@@ -183,11 +178,16 @@
             produces: "text/html;charset=UTF-8",
             data: regUserInfo,
             error: function (request) {
-                alert("连接错误");
+                alert("网络连接错误");
+                window.location.href = "error.jsp";
             },
             success: function (data) {
+                if (data.toString() === "SUCCESS") {
+                    alert("❤注册成功！❤！");
+                    //注册成功，返回首页
+                    window.location.href = "../";
+                }
 
-                alert("❤注册成功！❤")
             }
         });
     }

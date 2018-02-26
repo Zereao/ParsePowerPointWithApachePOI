@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
-    private Logger logger = LogManager.getLogger(UserLoginServiceImpl.class);
+    private Logger logger = LogManager.getLogger(this.getClass());
 
     @Autowired
     private UserDao userDao;
