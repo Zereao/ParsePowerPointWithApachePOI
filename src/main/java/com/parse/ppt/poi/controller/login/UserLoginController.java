@@ -7,13 +7,16 @@ import com.parse.ppt.poi.service.login.UserLoginService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/login")
@@ -80,7 +83,16 @@ public class UserLoginController {
 
     @RequestMapping("/userLogout")
     @ResponseBody
-    public String userLogout(HttpSession session) {
-        return ReturnCode.SUCCESS;
+    public String userLogout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        String result = cookieService.removeUserCookie(user);
+        session.removeAttribute("user");
+        try {
+            logger.info("_+_+_+_+_+_+_+_+_+_");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

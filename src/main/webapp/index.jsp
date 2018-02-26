@@ -50,17 +50,13 @@
                     alert('这是中键单击事件');
 
                 } else if (e.which === 3) {
-                    // alert('这是右键单击事件');
-                    <%
-                    session.removeAttribute("user");
-
-                    %>
+                    userLogout();
                 }
             })
         }
 
         <%-- 页面加载成功时便加载 监听 登录按钮的鼠标点击事件 --%>
-        window.onload = listenLoginMouseClick();
+        // window.onload = listenLoginMouseClick();
     </script>
     <style>
         .myFonts {
@@ -106,6 +102,7 @@
                 System.out.println(" 从Cookie中获取到用户信息  the user of cookie = " + newUser);
                 System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 session.setAttribute("user", newUser);
+                System.out.println("session.getA" + session.getAttribute("user"));
             }
         }
     }
@@ -631,24 +628,15 @@
 
 <script>
     function userLogout() {
-        var aboutPageInfo = {
-            user_name: $("#about_user_name").val(),
-            e_mail: $("#about_email").val(),
-            summary: $("#about_summary").val(),
-            description: $("#about_description").val()
-        };
         $.ajax({
             type: "post",
-            dataType: "text",
-            url: "/mainPage/servlet/AboutPageInfoServlet",
+            url: "/login/userLogout",
             produces: "text/html;charset=UTF-8",
-            data: aboutPageInfo,
             error: function (request) {
-                alert("Connection error");
+                alert("访问后端出现未知错误！");
             },
             success: function (data) {
-                alert("❤发送成功，谢谢来信❤")
-//                        tag = JSON.parse(data);
+                alert("❤注销成功，期待再会❤");
             }
         });
     }

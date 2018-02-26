@@ -17,4 +17,11 @@ public interface CookieService {
      * @return 返回码
      */
     String addUserCookie(User user);
+
+    /**
+     * 移除用户Cookie信息
+     *
+     * @return 返回码
+     */
+    String removeUserCookie(User user);
 }
