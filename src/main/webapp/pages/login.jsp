@@ -47,9 +47,9 @@
 <div class="container w3layouts agileits">
     <div class="login w3layouts agileits">
         <h2>登 录</h2>
-        <div>
-            <input type="text" id="login_account" Name="account" placeholder="邮箱/手机号" required="required">
-            <input type="password" id="login_password" Name="password" placeholder="密码" required="required">
+        <div id="userLoginForm">
+            <input type="text" id="login_account" Name="account" placeholder="邮箱/手机号">
+            <input type="password" id="login_password" Name="password" placeholder="密码">
         </div>
         <ul class="tick w3layouts agileits">
             <li>
@@ -74,27 +74,21 @@
                 <li class="weibo aits"><a href="#">
                     <span class="icons agileits"></span>
                     <span class="text w3layouts agileits">微博</span></a></li>
-                <%--<div class="clear"> </div>--%>
             </ul>
         </div>
-        <div class="clear"></div>
     </div>
     <div class="register w3layouts agileits">
         <h2>注 册</h2>
-        <!--<form action="#" method="post">-->
-        <div>
-            <input type="text" id="reg_username" Name="username" placeholder="用户名" required="required">
-            <input type="text" id="reg_e_mail" Name="e_mail" placeholder="邮箱" required="required">
-            <input type="password" id="reg_password" Name="password" placeholder="密码" required="required">
-            <input type="text" id="reg_phoneNum" Name="phone_num" placeholder="手机号码" required="required">
+        <div id="userRegsiterForm">
+            <input type="text" id="reg_username" Name="username" placeholder="用户名">
+            <input type="text" id="reg_email" Name="email" placeholder="邮箱">
+            <input type="text" id="reg_phoneNum" Name="phoneNum" placeholder="手机号码">
+            <input type="password" id="reg_password" Name="password" placeholder="密码">
         </div>
-        <!--</form>-->
         <div class="send-button w3layouts agileits">
-            <!--<form>-->
             <div>
                 <input type="submit" onclick="registerUser()" value="注&emsp;册">
             </div>
-            <!--</form>-->
         </div>
         <div class="clear"></div>
     </div>
@@ -111,75 +105,102 @@
 
 
 <script>
+
     <%-- 用户登录 按钮点击事件 --%>
 
     function userLogin() {
+        var accountSelector = $("#login_account");
         var saveTag = $("#rememberTag").is(":checked");
         var userInfo = {
-            account: $("#login_account").val(),
+            account: accountSelector.val(),
             password: md5($("#login_password").val()),
             rememberTag: (saveTag)
         };
-        $.ajax({
-            type: "post",
-            url: "/login/userLogin",
-            produces: "text/html;charset=UTF-8",
-            data: userInfo,
-            error: function (request) {
-                alert("网络连接错误！");
-                window.location.href = "error.jsp";
-            },
-            success: function (data) {
-                var result = data.toString();
-                if (result === "SUCCESS") {
-                    alert("登录成功！");
-                    //登录成功，返回首页
-                    window.location.href = "../";
-                } else if (result === "WRONG_PASSWORD") {
-                    alert("账户与密码不匹配！");
+        if (userInfo.account.length === 0) {
+            alert("请输入账户名！");
+            accountSelector.css("background-color", "#292421");
+        } else if (userInfo.account.indexOf("@") === 0) {
+            alert("请输入正确的邮箱地址！");
+            accountSelector.val("");
+            accountSelector.css("background-color", "#292421");
+        } else {
+            $.ajax({
+                type: "post",
+                url: "/login/userLogin",
+                produces: "text/html;charset=UTF-8",
+                data: userInfo,
+                error: function (request) {
+                    alert("网络连接错误！");
+                    window.location.href = "error.jsp";
+                },
+                success: function (data) {
+                    var result = data.toString();
+                    if (result === "SUCCESS") {
+                        alert("登录成功！");
+                        //登录成功，返回首页
+                        window.location.href = "../";
+                    } else if (result === "WRONG_PASSWORD") {
+                        alert("账户与密码不匹配！");
+                    }
                 }
-
-                // window.location.href = "../index.jsp"
-            }
-        });
+            });
+        }
     }
-
 
     <%-- 用户注册 按钮点击事件 --%>
 
     function registerUser() {
+        var usernameSelector = $("#reg_username");
+        var emailSelector = $("#reg_email");
+        var phobeNumSelector = $("#reg_phoneNum");
         var regUserInfo = {
-            username: $("#reg_username").val(),
-            email: $("#reg_e_mail").val(),
-            phoneNum: $("#reg_phoneNum").val(),
+            username: usernameSelector.val(),
+            email: emailSelector.val(),
+            phoneNum: phobeNumSelector.val(),
             password: md5($("#reg_password").val())
         };
-        $.ajax({
-            type: "post",
-            url: "/login/userRegister",
-            produces: "text/html;charset=UTF-8",
-            data: regUserInfo,
-            error: function (request) {
-                alert("网络连接错误");
-                window.location.href = "error.jsp";
-            },
-            success: function (data) {
-                var result = data.toString();
-                if (result === "SUCCESS") {
-                    alert("❤注册成功❤");
-                    //注册成功，返回首页
-                    window.location.href = "../";
-                } else if (result === "ACCOUNT_ALREADY_EXISTS") {
-                    // 该账户已经存在于数据库中，提示登录
-                    alert("该账户已经存在！请登录！")
+        if (regUserInfo.username.length === 0) {
+            alert("请输入账户名！");
+        } else if (regUserInfo.username.indexOf("@") === -1) {
+            alert("请输入正确的账户名！不允许账户名中出现特殊字符 @");
+            usernameSelector.val("");
+            usernameSelector.css("background-color", "#292421");
+        } else if (regUserInfo.email.length === 0 || regUserInfo.email.indexOf("@") === -1) {
+            alert("请输入正确的邮箱地址！");
+            emailSelector.val("");
+            emailSelector.css("background-color", "#292421");
+        } else if (regUserInfo.phoneNum.length === 0 || regUserInfo.phoneNum.length !== 11) {
+            alert("请输入11位手机号码！");
+            phobeNumSelector.css("background-color", "#292421");
+            phobeNumSelector.val("");
+        } else if (regUserInfo.password.length === 0) {
+            alert("请输入用户密码！");
+        } else {
+            $.ajax({
+                type: "post",
+                url: "/login/userRegister",
+                produces: "text/html;charset=UTF-8",
+                data: regUserInfo,
+                error: function (request) {
+                    alert("向后端传递数据出现未知错误！");
+                    window.location.href = "error.jsp";
+                },
+                success: function (data) {
+                    var result = data.toString();
+                    if (result === "SUCCESS") {
+                        alert("❤注册成功❤");
+                        //注册成功，返回首页
+                        window.location.href = "../";
+                    } else if (result === "ACCOUNT_ALREADY_EXISTS") {
+                        // 该账户已经存在于数据库中，提示登录
+                        alert("该账户已经存在！请直接登录！")
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
-
 </script>
-
 
 </body>
 </html>

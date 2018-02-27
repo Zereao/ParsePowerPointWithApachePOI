@@ -53,7 +53,13 @@
                         }
                     %>
                 } else if (e.which === 3) {
+                    <%
+                    if (session.getAttribute("user") != null){
+                    %>
                     userLogout();
+                    <%
+                        }
+                    %>
                 }
                 /*
                 else if (e.which === 2) {
@@ -64,17 +70,17 @@
             <%
                 if (session.getAttribute("user") == null){
             %>
-            checkUserStatus();
+            loadUserFromCookies();
             <%
                 }
             %>
 
         }
 
-        function checkUserStatus() {
+        function loadUserFromCookies() {
             $.ajax({
                 type: "post",
-                url: "/login/checkUserStatus",
+                url: "/login/loadUserFromCookies",
                 // async: false,
                 produces: "text/html;charset=UTF-8",
                 error: function (request) {
@@ -625,18 +631,21 @@
 
 <script>
     function userLogout() {
-        $.ajax({
-            type: "post",
-            url: "/login/userLogout",
-            produces: "text/html;charset=UTF-8",
-            error: function (request) {
-                alert("访问后端出现未知错误！");
-            },
-            success: function (data) {
-                alert("❤注销成功，期待再会❤");
-                location.reload();
-            }
-        });
+        var isLogout = confirm("确定注销当前用户？");
+        if (isLogout === true) {
+            $.ajax({
+                type: "post",
+                url: "/login/userLogout",
+                produces: "text/html;charset=UTF-8",
+                error: function (request) {
+                    alert("访问后端出现未知错误！");
+                },
+                success: function (data) {
+                    alert("❤注销成功，期待再会❤");
+                    location.reload();
+                }
+            });
+        }
     }
 
     function ajaxAddAboutPageInfo() {

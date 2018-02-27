@@ -12,11 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 /**
  * @author Jupiter
@@ -28,32 +24,31 @@ public class UserLoginController {
 
     @Autowired
     private UserLoginService userLoginService;
-
     @Autowired
     private CookieService cookieService;
 
-    @RequestMapping("/checkUserStatus")
+    @RequestMapping("/loadUserFromCookies")
     @ResponseBody
-    public String checkUserStatus(HttpSession session) {
-        logger.info("UserLoginController.checkUserStatus   ------->  start! ");
+    public String loadUserFromCookies(HttpSession session) {
+        logger.info("UserLoginController.loadUserFromCookies   ------->  start! ");
 
         User user = cookieService.loadUserCookie();
         if (user == null) {
-            logger.info("UserLoginController.checkUserStatus   ------->  end! ");
+            logger.info("UserLoginController.loadUserFromCookies   ------->  end! ");
             return ReturnCode.FAILED;
         } else {
             session.setAttribute("user", user);
         }
-        logger.info("UserLoginController.checkUserStatus   ------->  end!  user = " + user);
+        logger.info("UserLoginController.loadUserFromCookies   ------->  end!  user = " + user);
         return ReturnCode.SUCCESS;
     }
 
     @RequestMapping("/userLogin")
     @ResponseBody
-    public String checkUserLogin(@RequestParam("account") String account,
-                                 @RequestParam("password") String password,
-                                 @RequestParam("rememberTag") String rememberTag,
-                                 HttpSession session) {
+    public String userLogin(@RequestParam("account") String account,
+                            @RequestParam("password") String password,
+                            @RequestParam("rememberTag") String rememberTag,
+                            HttpSession session) {
         logger.info("UserLoginController.checkUserLogin   ------->  start! " +
                 "  account = " + account +
                 "  password = " + password +

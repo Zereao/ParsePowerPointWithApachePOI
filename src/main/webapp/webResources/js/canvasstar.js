@@ -1,4 +1,4 @@
-;(function(undefined) {
+;(function (undefined) {
     "use strict";
     var _global;
 
@@ -16,16 +16,16 @@
      *
      * */
     var config = {
-        star_r : 3,
-        star_alpha : 5,
-        initStarsPopulation : 150,
-        move_distance : 0.25,
-        dot_r : 5,
-        dot_speeds : 0.5,
-        dot_alpha : 0.5,
-        dot_aReduction : 0.01,
-        dotsMinDist : 5,
-        maxDistFromCursor : 50
+        star_r: 3,
+        star_alpha: 5,
+        initStarsPopulation: 150,
+        move_distance: 0.25,
+        dot_r: 5,
+        dot_speeds: 0.5,
+        dot_alpha: 0.5,
+        dot_aReduction: 0.01,
+        dotsMinDist: 5,
+        maxDistFromCursor: 50
     };
     var stars = [],
         dots = [],
@@ -37,28 +37,29 @@
         mouseMoveChecker,
         mouseX,
         mouseY;
-    function CanvasStar(){}
 
-    var initConfig = function(conf){
-        if( conf instanceof Object )
-            for( var item in conf ){
+    function CanvasStar() {
+    }
+
+    var initConfig = function (conf) {
+        if (conf instanceof Object)
+            for (var item in conf) {
                 config[item] = conf[item];
             }
     };
 
-    CanvasStar.prototype.init =function (conf) {
+    CanvasStar.prototype.init = function (conf) {
         initConfig(conf);//初始化设置
 
         ctx.strokeStyle = "white";
         ctx.shadowColor = "white";
         for (var i = 0; i < config.initStarsPopulation; i++) {
-            stars[i] = new Star(i, Math.floor(Math.random()*WIDTH), Math.floor(Math.random()*HEIGHT),true);
+            stars[i] = new Star(i, Math.floor(Math.random() * WIDTH), Math.floor(Math.random() * HEIGHT), true);
             //stars[i].draw();
         }
         ctx.shadowBlur = 0;
         animate();
     };
-
 
 
     function Star(id, x, y, useCache) {
@@ -71,7 +72,7 @@
         this.r = Math.floor(Math.random() * config.star_r) + 1;
         this.cacheCtx.width = 6 * this.r;
         this.cacheCtx.height = 6 * this.r;
-        var alpha = ( Math.floor(Math.random() * 10) + 1) / config.star_alpha;
+        var alpha = (Math.floor(Math.random() * 10) + 1) / config.star_alpha;
         this.color = "rgba(255,255,255," + alpha + ")";
         if (useCache) {
             this.cache()
@@ -79,7 +80,7 @@
     }
 
     Star.prototype = {
-        draw : function () {
+        draw: function () {
             if (!this.useCacha) {
                 ctx.save();
                 ctx.fillStyle = this.color;
@@ -94,7 +95,7 @@
             }
         },
 
-        cache : function () {
+        cache: function () {
             this.cacheCtx.save();
             this.cacheCtx.fillStyle = this.color;
             this.cacheCtx.shadowColor = "white";
@@ -106,7 +107,7 @@
             this.cacheCtx.restore();
         },
 
-        move : function () {
+        move: function () {
             this.y -= config.move_distance;
             if (this.y <= -10) {
                 this.y += HEIGHT + 10;
@@ -114,7 +115,7 @@
             this.draw();
         },
 
-        die : function () {
+        die: function () {
             stars[this.id] = null;
             delete stars[this.id]
         }
@@ -124,7 +125,7 @@
         this.id = id;
         this.x = x;
         this.y = y;
-        this.r = Math.floor(Math.random() * config.dot_r)+1;
+        this.r = Math.floor(Math.random() * config.dot_r) + 1;
         this.speed = config.dot_speeds;
         this.a = config.dot_alpha;
         this.aReduction = config.dot_aReduction;
@@ -134,19 +135,19 @@
         this.dotCtx.width = 6 * this.r;
         this.dotCtx.height = 6 * this.r;
         this.dotCtx.a = 0.5;
-        this.color = "rgba(255,255,255," + this.a +")";
+        this.color = "rgba(255,255,255," + this.a + ")";
         this.dotCtx.color = "rgba(255,255,255," + this.dotCtx.a + ")";
-        this.linkColor = "rgba(255,255,255," + this.a/4 + ")";
-        this.dir = Math.floor(Math.random()*140)+200;
+        this.linkColor = "rgba(255,255,255," + this.a / 4 + ")";
+        this.dir = Math.floor(Math.random() * 140) + 200;
 
-        if( useCache){
+        if (useCache) {
             this.cache()
         }
     }
 
     Dot.prototype = {
-        draw : function () {
-            if( !this.useCache){
+        draw: function () {
+            if (!this.useCache) {
                 ctx.save();
                 ctx.fillStyle = this.color;
                 ctx.shadowColor = "white";
@@ -156,15 +157,15 @@
                 ctx.closePath();
                 ctx.fill();
                 ctx.restore();
-            }else{
-                ctx.drawImage(this.dotCanvas, this.x - this.r * 3, this.y - this.r *3);
+            } else {
+                ctx.drawImage(this.dotCanvas, this.x - this.r * 3, this.y - this.r * 3);
 
             }
         },
 
-        cache : function () {
+        cache: function () {
             this.dotCtx.save();
-            this.dotCtx.a  -= this.aReduction;
+            this.dotCtx.a -= this.aReduction;
             this.dotCtx.color = "rgba(255,255,255," + this.dotCtx.a + ")";
             this.dotCtx.fillStyle = this.dotCtx.color;
             this.dotCtx.shadowColor = "white";
@@ -175,8 +176,8 @@
             this.dotCtx.fill();
             this.dotCtx.restore();
         },
-        link : function () {
-            if (this.id == 0) return;
+        link: function () {
+            if (this.id === 0) return;
             var previousDot1 = getPreviousDot(this.id, 1);
             var previousDot2 = getPreviousDot(this.id, 2);
             var previousDot3 = getPreviousDot(this.id, 3);
@@ -188,26 +189,26 @@
             ctx.moveTo(previousDot1.x, previousDot1.y);
             ctx.beginPath();
             ctx.lineTo(this.x, this.y);
-            if (previousDot2 != false) ctx.lineTo(previousDot2.x, previousDot2.y);
-            if (previousDot3 != false) ctx.lineTo(previousDot3.x, previousDot3.y);
-            if (previousDot4 != false) ctx.lineTo(previousDot4.x, previousDot4.y);
+            if (previousDot2 !== false) ctx.lineTo(previousDot2.x, previousDot2.y);
+            if (previousDot3 !== false) ctx.lineTo(previousDot3.x, previousDot3.y);
+            if (previousDot4 !== false) ctx.lineTo(previousDot4.x, previousDot4.y);
 
             ctx.stroke();
             ctx.closePath();
         },
 
-        move : function () {
+        move: function () {
 
 
             this.a -= this.aReduction;
-            if(this.a <= 0 ){
+            if (this.a <= 0) {
                 this.die();
                 return
             }
-            this.dotCtx.a  -= this.aReduction;
+            this.dotCtx.a -= this.aReduction;
             this.dotCtx.color = "rgba(255,255,255," + this.dotCtx.a + ")";
             this.color = "rgba(255,255,255," + this.a + ")";
-            this.linkColor = "rgba(255,255,255," + this.a/4 + ")";
+            this.linkColor = "rgba(255,255,255," + this.a / 4 + ")";
             this.x = this.x + Math.cos(degToRad(this.dir)) * this.speed;
             this.y = this.y + Math.sin(degToRad(this.dir)) * this.speed;
 
@@ -216,7 +217,7 @@
 
         },
 
-        die : function () {
+        die: function () {
             dots[this.id] = null;
             delete dots[this.id];
         }
@@ -229,15 +230,15 @@
         clearInterval(mouseMoveChecker);
         mouseMoveChecker = setInterval(function () {
             mouseMoving = false
-        },1000)
+        }, 1000)
 
     };
 
     function drawIfMouseMoving() {
         if (!mouseMoving) return;
 
-        if (dots.length == 0) {
-            dots[0] = new Dot(0, mouseX, mouseY,true);
+        if (dots.length === 0) {
+            dots[0] = new Dot(0, mouseX, mouseY, true);
             dots[0].draw();
             return;
         }
@@ -252,21 +253,21 @@
         if (diffX < config.dotsMinDist || diffY < config.dotsMinDist) return;
 
         var xVariation = Math.random() > .5 ? -1 : 1;
-        xVariation = xVariation*Math.floor(Math.random() * config.maxDistFromCursor)+1;
+        xVariation = xVariation * Math.floor(Math.random() * config.maxDistFromCursor) + 1;
         var yVariation = Math.random() > .5 ? -1 : 1;
-        yVariation = yVariation*Math.floor(Math.random() * config.maxDistFromCursor)+1;
-        dots[dots.length] = new Dot(dots.length, mouseX+xVariation, mouseY+yVariation,true);
-        dots[dots.length-1].draw();
-        dots[dots.length-1].link();
+        yVariation = yVariation * Math.floor(Math.random() * config.maxDistFromCursor) + 1;
+        dots[dots.length] = new Dot(dots.length, mouseX + xVariation, mouseY + yVariation, true);
+        dots[dots.length - 1].draw();
+        dots[dots.length - 1].link();
     }
 
     function getPreviousDot(id, stepback) {
-        if(id == 0 || id - stepback < 0){
+        if (id === 0 || id - stepback < 0) {
             return false
         }
-        if(typeof dots[id - stepback] !== "undefined"){
+        if (typeof dots[id - stepback] !== "undefined") {
             return dots[id - stepback]
-        }else{
+        } else {
             return false
         }
     }
@@ -299,13 +300,16 @@
     setCanvasSize();
 
 
-
     // 最后将插件对象暴露给全局对象
-    _global = (function(){ return this || (0, eval)('this'); }());
+    _global = (function () {
+        return this || (0, eval)('this');
+    }());
     if (typeof module !== "undefined" && module.exports) {
         module.exports = CanvasStar;
     } else if (typeof define === "function" && define.amd) {
-        define(function(){return CanvasStar;});
+        define(function () {
+            return CanvasStar;
+        });
     } else {
 
         !('CanvasStar' in _global) && (_global.CanvasStar = CanvasStar);

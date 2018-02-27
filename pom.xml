@@ -28,6 +28,8 @@
         <servlet-api.version>3.1.0</servlet-api.version>
         <!-- Jsp API -->
         <jsp-api.version>2.3.1</jsp-api.version>
+        <!-- java mail -->
+        <mail.version>1.6.1</mail.version>
         <!-- log4j -->
         <log4j.version>2.10.0</log4j.version>
         <!-- JUnit -->
@@ -44,6 +46,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- 用于支持Spring 发送邮件 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
@@ -111,6 +119,18 @@
             <artifactId>javax.servlet.jsp-api</artifactId>
             <version>${jsp-api.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>javax.mail-api</artifactId>
+            <version>${mail.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>${mail.version}</version>
         </dependency>
 
 
