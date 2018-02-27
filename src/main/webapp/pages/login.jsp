@@ -161,7 +161,7 @@
         };
         if (regUserInfo.username.length === 0) {
             alert("请输入账户名！");
-        } else if (regUserInfo.username.indexOf("@") === -1) {
+        } else if (regUserInfo.username.indexOf("@") !== -1) {
             alert("请输入正确的账户名！不允许账户名中出现特殊字符 @");
             usernameSelector.val("");
             usernameSelector.css("background-color", "#292421");
@@ -194,6 +194,8 @@
                     } else if (result === "ACCOUNT_ALREADY_EXISTS") {
                         // 该账户已经存在于数据库中，提示登录
                         alert("该账户已经存在！请直接登录！")
+                    } else if (result === "FAILED") {
+                        alert("接收到返回值为 FAILED ，请联系运维确定出错信息！")
                     }
                 }
             });

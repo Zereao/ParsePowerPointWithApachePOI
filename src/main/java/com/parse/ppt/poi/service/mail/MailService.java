@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MailService {
     /**
-     * 用户注册成功后，
+     * 用户注册成功后，将用户注册信息发送到用户的电子邮箱信中      亦可作为用户验证
      *
-     * @param account 用户账号，可能是e-mail，也可能是手机号
-     * @return 用户对象
+     * @param email   用户邮箱地址
+     * @param content 邮件文本内容
+     * @return 返回码
      */
-    String getUser(String account);
+    String sendSimpleWordMail(String email, String content);
 }

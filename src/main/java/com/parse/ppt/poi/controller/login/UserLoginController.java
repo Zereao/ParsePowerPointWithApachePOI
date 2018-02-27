@@ -4,6 +4,7 @@ import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.cookie.CookieService;
 import com.parse.ppt.poi.service.login.UserLoginService;
+import com.parse.ppt.poi.service.mail.MailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class UserLoginController {
     private UserLoginService userLoginService;
     @Autowired
     private CookieService cookieService;
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping("/loadUserFromCookies")
     @ResponseBody
@@ -89,6 +92,8 @@ public class UserLoginController {
         // 如果注册成功，则将当前用户信息写入session
         if (ReturnCode.SUCCESS.equals(result)) {
             session.setAttribute("user", user);
+            // 并且将用户信息发送到用户邮箱
+            result = mailService.sendSimpleWordMail(email, "亲爱的朋友，明天请过来接我~我在百货大楼下等你~");
         }
         logger.info("UserLoginController.userRegister   ------->  end! " +
                 "result = " + result);
