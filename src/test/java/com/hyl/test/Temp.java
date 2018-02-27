@@ -11,6 +11,7 @@ public class Temp {
         String a = "   dsdas a@qq.co m  ";
         System.out.println(a.trim());
         System.out.println(a.trim().contains(" "));
+		
     }
 
 }
