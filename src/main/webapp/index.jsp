@@ -18,12 +18,6 @@
     <!--网站名称-->
     <title>故事长满天涯海角，包括你和你的故乡。</title>
 
-    <link rel="stylesheet" href="webResources/mainPage/font-awesome-4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="webResources/mainPage/css/bootstrap.min.css">
-    <link rel="stylesheet" href="webResources/mainPage/css/hero-slider-style.css">
-    <link rel="stylesheet" href="webResources/mainPage/css/magnific-popup.css">
-    <link rel="stylesheet" href="webResources/mainPage/css/templatemo-style.css">
-
     <script src="webResources/mainPage/js/html5shiv.min.js"></script>
     <script src="webResources/mainPage/js/respond.min.js"></script>
     <script src="webResources/mainPage/js/jquery-1.11.3.min.js"></script>
@@ -33,11 +27,23 @@
     <script src="webResources/mainPage/js/masonry.pkgd.min.js"></script>
     <script src="webResources/mainPage/js/jquery.magnific-popup.min.js"></script>
 
+    <link rel="stylesheet" href="webResources/mainPage/font-awesome-4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="webResources/mainPage/css/bootstrap.min.css">
+    <link rel="stylesheet" href="webResources/mainPage/css/hero-slider-style.css">
+    <link rel="stylesheet" href="webResources/mainPage/css/magnific-popup.css">
+    <link rel="stylesheet" href="webResources/mainPage/css/templatemo-style.css">
+
+    <style>
+        .myFonts {
+            font-family: 黑体, sans-serif;
+        }
+    </style>
 
     <script>
-        function listenLoginMouseClick() {
+        function onPageLoad() {
+            // 监听 id 为 login 的控件的鼠标左右键点击事件
             $('#login').mousedown(function (e) {
-                if (1 === e.which) {
+                if (e.which === 1) {
                     // alert('这是左键单击事件');
                     <%
                         if (session.getAttribute("user") == null){
@@ -46,25 +52,45 @@
                     <%
                         }
                     %>
-                } else if (2 === e.which) {
-                    alert('这是中键单击事件');
-
                 } else if (e.which === 3) {
                     userLogout();
                 }
-            })
+                /*
+                else if (e.which === 2) {
+                    alert('这是中键单击事件');
+                }*/
+            });
+
+            <%
+                if (session.getAttribute("user") == null){
+            %>
+            checkUserStatus();
+            <%
+                }
+            %>
+
         }
 
-        <%-- 页面加载成功时便加载 监听 登录按钮的鼠标点击事件 --%>
-        // window.onload = listenLoginMouseClick();
-    </script>
-    <style>
-        .myFonts {
-            font-family: 黑体, sans-serif;
+        function checkUserStatus() {
+            $.ajax({
+                type: "post",
+                url: "/login/checkUserStatus",
+                // async: false,
+                produces: "text/html;charset=UTF-8",
+                error: function (request) {
+                    alert("访问后端出现未知错误！");
+                },
+                success: function (data) {
+                    var result = data.toString();
+                    if (result === "SUCCESS") {
+                        location.reload();
+                    }
+                }
+            });
         }
-    </style>
+    </script>
 </head>
-<body onload="listenLoginMouseClick()">
+<body onload="onPageLoad()">
 <%
     String welcomeWord = "Hi,Melody";
     String welcomeTitle = "点我登录/注册";
@@ -72,39 +98,10 @@
     User user = (User) session.getAttribute("user");
     System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     System.out.println("从session中获取到用户信息： the user of session = " + user);
+    System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     if (user != null) {
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         username = user.getUsername();
         welcomeTitle = "欢迎回来，亲爱的" + username + "。右键点击退出登录";
-    } else {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length > 0) {
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            System.out.println(" 尝试从Cookie中获取用户信息");
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            String email = "";
-            String phoneNum = "";
-            String password = "";
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equalsIgnoreCase("username")) {
-                    username = cookie.getValue();
-                } else if (cookie.getName().equalsIgnoreCase("email")) {
-                    email = cookie.getValue();
-                } else if (cookie.getName().equalsIgnoreCase("phoneNum")) {
-                    phoneNum = cookie.getValue();
-                } else if (cookie.getName().equals("password")) {
-                    password = cookie.getValue();
-                }
-            }
-            boolean notRealCookie = username.equals("") || email.equals("") || phoneNum.equals("") || password.equals("");
-            if (!notRealCookie) {
-                User newUser = new User(username, email, phoneNum, password);
-                System.out.println(" 从Cookie中获取到用户信息  the user of cookie = " + newUser);
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                session.setAttribute("user", newUser);
-                System.out.println("session.getA" + session.getAttribute("user"));
-            }
-        }
     }
     if (!("".equals(username)) && username != null) {
         welcomeWord = "Hi," + username;
@@ -240,7 +237,7 @@
             </div> <!-- .cd-full-width -->
 
         </li>
-        <div class="copyrights">Collect from <a href="http://www.cssmoban.com/">企业网站模板</a></div>
+        <%--<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">企业网站模板</a></div>--%>
         <!-- Page 3 -->
         <li>
 
@@ -612,7 +609,7 @@
             type: 'image',
             gallery: {enabled: true}
         });
-        $('#tmNavbar a').click(function () {
+        $('#tmNavbar').find('a').click(function () {
             $('#tmNavbar').collapse('hide');
             adjustHeightOfPage($(this).data("no"));
         });
@@ -637,6 +634,7 @@
             },
             success: function (data) {
                 alert("❤注销成功，期待再会❤");
+                location.reload();
             }
         });
     }

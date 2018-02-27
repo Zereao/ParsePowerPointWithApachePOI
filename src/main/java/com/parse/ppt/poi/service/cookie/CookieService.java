@@ -24,4 +24,11 @@ public interface CookieService {
      * @return 返回码
      */
     String removeUserCookie(User user);
+
+    /**
+     * 读取用户Cookie信息
+     *
+     * @return 返回码
+     */
+    User loadUserCookie();
 }

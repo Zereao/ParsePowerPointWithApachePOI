@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * @author Jupiter
+ */
 @Controller
 @RequestMapping("/login")
 public class UserLoginController {
@@ -28,6 +31,22 @@ public class UserLoginController {
 
     @Autowired
     private CookieService cookieService;
+
+    @RequestMapping("/checkUserStatus")
+    @ResponseBody
+    public String checkUserStatus(HttpSession session) {
+        logger.info("UserLoginController.checkUserStatus   ------->  start! ");
+
+        User user = cookieService.loadUserCookie();
+        if (user == null) {
+            logger.info("UserLoginController.checkUserStatus   ------->  end! ");
+            return ReturnCode.FAILED;
+        } else {
+            session.setAttribute("user", user);
+        }
+        logger.info("UserLoginController.checkUserStatus   ------->  end!  user = " + user);
+        return ReturnCode.SUCCESS;
+    }
 
     @RequestMapping("/userLogin")
     @ResponseBody
@@ -83,16 +102,14 @@ public class UserLoginController {
 
     @RequestMapping("/userLogout")
     @ResponseBody
-    public String userLogout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public String userLogout(HttpSession session) {
+        logger.info("UserLoginController.userLogout   ------->  start! ");
+
         User user = (User) session.getAttribute("user");
         String result = cookieService.removeUserCookie(user);
         session.removeAttribute("user");
-        try {
-            logger.info("_+_+_+_+_+_+_+_+_+_");
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
+        logger.info("UserLoginController.userLogout   ------->  end! " +
+                " result = " + result);
         return result;
     }
 }
