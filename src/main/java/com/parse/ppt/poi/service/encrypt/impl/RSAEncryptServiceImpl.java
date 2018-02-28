@@ -41,42 +41,23 @@ public class RSAEncryptServiceImpl implements RSAEncryptService {
     private String publicKey;
     private String privateKey;
 
-    @PostConstruct
-    private void init() {
-        logger.info("RSAEncryptServiceImpl.init   ------->  start! ");
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-            keyPairGenerator.initialize(KEY_SIZE);
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            //公钥
-            RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
-            //私钥
-            RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
-            publicKey = Base64.encodeBase64String(rsaPublicKey.getEncoded());
-            privateKey = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
-            logger.info("RSAEncryptServiceImpl.init   ------->  end! \n" +
-                    "   publicKey = " + publicKey + "\n" +
-                    "   privateKey = " + privateKey);
-        } catch (Exception e) {
-            logger.error("RSAEncryptServiceImpl.init   ------->  ERROR ! " + e.getMessage());
-        }
-    }
-
-
     @Override
     public String getPublicKey() {
+        keyPairGenerator();
         logger.info("RSAEncryptServiceImpl.getPublicKey   ------->  publicKey = " + publicKey);
         return publicKey;
     }
 
     @Override
     public String getPrivateKey() {
+//        keyPairGenerator();
         logger.info("RSAEncryptServiceImpl.getPrivateKey   ------->  privateKey = " + privateKey);
         return privateKey;
     }
 
     @Override
     public Map<String, String> getKeyPair() {
+//        keyPairGenerator();
         Map<String, String> map = new HashMap<>(2);
         map.put("publicKey", publicKey);
         map.put("privateKey", privateKey);
@@ -109,4 +90,23 @@ public class RSAEncryptServiceImpl implements RSAEncryptService {
         return null;
     }
 
+    private void keyPairGenerator() {
+        logger.info("RSAEncryptServiceImpl.keyPairGenerator   ------->  start! ");
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
+            keyPairGenerator.initialize(KEY_SIZE);
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            //公钥
+            RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+            //私钥
+            RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+            publicKey = Base64.encodeBase64String(rsaPublicKey.getEncoded());
+            privateKey = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
+            logger.info("RSAEncryptServiceImpl.keyPairGenerator   ------->  end! \n" +
+                    "   publicKey = " + publicKey + "\n" +
+                    "   privateKey = " + privateKey);
+        } catch (Exception e) {
+            logger.error("RSAEncryptServiceImpl.keyPairGenerator   ------->  ERROR ! " + e.getMessage());
+        }
+    }
 }
