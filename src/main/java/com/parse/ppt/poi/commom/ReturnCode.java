@@ -25,4 +25,9 @@ public class ReturnCode {
      * 用户注册，用户账号已经存在
      */
     public static final String ACCOUNT_ALREADY_EXISTS = "ACCOUNT_ALREADY_EXISTS";
+
+    /**
+     * 邮件发送失败
+     */
+    public static final String MAIL_SEND_FAILED = "MAIL_SEND_FAILED";
 }

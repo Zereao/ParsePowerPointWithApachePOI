@@ -11,7 +11,6 @@
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
-                <!--<prop key="mail.transport.port">${mail.transport.protocol}</prop>-->
                 <prop key="mail.debug">${mail.debug}</prop>
             </props>
         </property>

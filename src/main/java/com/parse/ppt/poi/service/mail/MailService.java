@@ -13,9 +13,21 @@ public interface MailService {
     /**
      * 用户注册成功后，将用户注册信息发送到用户的电子邮箱信中      亦可作为用户验证
      *
-     * @param email   用户邮箱地址
+     * @param emailTo 收件人地址
+     * @param subject 邮件主题
      * @param content 邮件文本内容
      * @return 返回码
      */
-    String sendSimpleWordMail(String email, String content);
+    String sendSimpleWordMail(String emailTo, String subject, String content);
+
+    /**
+     * 用户注册成功后，将用户注册信息发送到用户的电子邮箱信中      亦可作为用户验证
+     *
+     * @param emailTo 收件人地址
+     * @param emailCc 抄送收件人地址
+     * @param subject 邮件主题
+     * @param content 邮件文本内容
+     * @return 返回码
+     */
+    String sendSimpleWordMail(String emailTo, String emailCc, String subject, String content);
 }

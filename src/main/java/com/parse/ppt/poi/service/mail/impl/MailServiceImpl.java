@@ -30,23 +30,48 @@ public class MailServiceImpl implements MailService {
     private String sender;
 
     @Override
-    public String sendSimpleWordMail(String email, String content) {
+    public String sendSimpleWordMail(String emailTo, String subject, String content) {
         logger.info("MailServiceImpl.sendSimpleWordMail   ------->  start! " +
-                "  email = " + email +
+                "  emailTo = " + emailTo +
+                "  subject = " + subject +
                 "  content = " + content +
                 "  sender = " + sender);
         try {
-            mailMessage.setTo(email);
-            mailMessage.setCc(sender);
-            mailMessage.setSubject("这里是Subject!");
+            mailMessage.setTo(emailTo);
+            mailMessage.setSubject(subject);
             mailMessage.setText(content);
             mailSender.send(mailMessage);
             logger.info("MailServiceImpl.sendSimpleWordMail   ------->  end!   result =" + ReturnCode.SUCCESS);
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
             logger.error(e.getMessage());
-            logger.info("MailServiceImpl.sendSimpleWordMail   ------->  end!   result =" + ReturnCode.FAILED);
+            logger.info("MailServiceImpl.sendSimpleWordMail   ------->  end!   result =" + ReturnCode.MAIL_SEND_FAILED);
         }
-        return ReturnCode.FAILED;
+        return ReturnCode.MAIL_SEND_FAILED;
+    }
+
+    @Override
+    public String sendSimpleWordMail(String emailTo, String emailCc, String subject, String content) {
+        logger.info("MailServiceImpl.sendSimpleWordMail  the Overload Method (Contains mailMessage.setCc() ) ------->  start! " +
+                "  emailTo = " + emailTo +
+                "  emailCc = " + emailCc +
+                "  subject = " + subject +
+                "  content = " + content +
+                "  sender = " + sender);
+        try {
+            mailMessage.setTo(emailTo);
+            mailMessage.setCc(emailCc);
+            mailMessage.setSubject(subject);
+            mailMessage.setText(content);
+            mailSender.send(mailMessage);
+            logger.info("MailServiceImpl.sendSimpleWordMail  the Overload Method (Contains mailMessage.setCc() ) ------->  end! " +
+                    "  result =" + ReturnCode.SUCCESS);
+            return ReturnCode.SUCCESS;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.info("MailServiceImpl.sendSimpleWordMail  the Overload Method (Contains mailMessage.setCc() ) ------->  end! " +
+                    "  result =" + ReturnCode.MAIL_SEND_FAILED);
+        }
+        return ReturnCode.MAIL_SEND_FAILED;
     }
 }

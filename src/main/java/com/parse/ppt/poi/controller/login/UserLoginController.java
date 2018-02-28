@@ -3,17 +3,20 @@ package com.parse.ppt.poi.controller.login;
 import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.cookie.CookieService;
+import com.parse.ppt.poi.service.encrypt.RSAEncryptService;
 import com.parse.ppt.poi.service.login.UserLoginService;
 import com.parse.ppt.poi.service.mail.MailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 /**
  * @author Jupiter
@@ -29,6 +32,9 @@ public class UserLoginController {
     private CookieService cookieService;
     @Autowired
     private MailService mailService;
+    @Qualifier("RSAEncryptServiceImpl")
+    @Autowired
+    private RSAEncryptService rsaEncryptService;
 
     @RequestMapping("/loadUserFromCookies")
     @ResponseBody
@@ -52,13 +58,15 @@ public class UserLoginController {
                             @RequestParam("password") String password,
                             @RequestParam("rememberTag") String rememberTag,
                             HttpSession session) {
-        logger.info("UserLoginController.checkUserLogin   ------->  start! " +
+        logger.info("UserLoginController.userLogin   ------->  start! " +
                 "  account = " + account +
                 "  password = " + password +
                 "  rememberTag = " + rememberTag);
 
         User user = userLoginService.getUser(account);
-        String result = userLoginService.verifyUser(user, password);
+        // 得到用户真实的密码
+        String realPassword = rsaEncryptService.contentDecrypter((String) session.getAttribute("publicKey"), (String) session.getAttribute("privateKey"), password);
+        String result = userLoginService.verifyUser(user, realPassword);
         // 如果密码校验通过
         if (result.equals(ReturnCode.SUCCESS)) {
             // 如果 前端用户点选了 1天内记住我
@@ -68,8 +76,12 @@ public class UserLoginController {
             }
             // 把该用户对象放在session中
             session.setAttribute("user", user);
+
+            // 移除session中之前保存的公钥、私钥
+            session.removeAttribute("publicKey");
+            session.removeAttribute("privateKey");
         }
-        logger.info("UserLoginController.checkUserLogin   ------->  end! " +
+        logger.info("UserLoginController.userLogin   ------->  end! " +
                 "  result = " + result);
         return result;
     }
@@ -93,10 +105,14 @@ public class UserLoginController {
         if (ReturnCode.SUCCESS.equals(result)) {
             session.setAttribute("user", user);
             // 并且将用户信息发送到用户邮箱
-            result = mailService.sendSimpleWordMail(email, "亲爱的朋友，明天请过来接我~我在百货大楼下等你~");
+            String subject = "nbsp;nbsp;nbsp;nbsp;亲爱的" + username + "，欢迎注册！<br>" +
+                    "nbsp;nbsp;nbsp;nbsp;如果终有离别，请别辜负相遇。请享受接下来的愉快时光。";
+            String content = "亲爱的" + username + "，您好！<br>" +
+                    "下面是您注册的相关信息";
+            result = mailService.sendSimpleWordMail(email, subject, content);
         }
         logger.info("UserLoginController.userRegister   ------->  end! " +
-                "result = " + result);
+                " result = " + result);
         return result;
     }
 
@@ -111,5 +127,21 @@ public class UserLoginController {
         logger.info("UserLoginController.userLogout   ------->  end! " +
                 " result = " + result);
         return result;
+    }
+
+    @RequestMapping("/getPublicKey")
+    @ResponseBody
+    public String getPublicKey(HttpSession session) {
+        logger.info("UserLoginController.getPublicKey   ------->  start! ");
+
+        Map<String, String> resultMap = rsaEncryptService.getKeyPair();
+        String publicKey = resultMap.get("publicKey");
+        String privateKey = resultMap.get("privateKey");
+
+        session.setAttribute("publicKey", publicKey);
+        session.setAttribute("privateKey", privateKey);
+
+        logger.info("UserLoginController.getPublicKey   ------->  end! ");
+        return publicKey;
     }
 }

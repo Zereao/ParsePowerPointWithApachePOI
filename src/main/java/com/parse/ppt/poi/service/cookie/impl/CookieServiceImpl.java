@@ -139,7 +139,9 @@ public class CookieServiceImpl implements CookieService {
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
+            logger.info("CookieServiceImpl.loadUserCookie   ------->  end!   FAILED");
         }
+        logger.info("CookieServiceImpl.loadUserCookie   ------->  end! ");
         return null;
     }
 }

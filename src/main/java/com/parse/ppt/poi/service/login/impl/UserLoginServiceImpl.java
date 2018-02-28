@@ -29,7 +29,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             try {
                 logger.info("userDao.getUserByEmail()   ------->  start!  email = " + account);
                 user = userDao.getUserByEmail(account);
-                logger.info("after userDao.getUserByEmail()   ------->  start!  theUser = " + user);
+                logger.info("after userDao.getUserByEmail()   ------->  theUser = " + user);
             } catch (Exception e) {
                 logger.error(e.getMessage());
                 result = ReturnCode.FAILED;
@@ -38,7 +38,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             try {
                 logger.info("userDao.getUserByPhoneNum()   ------->  start!  phoneNum = " + account);
                 user = userDao.getUserByPhoneNum(account);
-                logger.info("after userDao.getUserByPhoneNum()   ------->  start!  theUser = " + user);
+                logger.info("userDao.getUserByPhoneNum()   ------->  end!  theUser = " + user);
             } catch (Exception e) {
                 logger.error(e.getMessage());
                 result = ReturnCode.FAILED;

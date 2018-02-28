@@ -15,6 +15,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
     <script src="../webResources/js/jquery-3.2.1.min.js"></script>
+    <script src="../webResources/js/jsencrypt.min.js"></script>
+
     <script src="../webResources/js/md5.min.js"></script>
 
     <link rel="stylesheet" href="../webResources/css/login_style.css" type="text/css" media="all">
@@ -47,7 +49,7 @@
 <div class="container w3layouts agileits">
     <div class="login w3layouts agileits">
         <h2>登 录</h2>
-        <div id="userLoginForm">
+        <div>
             <input type="text" id="login_account" Name="account" placeholder="邮箱/手机号">
             <input type="password" id="login_password" Name="password" placeholder="密码">
         </div>
@@ -105,15 +107,46 @@
 
 
 <script>
+    var publicKey;
 
-    <%-- 用户登录 按钮点击事件 --%>
-
+    // 用户登录 按钮点击事件
     function userLogin() {
+        getPublicKey();
+        postUserInfo();
+    }
+
+    //从后端获取 publicKey
+    function getPublicKey() {
+        $.ajax({
+            type: "post",
+            url: "/login/getPublicKey",
+            async: false,
+            produces: "text/html;charset=UTF-8",
+            error: function (request) {
+                alert("从后端获取加密公钥错误！");
+                window.location.href = "error.jsp";
+            },
+            success: function (data) {
+                publicKey = data;
+            }
+        });
+    }
+
+    // 加密信息
+    function encryptInfo(date) {
+        var jsencrypter = new JSEncrypt();
+        jsencrypter.setPublicKey(publicKey);
+        // encryptData用来装载加密后的数据
+        return jsencrypter.encrypt(date);
+    }
+
+    // 向后端传递相关信息
+    function postUserInfo() {
         var accountSelector = $("#login_account");
         var saveTag = $("#rememberTag").is(":checked");
         var userInfo = {
             account: accountSelector.val(),
-            password: md5($("#login_password").val()),
+            password: encryptInfo($("#login_password").val()),
             rememberTag: (saveTag)
         };
         if (userInfo.account.length === 0) {
@@ -131,7 +164,7 @@
                 data: userInfo,
                 error: function (request) {
                     alert("网络连接错误！");
-                    window.location.href = "error.jsp";
+                    // window.location.href = "error.jsp";
                 },
                 success: function (data) {
                     var result = data.toString();

@@ -24,6 +24,8 @@
         <jackson.version>2.9.4</jackson.version>
         <!-- apache commons-fileupload -->
         <commons-fileupload.version>1.3.3</commons-fileupload.version>
+        <!-- commons-codec -->
+        <commons-codec.version>1.11</commons-codec.version>
         <!-- Servlet API -->
         <servlet-api.version>3.1.0</servlet-api.version>
         <!-- Jsp API -->
@@ -75,7 +77,6 @@
             <artifactId>commons-dbcp2</artifactId>
             <version>${commons-dbcp2.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -131,6 +132,12 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
             <version>${mail.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
         </dependency>
 
 
