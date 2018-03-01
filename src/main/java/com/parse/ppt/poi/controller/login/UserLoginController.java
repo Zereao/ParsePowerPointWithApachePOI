@@ -3,13 +3,12 @@ package com.parse.ppt.poi.controller.login;
 import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.cookie.CookieService;
-import com.parse.ppt.poi.service.encrypt.RSAEncryptService;
+import com.parse.ppt.poi.service.encrypt.EncryptService;
 import com.parse.ppt.poi.service.login.UserLoginService;
 import com.parse.ppt.poi.service.mail.MailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,9 +31,8 @@ public class UserLoginController {
     private CookieService cookieService;
     @Autowired
     private MailService mailService;
-    @Qualifier("RSAEncryptServiceImpl")
     @Autowired
-    private RSAEncryptService rsaEncryptService;
+    private EncryptService encryptService;
 
     @RequestMapping("/loadUserFromCookies")
     @ResponseBody
@@ -65,7 +63,7 @@ public class UserLoginController {
 
         User user = userLoginService.getUser(account);
         // 得到用户真实的密码
-        String realPassword = rsaEncryptService.contentDecrypter((String) session.getAttribute("publicKey"), (String) session.getAttribute("privateKey"), password);
+        String realPassword = encryptService.contentDecrypter((String) session.getAttribute("publicKey"), (String) session.getAttribute("privateKey"), password);
         String result = userLoginService.verifyUser(user, realPassword);
         // 如果密码校验通过
         if (result.equals(ReturnCode.SUCCESS)) {
@@ -134,7 +132,7 @@ public class UserLoginController {
     public String getPublicKey(HttpSession session) {
         logger.info("UserLoginController.getPublicKey   ------->  start! ");
 
-        Map<String, String> resultMap = rsaEncryptService.getKeyPair();
+        Map<String, String> resultMap = encryptService.getKeyPair();
         String publicKey = resultMap.get("publicKey");
         String privateKey = resultMap.get("privateKey");
 

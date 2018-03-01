@@ -1,23 +1,16 @@
 package com.parse.ppt.poi.service.encrypt.impl;
 
-import com.parse.ppt.poi.service.encrypt.RSAEncryptService;
+import com.parse.ppt.poi.service.encrypt.EncryptService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +19,7 @@ import java.util.Map;
  * @date 2018/02/28/11:28
  */
 @Service
-public class RSAEncryptServiceImpl implements RSAEncryptService {
+public class EncryptServiceImpl implements EncryptService {
     private Logger logger = LogManager.getLogger(this.getClass());
     /**
      * 加密算法RSA
@@ -44,30 +37,30 @@ public class RSAEncryptServiceImpl implements RSAEncryptService {
     @Override
     public String getPublicKey() {
         keyPairGenerator();
-        logger.info("RSAEncryptServiceImpl.getPublicKey   ------->  publicKey = " + publicKey);
+        logger.info("EncryptServiceImpl.getPublicKey   ------->  publicKey = " + publicKey);
         return publicKey;
     }
 
     @Override
     public String getPrivateKey() {
-//        keyPairGenerator();
-        logger.info("RSAEncryptServiceImpl.getPrivateKey   ------->  privateKey = " + privateKey);
+        keyPairGenerator();
+        logger.info("EncryptServiceImpl.getPrivateKey   ------->  privateKey = " + privateKey);
         return privateKey;
     }
 
     @Override
     public Map<String, String> getKeyPair() {
-//        keyPairGenerator();
+        keyPairGenerator();
         Map<String, String> map = new HashMap<>(2);
         map.put("publicKey", publicKey);
         map.put("privateKey", privateKey);
-        logger.info("RSAEncryptServiceImpl.getKeyPair   ------->  keyPairMap " + map);
+        logger.info("EncryptServiceImpl.getKeyPair   ------->  keyPairMap " + map);
         return map;
     }
 
     @Override
     public String contentDecrypter(String publicKey, String privateKey, String content) {
-        logger.error("RSAEncryptServiceImpl.contentDecrypter   ------->  start ! \n" +
+        logger.info("EncryptServiceImpl.contentDecrypter   ------->  start ! \n" +
                 "  publicKey = " + publicKey + "\n" +
                 "  privateKey = " + privateKey + "\n" +
                 "  content = " + content);
@@ -81,17 +74,20 @@ public class RSAEncryptServiceImpl implements RSAEncryptService {
             byte[] contentByte = Base64.decodeBase64(content);
             byte[] resultByte = cipher.doFinal(contentByte);
             String result = new String(resultByte);
-            logger.info("RSAEncryptServiceImpl.contentDecrypter   ------->  end !  result = " + result);
+            logger.info("EncryptServiceImpl.contentDecrypter   ------->  end !  result = " + result);
             return result;
         } catch (Exception e) {
-            logger.error("RSAEncryptServiceImpl.contentDecrypter   ------->  ERROR ! 返回 null !");
+            logger.error("EncryptServiceImpl.contentDecrypter   ------->  ERROR ! 返回 null !");
             logger.error(e.getMessage());
         }
         return null;
     }
 
+    /**
+     * 用于生成公钥、私钥 对的私密方法。在上面每个方法内调用，是为了每次获取到的公钥私钥都不一样
+     */
     private void keyPairGenerator() {
-        logger.info("RSAEncryptServiceImpl.keyPairGenerator   ------->  start! ");
+        logger.info("EncryptServiceImpl.keyPairGenerator   ------->  start! ");
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
             keyPairGenerator.initialize(KEY_SIZE);
@@ -102,11 +98,11 @@ public class RSAEncryptServiceImpl implements RSAEncryptService {
             RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
             publicKey = Base64.encodeBase64String(rsaPublicKey.getEncoded());
             privateKey = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
-            logger.info("RSAEncryptServiceImpl.keyPairGenerator   ------->  end! \n" +
+            logger.info("EncryptServiceImpl.keyPairGenerator   ------->  end! \n" +
                     "   publicKey = " + publicKey + "\n" +
                     "   privateKey = " + privateKey);
         } catch (Exception e) {
-            logger.error("RSAEncryptServiceImpl.keyPairGenerator   ------->  ERROR ! " + e.getMessage());
+            logger.error("EncryptServiceImpl.keyPairGenerator   ------->  ERROR ! " + e.getMessage());
         }
     }
 }

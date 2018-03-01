@@ -1,13 +1,12 @@
 package com.parse.ppt.poi.dao;
 
 import com.parse.ppt.poi.entity.User;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  * @author Jupiter
  */
-@Component
+@Repository
 public interface UserDao {
     /**
      * 通过email获取用户信息
@@ -29,7 +28,6 @@ public interface UserDao {
      * 增加用户
      *
      * @param user 增加的用户对象
-     * @return 返回值
      */
     void addUser(User user);
 

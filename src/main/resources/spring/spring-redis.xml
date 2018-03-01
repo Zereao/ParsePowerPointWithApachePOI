@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Spring-Reids 作为高速缓存，相关配置 -->
+
+    <!--连接池配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+        <property name="blockWhenExhausted" value="${redis.blackWhenExhausted}"/>
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+    </bean>
+
+
+    <!-- redis 连接密码配置 -->
+    <bean id="redisPassword" class="org.springframework.data.redis.connection.RedisPassword">
+        <constructor-arg name="thePassword" value="${redis.pass}"/>
+    </bean>
+
+    <!--连接配置-->
+    <bean id="redisStandaloneConfiguration"
+          class="org.springframework.data.redis.connection.RedisStandaloneConfiguration">
+        <property name="hostName" value="${redis.host}"/>
+        <property name="password" ref="redisPassword"/>
+        <property name="port" value="${redis.port}"/>
+    </bean>
+
+    <!--客户端配置-->
+    <bean id="jedisClientConfiguration" class="org.springframework.data.redis.connection.jedis.DefaultJedisClientConfiguration">
+        <constructor-arg name="useSsl" value="false"/>
+        <constructor-arg name="usePooling" value="${redis.usePool}"/>
+        <constructor-arg name="readTimeout" value="ZERO"/>
+        <constructor-arg name="connectTimeout" value="ZERO"/>
+        <constructor-arg name="clientName"><null/></constructor-arg>
+        <constructor-arg name="hostnameVerifier"><null/></constructor-arg>
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg name="sslParameters"><null/></constructor-arg>
+        <constructor-arg name="sslSocketFactory"><null/></constructor-arg>
+    </bean>
+
+
+    <!--连接工厂 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <constructor-arg name="standaloneConfig" ref="redisStandaloneConfiguration"/>
+        <constructor-arg name="clientConfig" ref="jedisClientConfiguration"/>
+    </bean>
+
+    <!-- RedisTemplate -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+    </bean>
 
 </beans>

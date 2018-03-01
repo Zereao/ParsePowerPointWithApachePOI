@@ -3,6 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- Spring-MyBatis 相关配置 -->
+
     <!-- 定义数据源 -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${mysql.driverClass}"/>
@@ -33,7 +35,7 @@
     </bean>
 
 
-    <!-- dao 所在的包名，Spring 会自动查找其下的类 -->
+    <!-- dao 所在的包名，Spring 会自动查找其下的类/接口 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.parse.ppt.poi.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>

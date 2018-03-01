@@ -10,6 +10,7 @@
     </context:component-scan>
 
     <context:property-placeholder location="classpath:properties/db_config.properties,
-                                            classpath:properties/mail_config.properties"/>
+                                            classpath:properties/mail_config.properties,
+                                            classpath:properties/redis_config.properties"/>
 
 </beans>

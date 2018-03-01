@@ -32,6 +32,10 @@
         <jsp-api.version>2.3.1</jsp-api.version>
         <!-- java mail -->
         <mail.version>1.6.1</mail.version>
+        <!-- jedis -->
+        <jedis.version>2.9.0</jedis.version>
+        <!-- Spring-date-redis -->
+        <spring-redis.version>2.0.5.RELEASE</spring-redis.version>
         <!-- log4j -->
         <log4j.version>2.10.0</log4j.version>
         <!-- JUnit -->
@@ -139,6 +143,19 @@
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
+        </dependency>
+
 
 
         <dependency>

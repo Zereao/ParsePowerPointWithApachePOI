@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
+ * RSA 加密、解密Service
  * @author Jupiter
  * @date 2018/02/28/11:28
  */
 @Service
-public interface RSAEncryptService {
+public interface EncryptService {
     /**
      * 一个新的用户登录请求，获取公钥
      *
