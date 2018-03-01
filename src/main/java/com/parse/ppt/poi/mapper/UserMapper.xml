@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace 属性配置 xml对应dao层 java类的全限定名-->
-<mapper namespace="com.parse.ppt.poi.dao.UserDao">
+<mapper namespace="com.parse.ppt.poi.dao.persistence.UserDao">
     <resultMap id="BaseResultMap" type="com.parse.ppt.poi.entity.User">
         <constructor>
             <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>

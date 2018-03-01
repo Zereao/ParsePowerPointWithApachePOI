@@ -1,9 +1,9 @@
 package com.test;
 
-import com.parse.ppt.poi.service.other.impl.sliderShow.hslf.HSLFSlideshowOperateImpl;
-import com.parse.ppt.poi.service.other.impl.slide.hslf.HSLFSlideOperateImpl;
-import com.parse.ppt.poi.service.other.slide.hslf.HSLFSlideOperate;
-import com.parse.ppt.poi.service.other.slideshow.hslf.HSLFSlideshowOperate;
+import com.parse.ppt.poi.service.common.other.impl.sliderShow.hslf.HSLFSlideshowOperateImpl;
+import com.parse.ppt.poi.service.common.other.impl.slide.hslf.HSLFSlideOperateImpl;
+import com.parse.ppt.poi.service.common.other.slide.hslf.HSLFSlideOperate;
+import com.parse.ppt.poi.service.common.other.slideshow.hslf.HSLFSlideshowOperate;
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 
 import java.io.*;

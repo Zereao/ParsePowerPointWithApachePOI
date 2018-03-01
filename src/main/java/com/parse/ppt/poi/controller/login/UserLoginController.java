@@ -2,11 +2,7 @@ package com.parse.ppt.poi.controller.login;
 
 import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.entity.User;
-import com.parse.ppt.poi.service.cache.RedisCacheService;
-import com.parse.ppt.poi.service.cookie.CookieService;
-import com.parse.ppt.poi.service.encrypt.EncryptService;
 import com.parse.ppt.poi.service.login.UserLoginService;
-import com.parse.ppt.poi.service.mail.MailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +24,14 @@ public class UserLoginController {
 
     @Autowired
     private UserLoginService userLoginService;
-    @Autowired
-    private CookieService cookieService;
-    @Autowired
-    private MailService mailService;
-    @Autowired
-    private EncryptService encryptService;
-    @Autowired
-    private RedisCacheService redisCacheService;
+//    @Autowired
+//    private CookieService cookieService;
+//    @Autowired
+//    private MailService mailService;
+//    @Autowired
+//    private EncryptService encryptService;
+//    @Autowired
+//    private RedisCacheService redisCacheService;
 
     @RequestMapping("/loadUserFromCookies")
     @ResponseBody
@@ -56,12 +52,12 @@ public class UserLoginController {
     @RequestMapping("/userLogin")
     @ResponseBody
     public String userLogin(@RequestParam("account") String account,
-                            @RequestParam("password") String password,
+                            @RequestParam("password") String encryptedPassword,
                             @RequestParam("rememberTag") String rememberTag,
                             HttpSession session) {
         logger.info("UserLoginController.userLogin   ------->  start! " +
                 "  account = " + account +
-                "  password = " + password +
+                "  password = " + encryptedPassword +
                 "  rememberTag = " + rememberTag);
         // 根据账号获取到当前用户的信息
         User user = userLoginService.getUser(account);

@@ -22,6 +22,11 @@ public class ReturnCode {
     public static final String WRONG_PASSWORD = "WRONG_PASSWORD";
 
     /**
+     * 用户登录，用户账号不存在
+     */
+    public static final String ACCOUNT_NOT_EXISTS = "ACCOUNT_NOT_EXISTS";
+
+    /**
      * 用户注册，用户账号已经存在
      */
     public static final String ACCOUNT_ALREADY_EXISTS = "ACCOUNT_ALREADY_EXISTS";

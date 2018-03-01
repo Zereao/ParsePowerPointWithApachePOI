@@ -10,12 +10,22 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserLoginService {
     /**
-     * 根据账号获取用户对象
+     * 从Cookie中获取用户对象
      *
-     * @param account 用户账号，可能是e-mail，也可能是手机号
      * @return 用户对象
      */
-    User getUser(String account);
+    User loadUserFromCookies();
+
+    /**
+     * 用户登录方法
+     *
+     * @param account           用户账号
+     * @param encryptedPassword 前端传递过来的被加密了的密码
+     * @param rememberTag       是否记住用户一天的标记
+     * @return 返回码
+     */
+    String userLogin(String account, String encryptedPassword, String rememberTag);
+
 
     /**
      * 验证用户信息是否正确
