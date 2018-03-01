@@ -24,4 +24,12 @@ public interface UserService {
      * @return 用户对象
      */
     User getUserByPhoneNum(String phoneNum);
+
+    /**
+     * 调用dao层向数据库中增加一条用户信息
+     *
+     * @param user user对象
+     * @return 返回码
+     */
+    String addUser(User user);
 }

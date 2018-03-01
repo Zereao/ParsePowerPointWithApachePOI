@@ -17,8 +17,12 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public User getUserByEmail(String email) {
@@ -46,5 +50,19 @@ public class UserServiceImpl implements UserService {
             logger.error(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public String addUser(User user) {
+        try {
+            logger.info("UserServiceImpl.addUser()   ------->  start!  user = " + user);
+            userDao.addUser(user);
+            logger.info("UserServiceImpl.addUser()   ------->  end ! SUCCESS");
+            return ReturnCode.SUCCESS;
+        } catch (Exception e) {
+            logger.error("UserServiceImpl.addUser()   ------->  ERROR!  返回 FAILED ");
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
     }
 }

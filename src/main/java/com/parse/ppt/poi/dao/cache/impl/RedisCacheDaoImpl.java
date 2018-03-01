@@ -5,7 +5,6 @@ import com.parse.ppt.poi.dao.cache.RedisCacheDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -19,8 +18,13 @@ import java.util.Map;
 @Repository
 public class RedisCacheDaoImpl implements RedisCacheDao {
     private Logger logger = LogManager.getLogger(this.getClass());
+
+    private final RedisTemplate<String, String> redisTemplate;
+
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    public RedisCacheDaoImpl(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     public String add(String key, String value) {
@@ -42,25 +46,25 @@ public class RedisCacheDaoImpl implements RedisCacheDao {
     public String add(Map<String, String> map) {
         logger.info("RedisCacheDaoImpl.add --- Overload method ! ------->  start ! " +
                 "  map = " + map);
-        try {
-            String result = ReturnCode.SUCCESS;
-            for (String key : map.keySet()) {
-                String value = map.get(key);
-                String tempResult = add(key, value);
-                if (tempResult.equals(ReturnCode.FAILED)) {
-                    result = ReturnCode.FAILED;
-                }
-            }
-            if (result.equals(ReturnCode.SUCCESS)) {
-                logger.info("RedisCacheDaoImpl.add   ------->  end !  SUCCESS ");
-                return ReturnCode.SUCCESS;
-            } else {
-                logger.info("RedisCacheDaoImpl.add   ------->  end !  FAILED ");
-                return ReturnCode.FAILED;
-            }
-        } catch (Exception e) {
-            logger.error("RedisCacheDaoImpl.add   ------->  ERROR!  " + e.getMessage());
-        }
+//        try {
+//            String result = ReturnCode.SUCCESS;
+//            for (String key : map.keySet()) {
+//                String value = map.get(key);
+//                String tempResult = add(key, value);
+//                if (tempResult.equals(ReturnCode.FAILED)) {
+//                    result = ReturnCode.FAILED;
+//                }
+//            }
+//            if (result.equals(ReturnCode.SUCCESS)) {
+//                logger.info("RedisCacheDaoImpl.add   ------->  end !  SUCCESS ");
+//                return ReturnCode.SUCCESS;
+//            } else {
+//                logger.info("RedisCacheDaoImpl.add   ------->  end !  FAILED ");
+//                return ReturnCode.FAILED;
+//            }
+//        } catch (Exception e) {
+//            logger.error("RedisCacheDaoImpl.add   ------->  ERROR!  " + e.getMessage());
+//        }
         return ReturnCode.FAILED;
     }
 

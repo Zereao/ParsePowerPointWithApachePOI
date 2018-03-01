@@ -36,21 +36,24 @@ public class EncryptServiceImpl implements EncryptService {
     public Map<String, String> getKeyPair() {
         logger.info("EncryptServiceImpl.getKeyPair   ------->  start! ");
         try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-            keyPairGenerator.initialize(KEY_SIZE);
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            //公钥
-            RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
-            //私钥
-            RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
-            String publicKey = Base64.encodeBase64String(rsaPublicKey.getEncoded());
-            String privateKey = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
-            Map<String, String> resultMap = new HashMap<>(2);
-            resultMap.put("publicKey", publicKey);
-            resultMap.put("privateKey", privateKey);
-            logger.info("EncryptServiceImpl.getKeyPair   ------->  end! \n" +
-                    "   publicKey = " + publicKey + "\n" +
-                    "   privateKey = " + privateKey);
+            Map<String, String> resultMap = keyPairGenerator("");
+            logger.info("EncryptServiceImpl.getKeyPair   ------->  end! " +
+                    "   resultMap = " + resultMap);
+            return resultMap;
+        } catch (Exception e) {
+            logger.error("EncryptServiceImpl.getKeyPair   ------->  ERROR ! " + e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getKeyPair(String prefix) {
+        logger.info("EncryptServiceImpl.getKeyPair   ------->  start! " +
+                "   prefix = " + prefix.trim());
+        try {
+            Map<String, String> resultMap = keyPairGenerator(prefix.trim());
+            logger.info("EncryptServiceImpl.getKeyPair   ------->  end! " +
+                    "   resultMap = " + resultMap);
             return resultMap;
         } catch (Exception e) {
             logger.error("EncryptServiceImpl.getKeyPair   ------->  ERROR ! " + e.getMessage());
@@ -102,6 +105,47 @@ public class EncryptServiceImpl implements EncryptService {
         } catch (Exception e) {
             logger.error("EncryptServiceImpl.contentEncrypter   ------->  ERROR ! 返回 null !");
             logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+
+    /**
+     * 私密的 公钥-密钥 对生成方法，被上面的一些方法调用时，每次产生的公钥、密钥都不相同
+     *
+     * @param prefix 公钥、密钥 map 的key的前缀，传入 null 或 "" 的时候，默认 key 分别为 publicKey，privateKey
+     * @return keyPairMap
+     */
+    private Map<String, String> keyPairGenerator(String prefix) {
+        logger.info("EncryptServiceImpl.keyPairGenerator   ------->  start! " +
+                "   prefix = " + prefix);
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
+            keyPairGenerator.initialize(KEY_SIZE);
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            //公钥
+            RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+            //私钥
+            RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+            String publicKey = Base64.encodeBase64String(rsaPublicKey.getEncoded());
+            String privateKey = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
+            Map<String, String> resultMap = new HashMap<>(2);
+            String theKeyOfPublicKey = "publicKey";
+            String theKeyOfPrivate = "privateKey";
+            // 前缀不为null并且有内容，不为 ""
+            boolean prefixIsNotNull = prefix != null && (!("".equals(prefix)));
+            if (prefixIsNotNull) {
+                theKeyOfPublicKey = prefix + ".publicKey";
+                theKeyOfPrivate = prefix + ".privateKey";
+            }
+            resultMap.put(theKeyOfPublicKey, publicKey);
+            resultMap.put(theKeyOfPrivate, privateKey);
+            logger.info("EncryptServiceImpl.keyPairGenerator   ------->  end! \n" +
+                    "   publicKey = " + publicKey + "\n" +
+                    "   privateKey = " + privateKey);
+            return resultMap;
+        } catch (Exception e) {
+            logger.error("EncryptServiceImpl.keyPairGenerator   ------->  ERROR ! " + e.getMessage());
         }
         return null;
     }

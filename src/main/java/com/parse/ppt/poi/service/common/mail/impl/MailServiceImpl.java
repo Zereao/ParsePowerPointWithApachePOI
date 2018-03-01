@@ -5,7 +5,6 @@ import com.parse.ppt.poi.service.common.mail.MailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,16 +17,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class MailServiceImpl implements MailService {
     private Logger logger = LogManager.getLogger(this.getClass());
-    @Autowired
-    private JavaMailSender mailSender;
 
-    @Autowired
-    @Qualifier("mailMessage")
-    private SimpleMailMessage mailMessage;
+    private final JavaMailSender mailSender;
+    private final SimpleMailMessage mailMessage;
 
     // fuck 163 !! 网易邮箱SB，发送时需要抄送自己一份，否则报错 554 DT:SPM
     @Value("${sender.email}")
     private String sender;
+
+    @Autowired
+    public MailServiceImpl(JavaMailSender mailSender, SimpleMailMessage mailMessage) {
+        this.mailSender = mailSender;
+        this.mailMessage = mailMessage;
+    }
 
     @Override
     public String sendSimpleWordMail(String emailTo, String subject, String content) {

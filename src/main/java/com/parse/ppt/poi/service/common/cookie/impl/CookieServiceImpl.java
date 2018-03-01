@@ -6,8 +6,6 @@ import com.parse.ppt.poi.service.common.cookie.CookieService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -24,12 +22,10 @@ public class CookieServiceImpl implements CookieService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
-    public String addUserCookie(User user) {
+    public String addUserCookie(User user, HttpServletResponse response) {
         logger.info("CookieServiceImpl.addUserCookie   ------->  start! " +
                 "  user = " + user);
         try {
-            // 通过Spring提供的RequestContextHolder在非contrller层获取response对象
-            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
             String username = user.getUsername();
             String email = user.getEmail();
             String phoneNum = user.getPhoneNum();
@@ -60,14 +56,9 @@ public class CookieServiceImpl implements CookieService {
     }
 
     @Override
-    public String removeUserCookie(User user) {
-        logger.info("CookieServiceImpl.removeUserCookie   ------->  start! " +
-                "  user = " + user);
+    public String removeUserCookie(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("CookieServiceImpl.removeUserCookie   ------->  start! ");
         try {
-            // 通过Spring提供的RequestContextHolder在非contrller层获取request和response对象
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
                 for (Cookie cookie : cookies) {
@@ -97,11 +88,9 @@ public class CookieServiceImpl implements CookieService {
     }
 
     @Override
-    public User loadUserCookie() {
+    public User loadUserCookie(HttpServletRequest request) {
         logger.info("CookieServiceImpl.loadUserCookie   ------->  start! ");
         try {
-            // 通过Spring提供的RequestContextHolder在非contrller层获取request和response对象
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
                 logger.info(" cookies 数组不为null，尝试从cookies中获取用户信息。");

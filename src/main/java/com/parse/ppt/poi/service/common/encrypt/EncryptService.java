@@ -14,11 +14,19 @@ import java.util.Map;
 public interface EncryptService {
 
     /**
-     * 一个新的用户登录请求，获取 公钥、密钥 对
+     * 获取 公钥、密钥 对, map对应的 key 为  publicKey , privateKey
      *
-     * @return privateKey
+     * @return key pair Map
      */
     Map<String, String> getKeyPair();
+
+    /**
+     * 获取 公钥、密钥 对，map对应的 key 为  prefix.publicKey , prefix.privateKey
+     *
+     * @param prefix 返回map的key的前缀
+     * @return key pair
+     */
+    Map<String, String> getKeyPair(String prefix);
 
     /**
      * 使用密钥对已加密的内容进行解密

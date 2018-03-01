@@ -17,8 +17,6 @@
     <script src="../webResources/js/jquery-3.2.1.min.js"></script>
     <script src="../webResources/js/jsencrypt.min.js"></script>
 
-    <script src="../webResources/js/md5.min.js"></script>
-
     <link rel="stylesheet" href="../webResources/css/login_style.css" type="text/css" media="all">
 
     <script type="application/x-javascript">
@@ -112,7 +110,7 @@
     // 用户登录 按钮点击事件
     function userLogin() {
         getPublicKey();
-        postUserInfo();
+        postUserLoginInfo();
     }
 
     //从后端获取 publicKey
@@ -141,7 +139,7 @@
     }
 
     // 向后端传递相关信息
-    function postUserInfo() {
+    function postUserLoginInfo() {
         var accountSelector = $("#login_account");
         var saveTag = $("#rememberTag").is(":checked");
         var userInfo = {
@@ -174,23 +172,32 @@
                         window.location.href = "../";
                     } else if (result === "WRONG_PASSWORD") {
                         alert("账户与密码不匹配！");
+                    } else if (result === "FAILED") {
+                        alert("登陆成功！但后端Cookie添加失败！");
+                        window.location.href = "../";
+                    } else if (result === "ACCOUNT_NOT_EXISTS") {
+                        alert("账户不存在！");
                     }
                 }
             });
         }
     }
 
-    <%-- 用户注册 按钮点击事件 --%>
-
+    //用户注册 按钮 点击事件
     function registerUser() {
+        getPublicKey();
+        postUserRegisterInfo();
+    }
+
+    function postUserRegisterInfo() {
         var usernameSelector = $("#reg_username");
         var emailSelector = $("#reg_email");
-        var phobeNumSelector = $("#reg_phoneNum");
+        var phoneNumSelector = $("#reg_phoneNum");
         var regUserInfo = {
             username: usernameSelector.val(),
             email: emailSelector.val(),
-            phoneNum: phobeNumSelector.val(),
-            password: md5($("#reg_password").val())
+            phoneNum: phoneNumSelector.val(),
+            password: encryptInfo($("#reg_password").val())
         };
         if (regUserInfo.username.length === 0) {
             alert("请输入账户名！");
@@ -204,8 +211,8 @@
             emailSelector.css("background-color", "#292421");
         } else if (regUserInfo.phoneNum.length === 0 || regUserInfo.phoneNum.length !== 11) {
             alert("请输入11位手机号码！");
-            phobeNumSelector.css("background-color", "#292421");
-            phobeNumSelector.val("");
+            phoneNumSelector.css("background-color", "#292421");
+            phoneNumSelector.val("");
         } else if (regUserInfo.password.length === 0) {
             alert("请输入用户密码！");
         } else {
