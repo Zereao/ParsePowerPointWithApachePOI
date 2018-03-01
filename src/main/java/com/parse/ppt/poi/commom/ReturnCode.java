@@ -30,4 +30,9 @@ public class ReturnCode {
      * 邮件发送失败
      */
     public static final String MAIL_SEND_FAILED = "MAIL_SEND_FAILED";
+
+    /**
+     * Redis .remove(String key)  ;  key不存在
+     */
+    public static final String KEY_NOT_EXISTS = "KEY_NOT_EXISTS";
 }

@@ -17,14 +17,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class SpringTest {
 
     @Autowired
-    @Qualifier("redisCacheDao")
     private RedisCacheDao redisCacheDao;
 
     @Test
     public void testU() {
-//        redisCacheDao.add("1213", "123123123");
+        redisCacheDao.add("1213", null);
         String result = redisCacheDao.get("1213");
-        System.out.println(result);
+        System.out.println("++++++++++++++++++++++++++++++++++++++");
+        System.out.println(".get(1213) = " + result);
+
+//        redisCacheDao.add("1213", "123123123");
+//        String result = redisCacheDao.get("1213");
+//        System.out.println(result);
+//        result = redisCacheDao.remove("1213");
+//        System.out.println(result);
     }
 
 

@@ -2,6 +2,7 @@ package com.parse.ppt.poi.controller.login;
 
 import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.entity.User;
+import com.parse.ppt.poi.service.cache.RedisCacheService;
 import com.parse.ppt.poi.service.cookie.CookieService;
 import com.parse.ppt.poi.service.encrypt.EncryptService;
 import com.parse.ppt.poi.service.login.UserLoginService;
@@ -33,6 +34,8 @@ public class UserLoginController {
     private MailService mailService;
     @Autowired
     private EncryptService encryptService;
+    @Autowired
+    private RedisCacheService redisCacheService;
 
     @RequestMapping("/loadUserFromCookies")
     @ResponseBody
@@ -60,11 +63,10 @@ public class UserLoginController {
                 "  account = " + account +
                 "  password = " + password +
                 "  rememberTag = " + rememberTag);
-
+        // 根据账号获取到当前用户的信息
         User user = userLoginService.getUser(account);
-        // 得到用户真实的密码
-        String realPassword = encryptService.contentDecrypter((String) session.getAttribute("publicKey"), (String) session.getAttribute("privateKey"), password);
-        String result = userLoginService.verifyUser(user, realPassword);
+        // 验证用户
+        String result = userLoginService.verifyUser(user, password);
         // 如果密码校验通过
         if (result.equals(ReturnCode.SUCCESS)) {
             // 如果 前端用户点选了 1天内记住我
@@ -74,10 +76,6 @@ public class UserLoginController {
             }
             // 把该用户对象放在session中
             session.setAttribute("user", user);
-
-            // 移除session中之前保存的公钥、私钥
-            session.removeAttribute("publicKey");
-            session.removeAttribute("privateKey");
         }
         logger.info("UserLoginController.userLogin   ------->  end! " +
                 "  result = " + result);
@@ -129,17 +127,17 @@ public class UserLoginController {
 
     @RequestMapping("/getPublicKey")
     @ResponseBody
-    public String getPublicKey(HttpSession session) {
+    public String getPublicKey() {
         logger.info("UserLoginController.getPublicKey   ------->  start! ");
 
         Map<String, String> resultMap = encryptService.getKeyPair();
         String publicKey = resultMap.get("publicKey");
-        String privateKey = resultMap.get("privateKey");
-
-        session.setAttribute("publicKey", publicKey);
-        session.setAttribute("privateKey", privateKey);
-
-        logger.info("UserLoginController.getPublicKey   ------->  end! ");
+        // 把公钥、秘钥都假如Redis高速缓存中
+        String result = redisCacheService.addToRedisCache(resultMap);
+        if (result.equals(ReturnCode.FAILED)) {
+            logger.warn("添加公钥、密钥到Redis高速缓存失败！  result = " + result);
+        }
+        logger.info("UserLoginController.getPublicKey   ------->  end!  keyPair = " + resultMap);
         return publicKey;
     }
 }
