@@ -61,6 +61,10 @@
                         }
                     %>
                 }
+                /*
+                else if (e.which === 2) {
+                    alert('这是中键单击事件');
+                }*/
             });
 
             <%
@@ -77,6 +81,7 @@
             $.ajax({
                 type: "post",
                 url: "/login/loadUserFromCookies",
+                // async: false,
                 produces: "text/html;charset=UTF-8",
                 error: function (request) {
                     alert("访问后端出现未知错误！");
