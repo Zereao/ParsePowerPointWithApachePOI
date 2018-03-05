@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.service.common.spider.impl;
 
+import com.parse.ppt.poi.dao.cache.RedisCacheDao;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,9 +18,13 @@ import java.util.*;
  * @author Jupiter
  * @date 2018/03/05/13:55
  */
+@SuppressWarnings("AlibabaAvoidManuallyCreateThread")
 @Service
 public class WebSpiderServiceImpl implements WebSpiderService {
     private Logger logger = LogManager.getLogger(this.getClass());
+
+    @Autowired
+    private RedisCacheDao redisCacheDao;
 
     @Override
     public List<Map<String, String>> pptFileSpider(String pageIndex) {
@@ -52,6 +58,15 @@ public class WebSpiderServiceImpl implements WebSpiderService {
                 infoMap.put("srcImgUrl", srcImgUrl);
                 infoMap.put("srcDescription", srcDescription);
                 infoMap.put("downloadUrl", downloadUrl);
+                Thread thread = new Thread(new Runnable() {
+                    @SuppressWarnings("AlibabaAvoidManuallyCreateThread")
+                    @Override
+                    public void run() {
+                        String result = redisCacheDao.add(infoMap);
+                        logger.info("add to redis     result = " + result);
+                    }
+                });
+                thread.start();
                 resultMapList.add(infoMap);
             }
             logger.info("WebSpiderServiceImpl.pptFileSpider   ------->  end!");

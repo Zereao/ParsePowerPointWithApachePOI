@@ -35,9 +35,8 @@ public interface UserDao {
      * 更新用户信息
      *
      * @param user 用户对象
-     * @return 返回值
      */
-    int updateUser(User user);
+    void updateUser(User user);
 
     /**
      * 通过email删除用户
@@ -45,6 +44,9 @@ public interface UserDao {
      * @param email 用户电子邮箱
      * @return User
      */
+
+    /*  以下的逻辑并未在mapper中实现  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
     int deleteUserByEmail(String email);
 
     /**
