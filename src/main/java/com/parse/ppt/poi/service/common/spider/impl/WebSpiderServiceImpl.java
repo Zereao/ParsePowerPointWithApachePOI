@@ -1,6 +1,7 @@
 package com.parse.ppt.poi.service.common.spider.impl;
 
-import com.parse.ppt.poi.dao.cache.RedisCacheDao;
+import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,20 +19,23 @@ import java.util.*;
  * @author Jupiter
  * @date 2018/03/05/13:55
  */
-@SuppressWarnings("AlibabaAvoidManuallyCreateThread")
 @Service
 public class WebSpiderServiceImpl implements WebSpiderService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
+    private final No1PptService no1PptService;
+
     @Autowired
-    private RedisCacheDao redisCacheDao;
+    public WebSpiderServiceImpl(No1PptService no1PptService) {
+        this.no1PptService = no1PptService;
+    }
 
     @Override
-    public List<Map<String, String>> pptFileSpider(String pageIndex) {
+    public List<No1PPT> pptFileSpider(String pageIndex) {
         logger.info("WebSpiderServiceImpl.pptFileSpider   ------->  start! " +
                 "   pageIndex = " + pageIndex);
         try {
-            List<Map<String, String>> resultMapList = new ArrayList<>();
+            List<No1PPT> resultMapList = new ArrayList<>();
             String url = "http://www.1ppt.com/moban/ppt_moban_" + pageIndex.trim() + ".html";
             Document doc = Jsoup.connect(url).get();
             // <div class="w center mt4"> ... </div>  取得这个 <div> 中间的所有元素
@@ -39,6 +43,8 @@ public class WebSpiderServiceImpl implements WebSpiderService {
             // 记住下面这种写法
             Elements ulElements = fatherDivElements.select("ul[class^=tplist]");
             Elements liElements = ulElements.select("li");
+            //  这里这个result 无实用意义
+            String result = null;
             for (Element eachElement : liElements) {
                 // 取<li>标签的子标签<a>下面的<img>标签的内容
                 Elements imgSrc = eachElement.select("a").select("img");
@@ -47,29 +53,18 @@ public class WebSpiderServiceImpl implements WebSpiderService {
                 // 资源缩略图链接
                 String srcImgUrl = infoArray[1].trim().replace("src=\"", "").replace("\"", "");
                 // 资源介绍
-                String srcDescription = infoArray[2].trim().replace("alt=\"", "").replace("\"", "");
+                String srcDescription = infoArray[2].trim().replace("alt=\"", "").replace("\">", "");
                 // 取<li>标签下的子标签<h2>下面的<a>标签的内容
                 Elements downloadPage = eachElement.select("h2").select("a");
                 String[] urlArray = downloadPage.toString().split(" ");
                 // 操作字符串得到该PPT下载页面的链接
                 String downloadPageUrl = "http://www.1ppt.com" + urlArray[1].trim().replace("href=\"", "").replace("\"", "");
                 String downloadUrl = getDownloadUrl(downloadPageUrl);
-                Map<String, String> infoMap = new HashMap<>();
-                infoMap.put("srcImgUrl", srcImgUrl);
-                infoMap.put("srcDescription", srcDescription);
-                infoMap.put("downloadUrl", downloadUrl);
-                Thread thread = new Thread(new Runnable() {
-                    @SuppressWarnings("AlibabaAvoidManuallyCreateThread")
-                    @Override
-                    public void run() {
-                        String result = redisCacheDao.add(infoMap);
-                        logger.info("add to redis     result = " + result);
-                    }
-                });
-                thread.start();
-                resultMapList.add(infoMap);
+                No1PPT no1PPT = new No1PPT(srcDescription, srcImgUrl, downloadUrl);
+                result = no1PptService.addNo1PPT(no1PPT);
+                resultMapList.add(no1PPT);
             }
-            logger.info("WebSpiderServiceImpl.pptFileSpider   ------->  end!");
+            logger.info("WebSpiderServiceImpl.pptFileSpider   ------->  end!  result = " + result);
             return resultMapList;
         } catch (Exception e) {
             logger.error("WebSpiderServiceImpl.pptFileSpider   ------->  ERROR!" + e.getMessage());

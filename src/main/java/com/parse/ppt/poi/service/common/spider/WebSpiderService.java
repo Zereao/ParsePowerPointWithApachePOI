@@ -1,9 +1,9 @@
 package com.parse.ppt.poi.service.common.spider;
 
+import com.parse.ppt.poi.entity.No1PPT;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jupiter
@@ -19,5 +19,5 @@ public interface WebSpiderService {
      * @param pageIndex 第1PPT的免费模板页面的 页码信息
      * @return resultMapList
      */
-    List<Map<String, String>> pptFileSpider(String pageIndex);
+    List<No1PPT> pptFileSpider(String pageIndex);
 }

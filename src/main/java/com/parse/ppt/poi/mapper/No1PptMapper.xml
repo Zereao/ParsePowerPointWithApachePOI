@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.parse.ppt.poi.dao.persistence.No1PptDao">
+    <resultMap id="BaseResultMap" type="com.parse.ppt.poi.entity.No1PPT">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="img_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="download_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, description, img_url, download_url
+    </sql>
+
+    <select id="getNo1PptByDescription" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from no_1_ppt
+        where description = #{srcDescription,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="addNo1PPT" parameterType="com.parse.ppt.poi.entity.No1PPT">
+        INSERT INTO no_1_ppt (description, img_url, download_url)
+        VALUES (#{srcDescription,jdbcType=VARCHAR}, #{srcImgUrl,jdbcType=VARCHAR},
+                #{downloadUrl,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>
