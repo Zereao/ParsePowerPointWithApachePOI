@@ -36,6 +36,8 @@
         <jedis.version>2.9.0</jedis.version>
         <!-- Spring-date-redis -->
         <spring-redis.version>2.0.5.RELEASE</spring-redis.version>
+        <!-- JSoup -->
+        <jsoup.version>1.11.2</jsoup.version>
         <!-- log4j -->
         <log4j.version>2.10.0</log4j.version>
         <!-- JUnit -->
@@ -156,6 +158,11 @@
             <version>${spring-redis.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
 
 
         <dependency>
