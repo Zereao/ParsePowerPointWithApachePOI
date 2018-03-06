@@ -39,12 +39,6 @@
         .myFonts {
             font-family: 黑体, sans-serif;
         }
-
-        .myContainer {
-            height: 70%;
-            overflow-y: auto;
-            margin: 0 0 70%;
-        }
     </style>
 
     <script>
@@ -258,7 +252,7 @@
                             <a class="nav-link" href="javascript:void(0);" data-no="1">首页</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="getNo1PPTInfo()" data-no="2">下载</a>
+                            <a class="nav-link" onclick="" data-no="2">下载</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="3">❤</a>
@@ -328,7 +322,7 @@
                 <div class="container-fluid js-tm-page-content" data-page-no="2">
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/night-light-blur"></div>
                     <div class="tm-img-gallery-container">
-                        <div id="pptGallery" class="tm-img-gallery myContainer">
+                        <div id="pptGallery" class="tm-img-gallery">
                             <div class="tm-img-gallery-info-container">
                                 <h2 class="tm-text-title tm-gallery-title"><span class="tm-white">PPT Gallery</span>
                                 </h2>
@@ -339,35 +333,75 @@
                                 </p>
                             </div>
 
-                            <!-- 商品循环开始 -->
-                            <%
-                                System.out.println("11111111111111111111111111111111111");
-                                //noinspection unchecked
-                                List<No1PPT> pptList = (List<No1PPT>) session.getAttribute("pptList");
-                                boolean pptListIsNull = pptList.isEmpty();
-                                if (!pptListIsNull) {
-                                    System.out.println("________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                    System.out.println(pptList.toString());
-                                    System.out.println("________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                                    for (No1PPT ppt : pptList) {
-                            %>
-                            <div class="grid-item" title="<%=ppt.getSrcDescription()%>">
-                                <a href="<%=ppt.getDownloadUrl()%>" target="_blank">
-                                    <img src="<%=ppt.getSrcImgUrl()%>" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <%
-                                    }
-                                }
-                            %>
-
-                            <%--<div class="grid-item" title="鼠标悬停">--%>
-                            <%--<a href="webResources/mainPage/img/tm-img-09.jpg">--%>
-                            <%--<img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"--%>
+                            <%--<!-- 商品循环开始 -->--%>
+                            <%--<%--%>
+                            <%--System.out.println("11111111111111111111111111111111111");--%>
+                            <%--Object pptListObj = session.getAttribute("pptList");--%>
+                            <%--boolean pptListIsNull = pptListObj == null;--%>
+                            <%--if (!pptListIsNull) {--%>
+                            <%--//noinspection unchecked--%>
+                            <%--List<No1PPT> pptList = (List<No1PPT>) pptListObj;--%>
+                            <%--for (No1PPT ppt : pptList) {--%>
+                            <%--%>--%>
+                            <%--<div class="grid-item" title="<%=ppt.getSrcDescription()%>">--%>
+                            <%--<a href="<%=ppt.getDownloadUrl()%>">--%>
+                            <%--<img src="<%=ppt.getSrcImgUrl()%>" alt="Image"--%>
                             <%--class="img-fluid tm-img">--%>
                             <%--</a>--%>
                             <%--</div>--%>
+                            <%--<%--%>
+                            <%--}--%>
+                            <%--}--%>
+                            <%--%>--%>
+
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item" title="鼠标悬停">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
 
                         </div>
 

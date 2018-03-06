@@ -29,7 +29,7 @@ public class ExistDownloadController {
     @ResponseBody
     public String loadNo1PPT(HttpSession session) {
         logger.info("ExistDownloadController.loadNo1PPT   ------->  start! ");
-        List<No1PPT> pptList = no1PptService.getNo1PPT(0, 40);
+        List<No1PPT> pptList = no1PptService.getNo1PPT(0, 999);
         logger.info("ExistDownloadController.loadNo1PPT   ------->  end! ");
         session.setAttribute("pptList", pptList);
         return ReturnCode.SUCCESS;
