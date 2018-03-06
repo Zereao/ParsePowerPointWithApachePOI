@@ -1,30 +1,38 @@
 package com.test;
 
-import com.parse.ppt.poi.dao.cache.RedisCacheDao;
-import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
+import com.parse.ppt.poi.dao.persistence.No1PptDao;
+import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * @author Jupiter
  * @date 2018/03/01/12:09
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:spring/spring-mybatis.xml"})
+@ContextConfiguration({"classpath:test_spring/spring.xml",
+        "classpath:test_spring/spring-mail.xml",
+//        "classpath:test_spring/spring-mvc.xml",
+        "classpath:test_spring/spring-mybatis.xml",
+        "classpath:test_spring/spring-redis.xml"})
 public class SpringTest {
 
     @Autowired
     private WebSpiderService webSpiderService;
+    @Autowired
+    private No1PptDao no1PptDao;
 
     @Test
     public void testU() {
-        for (int i = 1; i < 80; i++) {
-            webSpiderService.pptFileSpider(String.valueOf(i));
+        List<No1PPT> result = no1PptDao.getNo1Ppt(0, 40);
+        for (No1PPT no1PPT : result) {
+            System.out.println(no1PPT);
         }
     }
 

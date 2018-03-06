@@ -10,16 +10,6 @@
         </constructor>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id, description, img_url, download_url
-    </sql>
-
-    <select id="getNo1PptByDescription" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from no_1_ppt
-        where description = #{srcDescription,jdbcType=VARCHAR}
-    </select>
 
     <insert id="addNo1PPT" parameterType="com.parse.ppt.poi.entity.No1PPT">
         INSERT INTO no_1_ppt (description, img_url, download_url)

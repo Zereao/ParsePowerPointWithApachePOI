@@ -23,9 +23,9 @@ public class No1PptServiceImpl implements No1PptService {
     public No1PPT getNo1PptByDescription(String srcDescription) {
         try {
             logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  start!  srcDescription = " + srcDescription);
-            No1PPT no1PPT = no1PptDao.getNo1PptByDescription(srcDescription);
-            logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  info = " + no1PPT);
-            return no1PPT;
+//            No1PPT no1PPT = no1PptDao.getNo1PptByDescription(srcDescription);
+//            logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  info = " + no1PPT);
+//            return no1PPT;
         } catch (Exception e) {
             logger.error("No1PptServiceImpl.getNo1PptByDescription()   ------->  ERROR!  返回 null ");
             logger.error(e.getMessage());

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 自动扫描 Dao 和 Service -->
+    <context:component-scan base-package="com.parse.ppt.poi.dao.cache"/>
+    <context:component-scan base-package="com.parse.ppt.poi.dao.persistence"/>
+    <context:component-scan base-package="com.parse.ppt.poi.commom"/>
+    <context:component-scan base-package="com.parse.ppt.poi.entity"/>
+    <context:component-scan base-package="com.parse.ppt.poi.mapper"/>
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.login"/>-->
+    <context:component-scan base-package="com.parse.ppt.poi.service.common.cache"/>
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.cookie"/>-->
+    <context:component-scan base-package="com.parse.ppt.poi.service.common.encrypt"/>
+    <context:component-scan base-package="com.parse.ppt.poi.service.common.mail"/>
+    <context:component-scan base-package="com.parse.ppt.poi.service.common.no1ppt"/>
+    <context:component-scan base-package="com.parse.ppt.poi.service.common.spider"/>
+    <context:component-scan base-package="com.parse.ppt.poi.service.common.user"/>
+
+    <context:property-placeholder location="classpath:test_properties/db_config.properties,
+                                            classpath:test_properties/mail_config.properties,
+                                            classpath:test_properties/redis_config.properties"/>
+
+</beans>
