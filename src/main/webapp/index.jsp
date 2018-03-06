@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.parse.ppt.poi.entity.User" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.parse.ppt.poi.entity.No1PPT" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -37,7 +39,62 @@
         .myFonts {
             font-family: 黑体, sans-serif;
         }
+
+        .myContainer {
+            height: 70%;
+            overflow-y: auto;
+            margin: 0 0 70%;
+        }
     </style>
+
+    <script>
+        function adjustHeightOfPage(pageNo) {
+            var offset = 80;
+            var pageContentHeight = $(".cd-hero-slider li:nth-of-type(" + pageNo + ") .js-tm-page-content").height();
+            if ($(window).width() >= 992) {
+                offset = 120;
+            }
+            else if ($(window).width() < 480) {
+                offset = 40;
+            }
+            var totalPageHeight = 15 + $('.cd-slider-nav').height()
+                + pageContentHeight + offset
+                + $('.tm-footer').height();
+            if (totalPageHeight > $(window).height()) {
+                $('.cd-hero-slider').addClass('small-screen');
+                $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", totalPageHeight + "px");
+            }
+            else {
+                $('.cd-hero-slider').removeClass('small-screen');
+                $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", "100%");
+            }
+        }
+
+        $(window).load(function () {
+            adjustHeightOfPage(1);
+            $('.gallery-one').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {enabled: true}
+            });
+            $('.gallery-two').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                gallery: {enabled: true}
+            });
+            $('#tmNavbar').find('a').click(function () {
+                $('#tmNavbar').collapse('hide');
+                adjustHeightOfPage($(this).data("no"));
+            });
+            $(window).resize(function () {
+                var currentPageNo = $(".cd-hero-slider li.selected .js-tm-page-content").data("page-no");
+                setTimeout(function () {
+                    adjustHeightOfPage(currentPageNo);
+                }, 1000);
+            });
+            $('body').addClass('loaded');
+        });
+    </script>
 
     <script>
         function onPageLoad() {
@@ -89,6 +146,81 @@
                 }
             });
         }
+
+        $(document).ready(function () {
+            var pptGallerySelector = $("#pptGallery");
+            var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+            var nScrollTop = 0;   //滚动到的当前位置
+            var nDivHight = pptGallerySelector.height();
+            pptGallerySelector.scroll(function () {
+                nScrollHight = $(this)[0].scrollHeight;
+                nScrollTop = $(this)[0].scrollTop;
+                if (nScrollTop + nDivHight >= nScrollHight) {
+                    alert("滚动条到底部了");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function getNo1PPTInfo() {
+            alert("进入getNo1PPTInfo 函数");
+            $.ajax({
+                type: "post",
+                url: "/download/loadNo1PPT",
+                produces: "text/html;charset=UTF-8",
+                async: false,
+                error: function (request) {
+                    alert("获取PPT失败！");
+                },
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+
+                    }
+                }
+            });
+        }
+
+        function userLogout() {
+            var isLogout = confirm("确定注销当前用户？");
+            if (isLogout === true) {
+                $.ajax({
+                    type: "post",
+                    url: "/login/userLogout",
+                    produces: "text/html;charset=UTF-8",
+                    error: function (request) {
+                        alert("访问后端出现未知错误！");
+                    },
+                    success: function (data) {
+                        alert("❤注销成功，期待再会❤");
+                        location.reload();
+                    }
+                });
+            }
+        }
+
+        function ajaxAddAboutPageInfo() {
+            var aboutPageInfo = {
+                user_name: $("#about_user_name").val(),
+                e_mail: $("#about_email").val(),
+                summary: $("#about_summary").val(),
+                description: $("#about_description").val()
+            };
+            $.ajax({
+                type: "post",
+                dataType: "text",
+                url: "/mainPage/servlet/AboutPageInfoServlet",
+                produces: "text/html;charset=UTF-8",
+                data: aboutPageInfo,
+                error: function (request) {
+                    alert("Connection error");
+                },
+                success: function (data) {
+                    alert("❤发送成功，谢谢来信❤")
+//                        tag = JSON.parse(data);
+                }
+            });
+        }
     </script>
 </head>
 <body onload="onPageLoad()">
@@ -96,6 +228,7 @@
     String welcomeWord = "Hi,Melody";
     String welcomeTitle = "点我登录/注册";
     String username = "";
+    String isHidden = "hidden";
     User user = (User) session.getAttribute("user");
     System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     System.out.println("从session中获取到用户信息： the user of session = " + user);
@@ -106,12 +239,11 @@
     }
     if (!("".equals(username)) && username != null) {
         welcomeWord = "Hi," + username;
+        isHidden = "";
     }
 %>
 
-<!-- Content -->
 <div class="cd-hero">
-    <!-- Navigation -->
     <div class="cd-slider-nav">
         <nav class="navbar">
             <div class="tm-navbar-bg">
@@ -119,27 +251,27 @@
                    title="<%=welcomeTitle%>">
                     <i class="fa fa-send-o tm-brand-icon"></i><%=welcomeWord%>
                 </a>
-
                 <div class="collapse navbar-toggleable-md text-xs-center text-uppercase tm-navbar" id="tmNavbar">
                     <ul class="nav navbar-nav">
                         <li class="nav-item active selected">
                             <!--<a class="nav-link" href="#0" data-no="1">首页<span class="sr-only">sss</span></a>-->
-                            <a class="nav-link" href="#0" onclick="" data-no="1">首页</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="1">首页</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#0" data-no="2">博客</a>
+                            <a class="nav-link" onclick="getNo1PPTInfo()" data-no="2">下载</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#0" data-no="3">❤</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="3">❤</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#0" data-no="4">❤</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="4">❤</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#0" data-no="5">❤</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="5">❤</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#0" data-no="6">关于</a>
+                        <li class="nav-item" <%=isHidden%>>
+                            <a class="nav-link" href="javascript:void(0);" data-no="6"><%=username%>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -148,7 +280,7 @@
         </nav>
     </div>
 
-    <ul class="cd-hero-slider">  <!-- autoplay -->
+    <ul class="cd-hero-slider">
         <li class="selected">
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content tm-page-1" data-page-no="1">
@@ -182,89 +314,61 @@
                                             <p class="tm-text">Quisque sagittis quam tortor, sit amet posuere justo tempor non. Nunc eu leo sit amet elit condimentum.</p>
                                         </div>
                                     </div>
-
                                 </div>-->
-
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-            </div> <!-- .cd-full-width -->
+            </div>
         </li>
 
+        <%-- 第二页 下载页面 --%>
         <li>
             <div class="cd-full-width">
-
                 <div class="container-fluid js-tm-page-content" data-page-no="2">
-
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/night-light-blur">
-                        <!-- video element will be loaded using jQuery -->
-                    </div> <!-- .cd-bg-video-wrapper -->
-
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/night-light-blur"></div>
                     <div class="tm-img-gallery-container">
-
-                        <div class="tm-img-gallery gallery-two">
-                            <!-- Gallery Two pop up connected with JS code below -->
-
+                        <div id="pptGallery" class="tm-img-gallery myContainer">
                             <div class="tm-img-gallery-info-container">
-
-                                <h2 class="tm-text-title tm-gallery-title"><span class="tm-white">Gallery Two</span>
+                                <h2 class="tm-text-title tm-gallery-title"><span class="tm-white">PPT Gallery</span>
                                 </h2>
-                                <p class="tm-text"><span class="tm-white">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor tempus massa, eget tempus quam nibh vel nulla. Maecenas purus sem, lobortis id odio in, ultrices scelerisque sapien.</span>
+                                <p class="tm-text">
+                                    <span class="tm-white">
+                                        这儿是使用爬虫技术从<a href="http://www.1ppt.com/" target="_blank">第一PPT</a>网站上直接爬取得到的相关PPT的信息，点击相关的图片就能直接下载。
+                                    </span>
                                 </p>
-
                             </div>
 
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                            <!-- 商品循环开始 -->
+                            <%
+                                System.out.println("11111111111111111111111111111111111");
+                                //noinspection unchecked
+                                List<No1PPT> pptList = (List<No1PPT>) session.getAttribute("pptList");
+                                boolean pptListIsNull = pptList.isEmpty();
+                                if (!pptListIsNull) {
+                                    System.out.println("________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                    System.out.println(pptList.toString());
+                                    System.out.println("________________________________++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                                    for (No1PPT ppt : pptList) {
+                            %>
+                            <div class="grid-item" title="<%=ppt.getSrcDescription()%>">
+                                <a href="<%=ppt.getDownloadUrl()%>" target="_blank">
+                                    <img src="<%=ppt.getSrcImgUrl()%>" alt="Image"
                                          class="img-fluid tm-img">
                                 </a>
                             </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-10.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-10-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-11.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-11-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-12.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-12-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-13.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-13-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-14.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-14-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-15.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-15-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-16.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-16-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
+                            <%
+                                    }
+                                }
+                            %>
+
+                            <%--<div class="grid-item" title="鼠标悬停">--%>
+                            <%--<a href="webResources/mainPage/img/tm-img-09.jpg">--%>
+                            <%--<img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"--%>
+                            <%--class="img-fluid tm-img">--%>
+                            <%--</a>--%>
+                            <%--</div>--%>
+
                         </div>
 
                     </div> <!-- .tm-img-gallery-container -->
@@ -569,98 +673,5 @@
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
 </div>
-
-
-<script>
-    function adjustHeightOfPage(pageNo) {
-        var offset = 80;
-        var pageContentHeight = $(".cd-hero-slider li:nth-of-type(" + pageNo + ") .js-tm-page-content").height();
-        if ($(window).width() >= 992) {
-            offset = 120;
-        }
-        else if ($(window).width() < 480) {
-            offset = 40;
-        }
-        var totalPageHeight = 15 + $('.cd-slider-nav').height()
-            + pageContentHeight + offset
-            + $('.tm-footer').height();
-        if (totalPageHeight > $(window).height()) {
-            $('.cd-hero-slider').addClass('small-screen');
-            $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", totalPageHeight + "px");
-        }
-        else {
-            $('.cd-hero-slider').removeClass('small-screen');
-            $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", "100%");
-        }
-    }
-
-    $(window).load(function () {
-        adjustHeightOfPage(1);
-        $('.gallery-one').magnificPopup({
-            delegate: 'a',
-            type: 'image',
-            gallery: {enabled: true}
-        });
-        $('.gallery-two').magnificPopup({
-            delegate: 'a',
-            type: 'image',
-            gallery: {enabled: true}
-        });
-        $('#tmNavbar').find('a').click(function () {
-            $('#tmNavbar').collapse('hide');
-            adjustHeightOfPage($(this).data("no"));
-        });
-        $(window).resize(function () {
-            var currentPageNo = $(".cd-hero-slider li.selected .js-tm-page-content").data("page-no");
-            setTimeout(function () {
-                adjustHeightOfPage(currentPageNo);
-            }, 1000);
-        });
-        $('body').addClass('loaded');
-    });
-</script>
-
-<script>
-    function userLogout() {
-        var isLogout = confirm("确定注销当前用户？");
-        if (isLogout === true) {
-            $.ajax({
-                type: "post",
-                url: "/login/userLogout",
-                produces: "text/html;charset=UTF-8",
-                error: function (request) {
-                    alert("访问后端出现未知错误！");
-                },
-                success: function (data) {
-                    alert("❤注销成功，期待再会❤");
-                    location.reload();
-                }
-            });
-        }
-    }
-
-    function ajaxAddAboutPageInfo() {
-        var aboutPageInfo = {
-            user_name: $("#about_user_name").val(),
-            e_mail: $("#about_email").val(),
-            summary: $("#about_summary").val(),
-            description: $("#about_description").val()
-        };
-        $.ajax({
-            type: "post",
-            dataType: "text",
-            url: "/mainPage/servlet/AboutPageInfoServlet",
-            produces: "text/html;charset=UTF-8",
-            data: aboutPageInfo,
-            error: function (request) {
-                alert("Connection error");
-            },
-            success: function (data) {
-                alert("❤发送成功，谢谢来信❤")
-//                        tag = JSON.parse(data);
-            }
-        });
-    }
-</script>
 </body>
 </html>
