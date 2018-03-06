@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class No1PptServiceImpl implements No1PptService {
     private Logger logger = LogManager.getLogger(this.getClass());
@@ -20,12 +22,14 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
-    public No1PPT getNo1PptByDescription(String srcDescription) {
+    public List<No1PPT> getNo1PPT(int pageIndex, int pageSize) {
+        logger.info("No1PptServiceImpl.getNo1PPT()   ------->  start!" +
+                "  pageIndex = " + pageIndex +
+                "  pageSize = " + pageSize);
         try {
-            logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  start!  srcDescription = " + srcDescription);
-//            No1PPT no1PPT = no1PptDao.getNo1PptByDescription(srcDescription);
-//            logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  info = " + no1PPT);
-//            return no1PPT;
+            List<No1PPT> pptList = no1PptDao.getNo1PPT(pageIndex, pageSize);
+            logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  end !");
+            return pptList;
         } catch (Exception e) {
             logger.error("No1PptServiceImpl.getNo1PptByDescription()   ------->  ERROR!  返回 null ");
             logger.error(e.getMessage());

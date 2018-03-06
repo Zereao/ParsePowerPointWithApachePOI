@@ -199,41 +199,77 @@
 
                 <div class="container-fluid js-tm-page-content" data-page-no="2">
 
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/red-flower">
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/night-light-blur">
                         <!-- video element will be loaded using jQuery -->
                     </div> <!-- .cd-bg-video-wrapper -->
 
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="tm-flex tm-2-col-container-2">
+                    <div class="tm-img-gallery-container">
 
-                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding">
-                                    <h2 class="tm-text-title">Lorem ipsum dolor</h2>
-                                    <p class="tm-text">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor
-                                        tempus massa, eget tempus quam nibh vel nulla.</p>
-                                    <p class="tm-text">Vivamus non molestie leo, non tincidunt diam. Mauris sagittis
-                                        elit in velit ultricies aliquet sed in magna.</p>
-                                    <p class="tm-text">Pellentesque semper, est nec consequat viverra, sem augue
-                                        tincidunt nisi, a posuere nisi sapien sed sapien. Nulla facilisi.</p>
-                                </div>
+                        <div class="tm-img-gallery gallery-two">
+                            <!-- Gallery Two pop up connected with JS code below -->
 
-                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding">
-                                    <h2 class="tm-text-title">Aliquam sem sem</h2>
-                                    <p class="tm-text">Proin sagittis mauris dolor, vel efficitur lectus dictum nec. Sed
-                                        ultrices placerat arcu, id malesuada metus cursus suscipit. Donex quis
-                                        consectetur ligula. Proin accumsan eros id nisi porttitor, a facilisis quam
-                                        cursus.</p>
-                                    <p class="tm-text">Donec vitae bibendum est, et ultrices urna. Curabitur ac bibendum
-                                        augue, a convallis mi. Cum sociis natoque penatibus et magnis dis parturient
-                                        montes, nascetur ridiculus mus. Mauris consequat metus hendrerit, tincidunt mi
-                                        nec, euismod massa.</p>
-                                </div>
+                            <div class="tm-img-gallery-info-container">
+
+                                <h2 class="tm-text-title tm-gallery-title"><span class="tm-white">Gallery Two</span>
+                                </h2>
+                                <p class="tm-text"><span class="tm-white">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor tempus massa, eget tempus quam nibh vel nulla. Maecenas purus sem, lobortis id odio in, ultrices scelerisque sapien.</span>
+                                </p>
 
                             </div>
-                        </div>
-                    </div>
 
-                </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-09.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-10.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-10-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-11.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-11-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-12.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-12-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-13.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-13-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-14.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-14-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-15.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-15-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                            <div class="grid-item">
+                                <a href="webResources/mainPage/img/tm-img-16.jpg">
+                                    <img src="webResources/mainPage/img/tm-img-16-tn.jpg" alt="Image"
+                                         class="img-fluid tm-img">
+                                </a>
+                            </div>
+                        </div>
+
+                    </div> <!-- .tm-img-gallery-container -->
+
+                </div> <!-- .container-fluid -->
 
             </div> <!-- .cd-full-width -->
 
@@ -331,79 +367,44 @@
 
                 <div class="container-fluid js-tm-page-content" data-page-no="4">
 
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/night-light-blur">
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/red-flower">
                         <!-- video element will be loaded using jQuery -->
                     </div> <!-- .cd-bg-video-wrapper -->
 
-                    <div class="tm-img-gallery-container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="tm-flex tm-2-col-container-2">
 
-                        <div class="tm-img-gallery gallery-two">
-                            <!-- Gallery Two pop up connected with JS code below -->
+                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding">
+                                    <h2 class="tm-text-title">Lorem ipsum dolor</h2>
+                                    <p class="tm-text">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor
+                                        tempus massa, eget tempus quam nibh vel nulla.</p>
+                                    <p class="tm-text">Vivamus non molestie leo, non tincidunt diam. Mauris sagittis
+                                        elit in velit ultricies aliquet sed in magna.</p>
+                                    <p class="tm-text">Pellentesque semper, est nec consequat viverra, sem augue
+                                        tincidunt nisi, a posuere nisi sapien sed sapien. Nulla facilisi.</p>
+                                </div>
 
-                            <div class="tm-img-gallery-info-container">
+                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding">
+                                    <h2 class="tm-text-title">Aliquam sem sem</h2>
+                                    <p class="tm-text">Proin sagittis mauris dolor, vel efficitur lectus dictum nec. Sed
+                                        ultrices placerat arcu, id malesuada metus cursus suscipit. Donex quis
+                                        consectetur ligula. Proin accumsan eros id nisi porttitor, a facilisis quam
+                                        cursus.</p>
+                                    <p class="tm-text">Donec vitae bibendum est, et ultrices urna. Curabitur ac bibendum
+                                        augue, a convallis mi. Cum sociis natoque penatibus et magnis dis parturient
+                                        montes, nascetur ridiculus mus. Mauris consequat metus hendrerit, tincidunt mi
+                                        nec, euismod massa.</p>
+                                </div>
 
-                                <h2 class="tm-text-title tm-gallery-title"><span class="tm-white">Gallery Two</span>
-                                </h2>
-                                <p class="tm-text"><span class="tm-white">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor tempus massa, eget tempus quam nibh vel nulla. Maecenas purus sem, lobortis id odio in, ultrices scelerisque sapien.</span>
-                                </p>
-
-                            </div>
-
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-10.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-10-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-11.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-11-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-12.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-12-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-13.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-13-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-14.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-14-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-15.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-15-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-16.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-16-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
                             </div>
                         </div>
+                    </div>
 
-                    </div> <!-- .tm-img-gallery-container -->
-
-                </div> <!-- .container-fluid -->
+                </div>
 
             </div> <!-- .cd-full-width -->
+
 
         </li>
 
@@ -542,12 +543,11 @@
 
                 </div>
 
-            </div> <!-- .cd-full-width -->
+            </div>
         </li>
-    </ul> <!-- .cd-hero-slider -->
+    </ul>
 
     <footer class="tm-footer">
-
         <div class="tm-social-icons-container text-xs-center">
             <a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>
             <a href="#" class="tm-social-link"><i class="fa fa-google-plus"></i></a>
@@ -562,16 +562,12 @@
         </div>
     </footer>
 
-</div> <!-- .cd-hero -->
+</div>
 
-
-<!-- Preloader, https://ihatetomatoes.net/create-custom-preloading-screen/ -->
 <div id="loader-wrapper">
-
     <div id="loader"></div>
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
-
 </div>
 
 

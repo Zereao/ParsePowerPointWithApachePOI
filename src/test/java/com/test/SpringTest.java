@@ -30,7 +30,7 @@ public class SpringTest {
 
     @Test
     public void testU() {
-        List<No1PPT> result = no1PptDao.getNo1Ppt(0, 40);
+        List<No1PPT> result = no1PptDao.getNo1PPT(0, 40);
         for (No1PPT no1PPT : result) {
             System.out.println(no1PPT);
         }

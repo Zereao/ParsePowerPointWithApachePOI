@@ -29,7 +29,7 @@ public interface No1PptDao {
             + "	    LIMIT #{pageIndex, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER} "
             + "</script>")
     @ResultMap("com.parse.ppt.poi.dao.persistence.No1PptDao.BaseResultMap")
-    List<No1PPT> getNo1Ppt(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+    List<No1PPT> getNo1PPT(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
 
     /**
      * 增加 ppt 的信息对象
