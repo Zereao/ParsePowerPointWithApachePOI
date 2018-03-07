@@ -38,6 +38,8 @@
         <spring-redis.version>2.0.5.RELEASE</spring-redis.version>
         <!-- JSoup -->
         <jsoup.version>1.11.2</jsoup.version>
+        <!-- Json-lib -->
+        <json-lib.version>2.4</json-lib.version>
         <!-- log4j -->
         <log4j.version>2.10.0</log4j.version>
         <!-- JUnit -->
@@ -162,6 +164,13 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>${json-lib.version}</version>
+            <classifier>jdk15</classifier>
         </dependency>
 
 

@@ -1,6 +1,7 @@
 package com.parse.ppt.poi.service.common.no1ppt;
 
 import com.parse.ppt.poi.entity.No1PPT;
+import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface No1PptService {
      * @param pageSize  分页-需要取得的行数
      * @return 爬取到的 ppt 的信息对象
      */
-    List<No1PPT> getNo1PPT(int pageIndex, int pageSize);
+    JSONArray getNo1PPT(int pageIndex, int pageSize);
 
 
     /**

@@ -7,8 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.parse.ppt.poi.entity.User" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.parse.ppt.poi.entity.No1PPT" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -38,6 +36,11 @@
     <style>
         .myFonts {
             font-family: 黑体, sans-serif;
+        }
+
+        .myContainer {
+            height: 70%;
+            overflow-y: auto;
         }
     </style>
 
@@ -149,6 +152,8 @@
             pptGallerySelector.scroll(function () {
                 nScrollHight = $(this)[0].scrollHeight;
                 nScrollTop = $(this)[0].scrollTop;
+                alert("nScrollHight" + nScrollHight);
+                alert("nScrollTop" + nScrollTop);
                 if (nScrollTop + nDivHight >= nScrollHight) {
                     alert("滚动条到底部了");
                 }
@@ -158,7 +163,6 @@
 
     <script>
         function getNo1PPTInfo() {
-            alert("进入getNo1PPTInfo 函数");
             $.ajax({
                 type: "post",
                 url: "/download/loadNo1PPT",
@@ -168,9 +172,16 @@
                     alert("获取PPT失败！");
                 },
                 success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
+                    var htmlText = '';
+                    data.forEach(function (currentValue, index, data) {
+                        htmlText += '<div class="grid-item" title="' + currentValue.description + '">' +
+                            ' <a href="' + currentValue.downloadUrl + ' target="_blank">' +
+                            '   <img src="' + currentValue.imgUrl + '" alt="Image" class="img-fluid tm-img">' +
+                            ' </a>' +
+                            ' </div>';
 
-                    }
+                    });
+                    $("#pptGallery").append(htmlText);
                 }
             });
         }
@@ -252,7 +263,7 @@
                             <a class="nav-link" href="javascript:void(0);" data-no="1">首页</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="" data-no="2">下载</a>
+                            <a class="nav-link" onclick="getNo1PPTInfo()" data-no="2">下载</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="3">❤</a>
@@ -278,13 +289,8 @@
         <li class="selected">
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content tm-page-1" data-page-no="1">
-
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/moving-cloud">
-                        <!-- video element will be loaded using jQuery -->
-                    </div> <!-- .cd-bg-video-wrapper -->
-
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/moving-cloud"></div>
                     <div class="row">
-
                         <div class="col-xs-12">
                             <div class="tm-2-col-container tm-bg-white-translucent">
 
@@ -322,7 +328,7 @@
                 <div class="container-fluid js-tm-page-content" data-page-no="2">
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/night-light-blur"></div>
                     <div class="tm-img-gallery-container">
-                        <div id="pptGallery" class="tm-img-gallery">
+                        <div id="pptGallery" class="tm-img-gallery myContainer">
                             <div class="tm-img-gallery-info-container">
                                 <h2 class="tm-text-title tm-gallery-title"><span class="tm-white">PPT Gallery</span>
                                 </h2>
@@ -333,75 +339,12 @@
                                 </p>
                             </div>
 
-                            <%--<!-- 商品循环开始 -->--%>
-                            <%--<%--%>
-                            <%--System.out.println("11111111111111111111111111111111111");--%>
-                            <%--Object pptListObj = session.getAttribute("pptList");--%>
-                            <%--boolean pptListIsNull = pptListObj == null;--%>
-                            <%--if (!pptListIsNull) {--%>
-                            <%--//noinspection unchecked--%>
-                            <%--List<No1PPT> pptList = (List<No1PPT>) pptListObj;--%>
-                            <%--for (No1PPT ppt : pptList) {--%>
-                            <%--%>--%>
-                            <%--<div class="grid-item" title="<%=ppt.getSrcDescription()%>">--%>
-                            <%--<a href="<%=ppt.getDownloadUrl()%>">--%>
-                            <%--<img src="<%=ppt.getSrcImgUrl()%>" alt="Image"--%>
+                            <%--<div class="grid-item" title="鼠标悬停">--%>
+                            <%--<a href="webResources/mainPage/img/tm-img-09.jpg">--%>
+                            <%--<img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"--%>
                             <%--class="img-fluid tm-img">--%>
                             <%--</a>--%>
                             <%--</div>--%>
-                            <%--<%--%>
-                            <%--}--%>
-                            <%--}--%>
-                            <%--%>--%>
-
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item" title="鼠标悬停">
-                                <a href="webResources/mainPage/img/tm-img-09.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
 
                         </div>
 

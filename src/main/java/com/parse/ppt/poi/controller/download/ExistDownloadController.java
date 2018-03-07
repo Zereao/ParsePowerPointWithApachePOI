@@ -1,17 +1,13 @@
 package com.parse.ppt.poi.controller.download;
 
-import com.parse.ppt.poi.commom.ReturnCode;
-import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
+import net.sf.json.JSONArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * @author Jupiter
@@ -27,11 +23,10 @@ public class ExistDownloadController {
 
     @RequestMapping("/loadNo1PPT")
     @ResponseBody
-    public String loadNo1PPT(HttpSession session) {
+    public JSONArray loadNo1PPT() {
         logger.info("ExistDownloadController.loadNo1PPT   ------->  start! ");
-        List<No1PPT> pptList = no1PptService.getNo1PPT(0, 999);
+        JSONArray resultJsonArray = no1PptService.getNo1PPT(0, 40);
         logger.info("ExistDownloadController.loadNo1PPT   ------->  end! ");
-        session.setAttribute("pptList", pptList);
-        return ReturnCode.SUCCESS;
+        return resultJsonArray;
     }
 }
