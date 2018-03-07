@@ -32,6 +32,20 @@ public interface No1PptDao {
     List<No1PPT> getNo1PPT(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
 
     /**
+     * 通过email获取用户信息
+     *
+     * @return PPT信息对象List
+     */
+    @Select(value = "<script>"
+            + "    SELECT *"
+            + "      FROM no_1_ppt"
+            + "     WHERE 1=1 "
+            + "	    AND id = #{pptId, jdbcType=INTEGER}"
+            + "</script>")
+    @ResultMap("com.parse.ppt.poi.dao.persistence.No1PptDao.BaseResultMap")
+    No1PPT getNo1PPTById(@Param("pptId") int pptId);
+
+    /**
      * 增加 ppt 的信息对象
      *
      * @param ppt 爬取到的 ppt 的信息对象

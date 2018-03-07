@@ -6,15 +6,16 @@
             <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
             <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="img_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="download_page_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="download_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
 
 
     <insert id="addNo1PPT" parameterType="com.parse.ppt.poi.entity.No1PPT">
-        INSERT INTO no_1_ppt (description, img_url, download_url)
+        INSERT INTO no_1_ppt (description, img_url, download_page_url, download_url)
         VALUES (#{srcDescription,jdbcType=VARCHAR}, #{srcImgUrl,jdbcType=VARCHAR},
-                #{downloadUrl,jdbcType=VARCHAR})
+                #{downloadPageUrl,jdbcType=VARCHAR}, #{downloadUrl,jdbcType=VARCHAR})
     </insert>
 
 </mapper>

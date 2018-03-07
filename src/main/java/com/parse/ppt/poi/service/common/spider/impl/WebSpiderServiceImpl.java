@@ -60,7 +60,7 @@ public class WebSpiderServiceImpl implements WebSpiderService {
                 // 操作字符串得到该PPT下载页面的链接
                 String downloadPageUrl = "http://www.1ppt.com" + urlArray[1].trim().replace("href=\"", "").replace("\"", "");
                 String downloadUrl = getDownloadUrl(downloadPageUrl);
-                No1PPT no1PPT = new No1PPT(srcDescription, srcImgUrl, downloadUrl);
+                No1PPT no1PPT = new No1PPT(srcDescription, srcImgUrl, downloadPageUrl, downloadUrl);
                 result = no1PptService.addNo1PPT(no1PPT);
                 resultMapList.add(no1PPT);
             }

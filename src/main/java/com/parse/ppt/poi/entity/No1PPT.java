@@ -10,21 +10,24 @@ public class No1PPT {
     private Integer id;
     private String srcDescription;
     private String srcImgUrl;
+    private String downloadPageUrl;
     private String downloadUrl;
 
     public No1PPT() {
     }
 
-    public No1PPT(String srcDescription, String srcImgUrl, String downloadUrl) {
+    public No1PPT(String srcDescription, String srcImgUrl, String downloadPageUrl, String downloadUrl) {
         this.srcDescription = srcDescription;
         this.srcImgUrl = srcImgUrl;
+        this.downloadPageUrl = downloadPageUrl;
         this.downloadUrl = downloadUrl;
     }
 
-    public No1PPT(Integer id, String srcDescription, String srcImgUrl, String downloadUrl) {
+    public No1PPT(Integer id, String srcDescription, String srcImgUrl, String downloadPageUrl, String downloadUrl) {
         this.id = id;
         this.srcDescription = srcDescription;
         this.srcImgUrl = srcImgUrl;
+        this.downloadPageUrl = downloadPageUrl;
         this.downloadUrl = downloadUrl;
     }
 
@@ -52,6 +55,14 @@ public class No1PPT {
         this.srcImgUrl = srcImgUrl;
     }
 
+    public String getDownloadPageUrl() {
+        return downloadPageUrl;
+    }
+
+    public void setDownloadPageUrl(String downloadPageUrl) {
+        this.downloadPageUrl = downloadPageUrl;
+    }
+
     public String getDownloadUrl() {
         return downloadUrl;
     }
@@ -66,6 +77,7 @@ public class No1PPT {
                 "id=" + id +
                 ", srcDescription='" + srcDescription + '\'' +
                 ", srcImgUrl='" + srcImgUrl + '\'' +
+                ", downloadPageUrl='" + downloadPageUrl + '\'' +
                 ", downloadUrl='" + downloadUrl + '\'' +
                 '}';
     }

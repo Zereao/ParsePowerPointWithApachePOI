@@ -7,7 +7,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Jupiter
@@ -28,5 +31,15 @@ public class ExistDownloadController {
         JSONArray resultJsonArray = no1PptService.getNo1PPT(0, 40);
         logger.info("ExistDownloadController.loadNo1PPT   ------->  end! ");
         return resultJsonArray;
+    }
+
+    @RequestMapping("/downloadNo1PPT")
+    @ResponseBody
+    public String downloadNo1PPT(@RequestParam("id") String pptId,
+                                 HttpServletResponse response) {
+        logger.info("ExistDownloadController.downloadNo1PPT   ------->  start! ");
+        String result = no1PptService.downloadNo1PPT(Integer.valueOf(pptId), response);
+        logger.info("ExistDownloadController.downloadNo1PPT   ------->  end!  result = " + result);
+        return result;
     }
 }

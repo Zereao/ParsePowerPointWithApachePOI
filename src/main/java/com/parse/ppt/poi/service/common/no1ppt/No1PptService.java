@@ -4,6 +4,7 @@ import com.parse.ppt.poi.entity.No1PPT;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Service
@@ -25,4 +26,13 @@ public interface No1PptService {
      * @return 返回码
      */
     String addNo1PPT(No1PPT ppt);
+
+    /**
+     * 根据前端传递过来的 下载页的链接 和 下载链接
+     *
+     * @param downloadPageUrl 下载页面的链接，用来 做 referer 欺骗
+     * @param downloadUrl     下载链接
+     * @return 返回码
+     */
+    String downloadNo1PPT(int pptId, HttpServletResponse response);
 }

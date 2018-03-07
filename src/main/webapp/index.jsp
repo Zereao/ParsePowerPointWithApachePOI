@@ -152,8 +152,6 @@
             pptGallerySelector.scroll(function () {
                 nScrollHight = $(this)[0].scrollHeight;
                 nScrollTop = $(this)[0].scrollTop;
-                alert("nScrollHight" + nScrollHight);
-                alert("nScrollTop" + nScrollTop);
                 if (nScrollTop + nDivHight >= nScrollHight) {
                     alert("滚动条到底部了");
                 }
@@ -162,6 +160,7 @@
     </script>
 
     <script>
+
         function getNo1PPTInfo() {
             $.ajax({
                 type: "post",
@@ -174,14 +173,42 @@
                 success: function (data) {
                     var htmlText = '';
                     data.forEach(function (currentValue, index, data) {
-                        htmlText += '<div class="grid-item" title="' + currentValue.description + '">' +
-                            ' <a href="' + currentValue.downloadUrl + ' target="_blank">' +
-                            '   <img src="' + currentValue.imgUrl + '" alt="Image" class="img-fluid tm-img">' +
+                        var pptId = currentValue.id;
+                        var description = currentValue.description;
+                        var imgUrl = currentValue.imgUrl;
+                        var downloadPageUrl = "\"" + currentValue.downloadPageUrl + "\"";
+                        var downloadUrl = "\"" + currentValue.downloadUrl + "\"";
+
+                        htmlText += '<div class="grid-item" title="' + description + '">' +
+                            // ' <a href="' + currentValue.downloadUrl + '" target="_blank">' +
+                            ' <a href="javascript:void(0)" onclick="downloadPPT(' + pptId + ')" target="_blank">' +
+                            '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +
                             ' </div>';
 
                     });
                     $("#pptGallery").append(htmlText);
+                }
+            });
+        }
+
+        function downloadPPT(pptId) {
+            var downloadInfo = {
+                id: pptId
+            };
+            //alert(downloadInfo.id);
+            $.ajax({
+                type: "post",
+                url: "/download/downloadNo1PPT",
+                produces: "text/html;charset=UTF-8",
+                data: downloadInfo,
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus);
+                    alert(errorThrown);
+                    alert("访问后端出现未知错误！");
+                },
+                success: function (data) {
+                    alert("下载");
                 }
             });
         }
@@ -347,15 +374,12 @@
                             <%--</div>--%>
 
                         </div>
-
-                    </div> <!-- .tm-img-gallery-container -->
-
-                </div> <!-- .container-fluid -->
-
-            </div> <!-- .cd-full-width -->
-
+                    </div>
+                </div>
+            </div>
         </li>
-        <%--<div class="copyrights">Collect from <a href="http://www.cssmoban.com/">企业网站模板</a></div>--%>
+
+
         <!-- Page 3 -->
         <li>
 
