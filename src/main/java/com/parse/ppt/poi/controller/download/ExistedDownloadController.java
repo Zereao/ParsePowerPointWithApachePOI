@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping("/download")
-public class ExistDownloadController {
+public class ExistedDownloadController {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Autowired
@@ -26,9 +26,9 @@ public class ExistDownloadController {
 
     @RequestMapping("/loadNo1PPT")
     @ResponseBody
-    public JSONArray loadNo1PPT() {
+    public JSONArray loadNo1PPT(@RequestParam Integer pageIndex) {
         logger.info("ExistDownloadController.loadNo1PPT   ------->  start! ");
-        JSONArray resultJsonArray = no1PptService.getNo1PPT(0, 40);
+        JSONArray resultJsonArray = no1PptService.getNo1PPT(pageIndex, 40);
         logger.info("ExistDownloadController.loadNo1PPT   ------->  end! ");
         return resultJsonArray;
     }

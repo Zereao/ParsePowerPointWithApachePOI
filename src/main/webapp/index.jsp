@@ -124,7 +124,17 @@
             <%
                 }
             %>
-
+            // 先预加载一页 下载页的信息
+            getNo1PPTInfo();
+            $("#pptGallery").scroll(function () {
+                var nDivHight = $("#pptGallery").height();
+                var nScrollHight = $(this)[0].scrollHeight;
+                var nScrollTop = $(this)[0].scrollTop;
+                if (nScrollTop + nDivHight === nScrollHight) {
+                    alert("到底");
+                    getNo1PPTInfo();
+                }
+            });
         }
 
         function loadUserFromCookies() {
@@ -144,48 +154,37 @@
             });
         }
 
-        $(document).ready(function () {
-            var pptGallerySelector = $("#pptGallery");
-            var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
-            var nScrollTop = 0;   //滚动到的当前位置
-            var nDivHight = pptGallerySelector.height();
-            pptGallerySelector.scroll(function () {
-                nScrollHight = $(this)[0].scrollHeight;
-                nScrollTop = $(this)[0].scrollTop;
-                if (nScrollTop + nDivHight >= nScrollHight) {
-                    alert("滚动条到底部了");
-                }
-            });
-        });
+
     </script>
 
     <script>
+        <%-- 一个全局JS变量，用来表示下载页已经下载的页数。JS变量，一刷新，就相当于重新赋值，然后归零 --%>
+        var pageIndex = 0;
 
         function getNo1PPTInfo() {
+            var postInfo = {
+                pageIndex: pageIndex
+            };
             $.ajax({
                 type: "post",
                 url: "/download/loadNo1PPT",
                 produces: "text/html;charset=UTF-8",
-                async: false,
+                data: postInfo,
                 error: function (request) {
-                    alert("获取PPT失败！");
+                    alert("获取下载页PPT失败！");
                 },
                 success: function (data) {
+                    pageIndex += 40;
                     var htmlText = '';
                     data.forEach(function (currentValue, index, data) {
                         var pptId = currentValue.id;
                         var description = currentValue.description;
                         var imgUrl = currentValue.imgUrl;
-                        var downloadPageUrl = "\"" + currentValue.downloadPageUrl + "\"";
-                        var downloadUrl = "\"" + currentValue.downloadUrl + "\"";
-
                         htmlText += '<div class="grid-item" title="' + description + '">' +
-                            // ' <a href="' + currentValue.downloadUrl + '" target="_blank">' +
                             ' <a href="javascript:void(0)" onclick="downloadPPT(' + pptId + ')" target="_blank">' +
                             '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +
                             ' </div>';
-
                     });
                     $("#pptGallery").append(htmlText);
                 }
@@ -290,7 +289,7 @@
                             <a class="nav-link" href="javascript:void(0);" data-no="1">首页</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="getNo1PPTInfo()" data-no="2">下载</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="2">下载</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="3">❤</a>
