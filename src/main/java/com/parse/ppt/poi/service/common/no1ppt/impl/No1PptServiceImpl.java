@@ -75,11 +75,15 @@ public class No1PptServiceImpl implements No1PptService {
             No1PPT pptTemp = no1PptDao.getNo1PPTById(pptId);
             String downloadUrl = pptTemp.getDownloadUrl();
             String downloadPageUrl = pptTemp.getDownloadPageUrl();
+
             HttpURLConnection conn = (HttpURLConnection) new URL(downloadUrl).openConnection();
             conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
             conn.setRequestProperty("referer", downloadPageUrl);
             InputStream inputStream = conn.getInputStream();
             // 创建输出流
+//            response.setCharacterEncoding("utf-8");
+//            response.setContentType("application/octet-stream");
+            response.setHeader("Content-type", "application-download");
             OutputStream outputStream = response.getOutputStream();
             // 创建缓冲区
             byte buffer[] = new byte[1024];

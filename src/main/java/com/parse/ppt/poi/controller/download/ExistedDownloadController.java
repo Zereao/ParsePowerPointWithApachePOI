@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -36,7 +37,8 @@ public class ExistedDownloadController {
     @RequestMapping("/downloadNo1PPT")
     @ResponseBody
     public String downloadNo1PPT(@RequestParam("id") String pptId,
-                                 HttpServletResponse response) {
+                                 HttpServletResponse response,
+                                 HttpServletRequest request) {
         logger.info("ExistDownloadController.downloadNo1PPT   ------->  start! ");
         String result = no1PptService.downloadNo1PPT(Integer.valueOf(pptId), response);
         logger.info("ExistDownloadController.downloadNo1PPT   ------->  end!  result = " + result);

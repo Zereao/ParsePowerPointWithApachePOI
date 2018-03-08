@@ -126,12 +126,12 @@
             %>
             // 先预加载一页 下载页的信息
             getNo1PPTInfo();
+            // 监听滚动条是否下拉到最下面
             $("#pptGallery").scroll(function () {
                 var nDivHight = $("#pptGallery").height();
                 var nScrollHight = $(this)[0].scrollHeight;
                 var nScrollTop = $(this)[0].scrollTop;
                 if (nScrollTop + nDivHight === nScrollHight) {
-                    alert("到底");
                     getNo1PPTInfo();
                 }
             });
@@ -180,8 +180,10 @@
                         var pptId = currentValue.id;
                         var description = currentValue.description;
                         var imgUrl = currentValue.imgUrl;
+                        var downloadUrl = currentValue.downloadUrl;
+                        var fileExt = downloadUrl.substring(downloadUrl.length - 5, downloadUrl.length);
                         htmlText += '<div class="grid-item" title="' + description + '">' +
-                            ' <a href="javascript:void(0)" onclick="downloadPPT(' + pptId + ')" target="_blank">' +
+                            ' <a href="/download/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
                             '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +
                             ' </div>';
@@ -201,13 +203,12 @@
                 url: "/download/downloadNo1PPT",
                 produces: "text/html;charset=UTF-8",
                 data: downloadInfo,
+                async: false,
                 error: function (jqXHR, textStatus, errorThrown) {
-                    alert(textStatus);
-                    alert(errorThrown);
                     alert("访问后端出现未知错误！");
                 },
                 success: function (data) {
-                    alert("下载");
+                    // 访问后端成功
                 }
             });
         }
