@@ -4,8 +4,6 @@ import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * @author Jupiter
+ */
 @Service
 public class No1PptServiceImpl implements No1PptService {
     private Logger logger = LogManager.getLogger(this.getClass());
@@ -29,24 +33,24 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
-    public JSONArray getNo1PPT(int pageIndex, int pageSize) {
+    public List<Map<String, String>> getNo1PPT(int pageIndex, int pageSize) {
         logger.info("No1PptServiceImpl.getNo1PPT()   ------->  start!" +
                 "  pageIndex = " + pageIndex +
                 "  pageSize = " + pageSize);
         try {
-            JSONArray jsonArray = new JSONArray();
+            List<Map<String, String>> resultList = new ArrayList<>();
             List<No1PPT> pptList = no1PptDao.getNo1PPT(pageIndex, pageSize);
             for (No1PPT ppt : pptList) {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", ppt.getId());
-                jsonObject.put("description", ppt.getSrcDescription());
-                jsonObject.put("imgUrl", ppt.getSrcImgUrl());
-                jsonObject.put("downloadPageUrl", ppt.getDownloadPageUrl());
-                jsonObject.put("downloadUrl", ppt.getDownloadUrl());
-                jsonArray.add(jsonObject);
+                Map<String, String> map = new HashMap<>();
+                map.put("id", String.valueOf(ppt.getId()));
+                map.put("description", ppt.getSrcDescription());
+                map.put("imgUrl", ppt.getSrcImgUrl());
+                map.put("downloadPageUrl", ppt.getDownloadPageUrl());
+                map.put("downloadUrl", ppt.getDownloadUrl());
+                resultList.add(map);
             }
             logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  end !");
-            return jsonArray;
+            return resultList;
         } catch (Exception e) {
             logger.error("No1PptServiceImpl.getNo1PptByDescription()   ------->  ERROR!  返回 null ");
             logger.error(e.getMessage());
@@ -81,12 +85,10 @@ public class No1PptServiceImpl implements No1PptService {
             conn.setRequestProperty("referer", downloadPageUrl);
             InputStream inputStream = conn.getInputStream();
             // 创建输出流
-//            response.setCharacterEncoding("utf-8");
-//            response.setContentType("application/octet-stream");
             response.setHeader("Content-type", "application-download");
             OutputStream outputStream = response.getOutputStream();
             // 创建缓冲区
-            byte buffer[] = new byte[1024];
+            byte[] buffer = new byte[1024];
             int len = 0;
             // 循环将输入流中的内容读取到缓冲区中
             while ((len = inputStream.read(buffer)) > 0) {
