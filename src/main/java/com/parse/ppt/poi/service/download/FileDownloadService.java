@@ -1,10 +1,10 @@
 package com.parse.ppt.poi.service.download;
 
-import com.parse.ppt.poi.entity.No1PPT;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +26,9 @@ public interface FileDownloadService {
      * 根据前端传递过来的 pptID，获取到PPT的相关信息
      *
      * @param pptId    数据库中当前PPT的ID
+     * @param session  HttpSession对象
      * @param response HttpServletResponse对象
      * @return 返回码
      */
-    String downloadNo1PPT(int pptId, HttpServletResponse response);
+    String downloadNo1PPT(int pptId, HttpSession session, HttpServletResponse response);
 }

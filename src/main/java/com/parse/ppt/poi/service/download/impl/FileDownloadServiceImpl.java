@@ -1,6 +1,9 @@
 package com.parse.ppt.poi.service.download.impl;
 
-import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.commom.ReturnCode;
+import com.parse.ppt.poi.entity.User;
+import com.parse.ppt.poi.entity.UserDownloadHistory;
+import com.parse.ppt.poi.service.common.history.UserDownloadHistoryService;
 import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.download.FileDownloadService;
 import net.sf.json.JSONArray;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +27,12 @@ public class FileDownloadServiceImpl implements FileDownloadService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     private final No1PptService no1PptService;
+    private final UserDownloadHistoryService userDownloadHistoryService;
 
     @Autowired
-    public FileDownloadServiceImpl(No1PptService no1PptService) {
+    public FileDownloadServiceImpl(No1PptService no1PptService, UserDownloadHistoryService userDownloadHistoryService) {
         this.no1PptService = no1PptService;
+        this.userDownloadHistoryService = userDownloadHistoryService;
     }
 
     @Override
@@ -53,11 +59,17 @@ public class FileDownloadServiceImpl implements FileDownloadService {
     }
 
     @Override
-    public String downloadNo1PPT(int pptId, HttpServletResponse response) {
+    public String downloadNo1PPT(int pptId, HttpSession session, HttpServletResponse response) {
         logger.info("FileDownloadServiceImpl.downloadNo1PPT   ------->  start!" +
                 "   pptId = " + pptId);
         try {
             String result = no1PptService.downloadNo1PPT(pptId, response);
+            boolean addUserDownloadHistory = result.equals(ReturnCode.SUCCESS) && session.getAttribute("user") != null;
+            if (addUserDownloadHistory) {
+                User user = (User) session.getAttribute("user");
+                UserDownloadHistory userDownloadHistory = new UserDownloadHistory(user.getEmail(), pptId);
+                result = userDownloadHistoryService.addDownloadHistory(userDownloadHistory);
+            }
             logger.info("FileDownloadServiceImpl.downloadNo1PPT   ------->  end!  result = " + result);
             return result;
         } catch (Exception e) {

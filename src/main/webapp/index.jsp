@@ -181,7 +181,7 @@
                         var description = currentValue.description;
                         var imgUrl = currentValue.imgUrl;
                         var downloadUrl = currentValue.downloadUrl;
-                        var fileExt = downloadUrl.substring(downloadUrl.length - 5, downloadUrl.length);
+                        var fileExt = downloadUrl.substring(downloadUrl.length - 4, downloadUrl.length);
                         htmlText += '<div class="grid-item" title="' + description + '">' +
                             ' <a href="/download/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
                             '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
@@ -189,26 +189,6 @@
                             ' </div>';
                     });
                     $("#pptGallery").append(htmlText);
-                }
-            });
-        }
-
-        function downloadPPT(pptId) {
-            var downloadInfo = {
-                id: pptId
-            };
-            //alert(downloadInfo.id);
-            $.ajax({
-                type: "post",
-                url: "/download/downloadNo1PPT",
-                produces: "text/html;charset=UTF-8",
-                data: downloadInfo,
-                async: false,
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert("访问后端出现未知错误！");
-                },
-                success: function (data) {
-                    // 访问后端成功
                 }
             });
         }
@@ -319,29 +299,60 @@
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/moving-cloud"></div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="tm-2-col-container tm-bg-white-translucent">
+                            <div class="tm-3-col-container tm-bg-white-translucent">
 
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <h2 class="tm-text-title">故事长满天涯海角，包括你和你的故乡</h2>
+                                        <h2 class="tm-text-title text-lg-center">故事长满天涯海角，包括你和你的故乡</h2>
                                     </div>
                                 </div>
 
-                                <p class="tm-text"></p>
-                                <!--  <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-left">
-                                        <div class="text-xs-left tm-textbox tm-2-col-textbox">
-                                            <p class="tm-text">Motion web template integrates a very active video background for each page. Download and use this for your website and tell your friends about it.</p>
-                                            <p class="tm-text">This HTML CSS template is brought to you by <a href="http://plus.google.com/+templatemo" target="_blank">templatemo</a>. You can fully customize it to meet your website needs.</p>
+                                <%--<div class="tm-3-col-textbox tm-bg-white-translucent">--%>
+                                    <%--<div class="text-xs-left tm-textbox tm-textbox-padding">--%>
+
+                                        <%--<h2 class="tm-text-title">Testimonial Two</h2>--%>
+
+                                        <%--<p class="tm-text">Curabitur sodales, est auctor congue vulputate, nisl tellus--%>
+                                            <%--finibus nunc, vitae consectetur enim erat vitae quam.</p>--%>
+
+                                        <%--<p class="tm-text">Pellentesque habitant morbi tristique senectus et netus et--%>
+                                            <%--malesuada fames ac turpis egestas. Nunc vitae tempor turpis.</p>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+
+
+                                <%--<p class="tm-text"></p>--%>
+                                <div class="row">
+                                    <%--<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-left">--%>
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="text-xs-left tm-textbox">
+                                            <p class="tm-text">Motion web template integrates a very active video
+                                                background for each page. Download and use this for your website and
+                                                tell your friends about it.Motion web template integrates a very active video
+                                                background for each page. Download and use this for your website and
+                                                tell your friends about it.Motion web template integrates a very active video
+                                                background for each page. Download and use this for your website and
+                                                tell your friends about it.Motion web template integrates a very active video
+                                                background for each page. Download and use this for your website and
+                                                tell your friends about it.Motion web template integrates a very active video
+                                                background for each page. Download and use this for your website and
+                                                tell your friends about it.</p>
+                                            <p class="tm-text">This HTML CSS template is brought to you by <a
+                                                    href="http://plus.google.com/+templatemo"
+                                                    target="_blank">templatemo</a>. You can fully customize it to meet
+                                                your website needs.</p>
                                         </div>
                                     </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-right">
-                                        <div class="text-xs-left tm-textbox tm-2-col-textbox">
-                                            <p class="tm-text">Cras tempus, eros vel ultrices aliquam, velit tortor sodales risus, ac facilisis lectus tortor eget neque. Nam auctor dui ante. Curabitur tristique.</p>
-                                            <p class="tm-text">Quisque sagittis quam tortor, sit amet posuere justo tempor non. Nunc eu leo sit amet elit condimentum.</p>
-                                        </div>
-                                    </div>
-                                </div>-->
+                                    <%--<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-right">--%>
+                                        <%--<div class="text-xs-left tm-textbox tm-2-col-textbox">--%>
+                                            <%--<p class="tm-text">Cras tempus, eros vel ultrices aliquam, velit tortor--%>
+                                                <%--sodales risus, ac facilisis lectus tortor eget neque. Nam auctor dui--%>
+                                                <%--ante. Curabitur tristique.</p>--%>
+                                            <%--<p class="tm-text">Quisque sagittis quam tortor, sit amet posuere justo--%>
+                                                <%--tempor non. Nunc eu leo sit amet elit condimentum.</p>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -361,18 +372,11 @@
                                 </h2>
                                 <p class="tm-text">
                                     <span class="tm-white">
-                                        这儿是使用爬虫技术从<a href="http://www.1ppt.com/" target="_blank">第一PPT</a>网站上直接爬取得到的相关PPT的信息，点击相关的图片就能直接下载。
+                                        这儿是使用爬虫技术从<a href="http://www.1ppt.com/" target="_blank"><span
+                                            style="color: deeppink">第一PPT</span></a>网站上直接爬取得到的相关PPT的信息，点击相关的图片就能直接下载。
                                     </span>
                                 </p>
                             </div>
-
-                            <%--<div class="grid-item" title="鼠标悬停">--%>
-                            <%--<a href="webResources/mainPage/img/tm-img-09.jpg">--%>
-                            <%--<img src="webResources/mainPage/img/tm-img-09-tn.jpg" alt="Image"--%>
-                            <%--class="img-fluid tm-img">--%>
-                            <%--</a>--%>
-                            <%--</div>--%>
-
                         </div>
                     </div>
                 </div>
@@ -632,11 +636,11 @@
                                         </div>
                                     </div>
 
-                                    <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding tm-textbox-padding-contact">
-                                        <h2 class="tm-contact-info">疏影横斜水清浅，暗香浮动月黄昏</h2>
-                                        <!-- google map goes here -->
-                                        <div id="">疏影横斜水清浅，暗香浮动月黄昏</div>
-                                    </div>
+                                    <%--<div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding tm-textbox-padding-contact">--%>
+                                    <%--<h2 class="tm-contact-info">疏影横斜水清浅，暗香浮动月黄昏</h2>--%>
+                                    <%--<!-- google map goes here -->--%>
+                                    <%--<div id="">疏影横斜水清浅，暗香浮动月黄昏</div>--%>
+                                    <%--</div>--%>
 
                                 </div>
 
@@ -653,13 +657,13 @@
     </ul>
 
     <footer class="tm-footer">
-        <div class="tm-social-icons-container text-xs-center">
-            <a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>
-            <a href="#" class="tm-social-link"><i class="fa fa-google-plus"></i></a>
-            <a href="#" class="tm-social-link"><i class="fa fa-twitter"></i></a>
-            <a href="#" class="tm-social-link"><i class="fa fa-behance"></i></a>
-            <a href="#" class="tm-social-link"><i class="fa fa-linkedin"></i></a>
-        </div>
+        <%--<div class="tm-social-icons-container text-xs-center">--%>
+        <%--<a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>--%>
+        <%--<a href="#" class="tm-social-link"><i class="fa fa-google-plus"></i></a>--%>
+        <%--<a href="#" class="tm-social-link"><i class="fa fa-twitter"></i></a>--%>
+        <%--<a href="#" class="tm-social-link"><i class="fa fa-behance"></i></a>--%>
+        <%--<a href="#" class="tm-social-link"><i class="fa fa-linkedin"></i></a>--%>
+        <%--</div>--%>
         <div class="text-xs-center">
             <p class="tm-copyright-text text-xs-center">Copyright &copy; 2017-2018
                 <a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>

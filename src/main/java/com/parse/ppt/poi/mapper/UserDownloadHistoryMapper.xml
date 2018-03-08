@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.parse.ppt.poi.dao.persistence.UserDownloadHistoryDao">
+    <resultMap id="BaseResultMap" type="com.parse.ppt.poi.entity.UserDownloadHistory">
+        <constructor>
+            <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+            <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ppt_id" javaType="java.lang.Integer" jdbcType="INTEGER"/>
+        </constructor>
+    </resultMap>
+
+
+</mapper>

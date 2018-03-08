@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Jupiter
@@ -40,9 +41,10 @@ public class FileDownloadController {
     @RequestMapping("/downloadNo1PPT")
     @ResponseBody
     public String downloadNo1PPT(@RequestParam("id") String pptId,
+                                 HttpSession session,
                                  HttpServletResponse response) {
         logger.info("FileDownloadController.downloadNo1PPT   ------->  start! ");
-        String result = fileDownloadService.downloadNo1PPT(Integer.valueOf(pptId), response);
+        String result = fileDownloadService.downloadNo1PPT(Integer.valueOf(pptId), session, response);
         logger.info("FileDownloadController.downloadNo1PPT   ------->  end!  result = " + result);
         return result;
     }
