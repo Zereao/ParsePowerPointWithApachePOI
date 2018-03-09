@@ -249,6 +249,8 @@
 </head>
 <body onload="onPageLoad()">
 
+
+<%-- 导航栏 --%>
 <div class="cd-hero">
     <div class="cd-slider-nav">
         <nav class="navbar">
@@ -298,10 +300,6 @@
                                     <div class="col-xs-12 col-sm-12">
                                         <div class="text-xs-left tm-textbox mainPageContainer">
                                             <p id="myID_1_2" class="tm-text"></p>
-                                            <%--<p class="tm-text">This HTML CSS template is brought to you by <a--%>
-                                            <%--href="http://plus.google.com/+templatemo"--%>
-                                            <%--target="_blank">templatemo</a>. You can fully customize it to meet--%>
-                                            <%--your website needs.</p>--%>
                                         </div>
                                     </div>
                                 </div>
@@ -311,6 +309,7 @@
                 </div>
             </div>
         </li>
+
 
         <%-- 第二页 下载页面 --%>
         <li>
@@ -336,24 +335,15 @@
         </li>
 
 
-        <!-- Page 3 -->
+        <!-- 第三页，用户搜索，爬取图片，用户选择，生成PPT -->
         <li>
-
             <div class="cd-full-width">
-
                 <div class="container-fluid js-tm-page-content" data-page-no="3">
-
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-cloud">
-                        <!-- video element will be loaded using jQuery -->
-                    </div> <!-- .cd-bg-video-wrapper -->
-
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-cloud"></div>
                     <div class="tm-img-gallery-container">
-
                         <div class="tm-img-gallery gallery-one">
                             <!-- Gallery One pop up connected with JS code below -->
-
                             <div class="tm-img-gallery-info-container">
-
                                 <h2 class="tm-text-title tm-gallery-title">Gallery One</h2>
                                 <p class="tm-text">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor tempus
                                     massa, eget tempus quam

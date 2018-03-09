@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
  */
 @Service
 public interface UserLoginService {
-
-
     /**
      * 用户登录方法
      *

@@ -1,6 +1,7 @@
 package com.parse.ppt.poi.service.common.initialization.impl;
 
 import com.parse.ppt.poi.entity.User;
+import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import com.parse.ppt.poi.service.common.cookie.CookieService;
 import com.parse.ppt.poi.service.common.initialization.OnPageLoadService;
 import net.sf.json.JSONObject;
@@ -21,10 +22,12 @@ public class OnPageLoadServiceImpl implements OnPageLoadService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     private final CookieService cookieService;
+    private final RedisCacheService redisCacheService;
 
     @Autowired
-    public OnPageLoadServiceImpl(CookieService cookieService) {
+    public OnPageLoadServiceImpl(CookieService cookieService, RedisCacheService redisCacheService) {
         this.cookieService = cookieService;
+        this.redisCacheService = redisCacheService;
     }
 
     @Override
@@ -53,9 +56,13 @@ public class OnPageLoadServiceImpl implements OnPageLoadService {
                 obj.put("welcomeWord", "Hi," + user.getUsername());
                 obj.put("welcomeTitle", "欢迎回来，亲爱的" + user.getUsername() + "。右键点击退出登录");
                 obj.put("isHidden", "false");
-
+                // 读取用户设置的首页文章
                 obj.put("essayTitle", user.getMainPageEssayTitle());
-                obj.put("essayContent", user.getMainPageEssayContent().replace("\n","<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
+                obj.put("essayContent", user.getMainPageEssayContent().replace("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
+            } else {
+                // 默认的首页文章
+                obj.put("essayTitle", redisCacheService.getByKey("essayTitle"));
+                obj.put("essayContent", redisCacheService.getByKey("essayContent").replace("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
             }
             logger.info("OnPageLoadServiceImpl.onPageLoad()   ------->  end!   JSONObject = " + obj);
             return obj;
