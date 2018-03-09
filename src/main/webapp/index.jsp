@@ -284,7 +284,7 @@
     <ul class="cd-hero-slider">
         <li class="selected">
             <div class="cd-full-width">
-                <div class="container-fluid js-tm-page-content tm-page-1" data-page-no="1">
+                <div class="container-fluid js-tm-page-content tm-page-1" style="margin-top: 100px" data-page-no="1">
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/moving-cloud"></div>
                     <div class="row">
                         <div class="col-xs-12" style="margin-top: auto">
