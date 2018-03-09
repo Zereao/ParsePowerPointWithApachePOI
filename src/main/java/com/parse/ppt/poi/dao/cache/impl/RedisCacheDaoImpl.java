@@ -1,6 +1,6 @@
 package com.parse.ppt.poi.dao.cache.impl;
 
-import com.parse.ppt.poi.commom.ReturnCode;
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.cache.RedisCacheDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

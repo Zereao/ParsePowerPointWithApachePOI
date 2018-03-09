@@ -9,7 +9,8 @@ public class User {
     private String email;
     private String phoneNum;
     private String password;
-    private String mainPageEssay;
+    private String mainPageEssayTitle;
+    private String mainPageEssayContent;
 
     public User() {
     }
@@ -21,6 +22,15 @@ public class User {
         this.password = password;
     }
 
+    public User(String username, String email, String phoneNum, String password, String mainPageEssayTitle, String mainPageEssayContent) {
+        this.username = username;
+        this.email = email;
+        this.phoneNum = phoneNum;
+        this.password = password;
+        this.mainPageEssayTitle = mainPageEssayTitle;
+        this.mainPageEssayContent = mainPageEssayContent;
+    }
+
     public User(Integer id, String username, String email, String phoneNum, String password) {
         this.id = id;
         this.username = username;
@@ -29,13 +39,14 @@ public class User {
         this.password = password;
     }
 
-    public User(Integer id, String username, String email, String phoneNum, String password, String mainPageEssay) {
+    public User(Integer id, String username, String email, String phoneNum, String password, String mainPageEssayTitle, String mainPageEssayContent) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.phoneNum = phoneNum;
         this.password = password;
-        this.mainPageEssay = mainPageEssay;
+        this.mainPageEssayTitle = mainPageEssayTitle;
+        this.mainPageEssayContent = mainPageEssayContent;
     }
 
     public Integer getId() {
@@ -78,12 +89,20 @@ public class User {
         this.password = password;
     }
 
-    public String getMainPageEssay() {
-        return mainPageEssay;
+    public String getMainPageEssayTitle() {
+        return mainPageEssayTitle;
     }
 
-    public void setMainPageEssay(String mainPageEssay) {
-        this.mainPageEssay = mainPageEssay;
+    public void setMainPageEssayTitle(String mainPageEssayTitle) {
+        this.mainPageEssayTitle = mainPageEssayTitle;
+    }
+
+    public String getMainPageEssayContent() {
+        return mainPageEssayContent;
+    }
+
+    public void setMainPageEssayContent(String mainPageEssayContent) {
+        this.mainPageEssayContent = mainPageEssayContent;
     }
 
     @Override
@@ -94,7 +113,8 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phoneNum='" + phoneNum + '\'' +
                 ", password='" + password + '\'' +
-                ", mainPageEssay='" + mainPageEssay + '\'' +
+                ", mainPageEssayTitle='" + mainPageEssayTitle + '\'' +
+                ", mainPageEssayContent='" + mainPageEssayContent + '\'' +
                 '}';
     }
 }

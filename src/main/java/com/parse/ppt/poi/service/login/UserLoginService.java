@@ -13,13 +13,7 @@ import javax.servlet.http.HttpSession;
  */
 @Service
 public interface UserLoginService {
-    /**
-     * 从Cookie中获取用户对象
-     *
-     * @param request HttpServletRequest对象
-     * @return 返回码
-     */
-    String loadUserFromCookies(HttpServletRequest request);
+
 
     /**
      * 用户登录方法

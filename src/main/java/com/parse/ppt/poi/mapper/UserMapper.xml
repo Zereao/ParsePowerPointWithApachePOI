@@ -9,11 +9,13 @@
             <arg column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="phone_num" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="main_page_essay_title" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="main_page_essay_content" javaType="java.lang.String" jdbcType="LONGVARCHAR"/>
         </constructor>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, username, email, phone_num, password
+        id, username, email, phone_num, password, main_page_essay_title, main_page_essay_content
     </sql>
 
     <select id="getUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -36,6 +38,20 @@
                 #{phoneNum,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
     </insert>
 
+    <update id="updateUserEssay">
+        update user
+        <set>
+            <if test="essayTitle != null">
+                main_page_essay_title = #{essayTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="essayContent != null">
+                main_page_essay_content = #{essayContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where email = #{email,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 下面逻辑 先不管，不曾调用 -->
     <update id="updateUser" parameterType="com.parse.ppt.poi.entity.User">
         update user
         <set>

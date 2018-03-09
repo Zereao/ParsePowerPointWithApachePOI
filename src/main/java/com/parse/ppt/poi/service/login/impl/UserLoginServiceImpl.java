@@ -1,6 +1,6 @@
 package com.parse.ppt.poi.service.login.impl;
 
-import com.parse.ppt.poi.commom.ReturnCode;
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import com.parse.ppt.poi.service.common.cookie.CookieService;
@@ -46,25 +46,6 @@ public class UserLoginServiceImpl implements UserLoginService {
         this.mailService = mailService;
         this.encryptService = encryptService;
         this.redisCacheService = redisCacheService;
-    }
-
-    @Override
-    public String loadUserFromCookies(HttpServletRequest request) {
-        logger.info("UserLoginServiceImpl.loadUserFromCookies   ------->  start! ");
-        User user = null;
-        try {
-            user = cookieService.loadUserCookie(request);
-            logger.info("UserLoginServiceImpl.loadUserFromCookies   ------->  end!  user = " + user);
-            if (user == null) {
-                return ReturnCode.FAILED;
-            } else {
-                request.getSession().setAttribute("user", user);
-                return ReturnCode.SUCCESS;
-            }
-        } catch (Exception e) {
-            logger.info("UserLoginServiceImpl.loadUserFromCookies   ------->  ERROR!  " + e.getMessage());
-        }
-        return ReturnCode.FAILED;
     }
 
     @Override

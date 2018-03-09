@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Jupiter
@@ -27,12 +27,13 @@ public class OnPageLoadController {
         this.onPageLoadService = onPageLoadService;
     }
 
-    @RequestMapping("/getInitializeInfo")
+    @RequestMapping("/getMainPageLoadInfo")
     @ResponseBody
-    public JSONObject getInitializeInfo(HttpSession session) {
-        logger.info("OnPageLoadController.getInitializeInfo   ------->  start! ");
-        JSONObject jsonObject = onPageLoadService.getInitializeInfo(session);
-        logger.info("OnPageLoadController.getInitializeInfo   ------->  end!  result = " + jsonObject);
-        return jsonObject;
+    public JSONObject getMainPageLoadInfo(HttpServletRequest request) {
+        logger.info("OnPageLoadController.getMainPageLoadInfo   ------->  start! ");
+        JSONObject resultJson = onPageLoadService.getMainPageLoadInfo(request);
+        logger.info("OnPageLoadController.getMainPageLoadInfo   ------->  end!  resultJson = " + resultJson);
+        return resultJson;
     }
+
 }

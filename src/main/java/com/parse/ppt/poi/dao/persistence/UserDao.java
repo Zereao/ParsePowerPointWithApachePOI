@@ -1,6 +1,7 @@
 package com.parse.ppt.poi.dao.persistence;
 
 import com.parse.ppt.poi.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -32,6 +33,20 @@ public interface UserDao {
     void addUser(User user);
 
     /**
+     * 更新用户首页文章
+     *
+     * @param email        用户email
+     * @param essayTitle   用户首页-文章标题
+     * @param essayContent 用户首页-文章内容
+     */
+    void updateUserEssay(@Param("email") String email,
+                         @Param("essayTitle") String essayTitle,
+                         @Param("essayContent") String essayContent);
+
+
+    /*  以下的逻辑并未在mapper中实现  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+    /**
      * 更新用户信息
      *
      * @param user 用户对象
@@ -44,9 +59,6 @@ public interface UserDao {
      * @param email 用户电子邮箱
      * @return User
      */
-
-    /*  以下的逻辑并未在mapper中实现  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-
     int deleteUserByEmail(String email);
 
     /**

@@ -1,6 +1,6 @@
 package com.parse.ppt.poi.service.common.cache.impl;
 
-import com.parse.ppt.poi.commom.ReturnCode;
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.cache.RedisCacheDao;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;

@@ -1,10 +1,12 @@
 package com.parse.ppt.poi.service.common.cookie.impl;
 
-import com.parse.ppt.poi.commom.ReturnCode;
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.common.cookie.CookieService;
+import com.parse.ppt.poi.service.common.user.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -20,6 +22,13 @@ import java.util.List;
 @Service
 public class CookieServiceImpl implements CookieService {
     private Logger logger = LogManager.getLogger(this.getClass());
+
+    private final UserService userService;
+
+    @Autowired
+    public CookieServiceImpl(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public String addUserCookie(User user, HttpServletResponse response) {
@@ -111,7 +120,7 @@ public class CookieServiceImpl implements CookieService {
                 }
                 boolean isRealCookie = !("".equals(username) || "".equals(email) || "".equals(phoneNum) || "".equals(password));
                 if (isRealCookie) {
-                    User newUser = new User(username, email, phoneNum, password);
+                    User newUser = userService.getUserByEmail(email);
                     logger.info("从Cookie中获取到用户信息  the user of cookie = " + newUser);
                     HttpSession session = request.getSession();
                     session.setAttribute("user", newUser);

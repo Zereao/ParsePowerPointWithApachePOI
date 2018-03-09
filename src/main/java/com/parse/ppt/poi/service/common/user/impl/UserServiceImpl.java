@@ -1,6 +1,6 @@
 package com.parse.ppt.poi.service.common.user.impl;
 
-import com.parse.ppt.poi.commom.ReturnCode;
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.UserDao;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.common.user.UserService;
@@ -61,6 +61,23 @@ public class UserServiceImpl implements UserService {
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
             logger.error("UserServiceImpl.addUser()   ------->  ERROR!  返回 FAILED ");
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
+    }
+
+    @Override
+    public String updateUserEssay(String email, String essayTitle, String essayContent) {
+        try {
+            logger.info("UserServiceImpl.updateUserEssay()   ------->  start!" +
+                    "   email = " + email +
+                    "   essayTitle = " + essayTitle +
+                    "   essayContent = " + essayContent);
+            userDao.updateUserEssay(email, essayTitle, essayContent);
+            logger.info("UserServiceImpl.updateUserEssay()   ------->  end ! SUCCESS");
+            return ReturnCode.SUCCESS;
+        } catch (Exception e) {
+            logger.error("UserServiceImpl.updateUserEssay()   ------->  ERROR!  返回 FAILED ");
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;

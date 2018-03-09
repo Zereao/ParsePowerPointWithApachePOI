@@ -1,6 +1,6 @@
 package com.parse.ppt.poi.service.common.history.impl;
 
-import com.parse.ppt.poi.commom.ReturnCode;
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.UserDownloadHistoryDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.entity.UserDownloadHistory;

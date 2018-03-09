@@ -32,4 +32,14 @@ public interface UserService {
      * @return 返回码
      */
     String addUser(User user);
+
+    /**
+     * 更新用户首页文章
+     *
+     * @param email        用户email
+     * @param essayTitle   用户首页-文章标题
+     * @param essayContent 用户首页-文章内容
+     * @return 返回码
+     */
+    String updateUserEssay(String email, String essayTitle, String essayContent);
 }

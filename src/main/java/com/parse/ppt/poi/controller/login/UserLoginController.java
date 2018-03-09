@@ -1,6 +1,5 @@
 package com.parse.ppt.poi.controller.login;
 
-import com.parse.ppt.poi.commom.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.login.UserLoginService;
 import org.apache.logging.log4j.LogManager;
@@ -14,10 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.net.Inet4Address;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 /**
  * @author Jupiter
@@ -32,15 +27,6 @@ public class UserLoginController {
     @Autowired
     public UserLoginController(UserLoginService userLoginService) {
         this.userLoginService = userLoginService;
-    }
-
-    @RequestMapping("/loadUserFromCookies")
-    @ResponseBody
-    public String loadUserFromCookies(HttpServletRequest request) {
-        logger.info("UserLoginController.loadUserFromCookies   ------->  start! ");
-        String result = userLoginService.loadUserFromCookies(request);
-        logger.info("UserLoginController.loadUserFromCookies   ------->  end!  result = " + result);
-        return result;
     }
 
     @RequestMapping("/userLogin")

@@ -33,12 +33,13 @@
     <link rel="stylesheet" href="webResources/mainPage/css/templatemo-style.css">
 
     <style>
-        .myFonts {
-            font-family: 黑体, sans-serif;
-        }
-
         .myContainer {
             height: 70%;
+            overflow-y: auto;
+        }
+
+        .mainPageContainer {
+            height: 60%;
             overflow-y: auto;
         }
     </style>
@@ -116,14 +117,6 @@
                 }
             });
 
-            // 从session 中读取用户信息
-            <%
-                if (session.getAttribute("user") == null){
-            %>
-            loadUserFromCookies();
-            <%
-                }
-            %>
             getInitializeInfo();
             // 先预加载一页 下载页的信息
             getNo1PPTInfo();
@@ -142,42 +135,33 @@
     </script>
 
     <script>
-        function loadUserFromCookies() {
-            $.ajax({
-                type: "post",
-                url: "/login/loadUserFromCookies",
-                produces: "text/html;charset=UTF-8",
-                error: function (request) {
-                    alert("访问后端出现未知错误！");
-                },
-                success: function (data) {
-                    var result = data.toString();
-                    if (result === "SUCCESS") {
-                        location.reload();
-                    }
-                }
-            });
-        }
 
         function getInitializeInfo() {
             $.ajax({
                 type: "post",
-                url: "/onMainPageLoad/getInitializeInfo",
+                url: "/onMainPageLoad/getMainPageLoadInfo",
                 produces: "text/html;charset=UTF-8",
-                error: function (request) {
-                    alert("访问后端出现未知错误！");
+                async: false,
+                error: function () {
+                    alert("获取主页初始化信息出现未知错误！");
                 },
                 success: function (data) {
                     var loginControlSelector = $("#login");
-                    var id_1_Selector = $("#myID_1");
+                    var id_1_Selector = $("#myID_0_1");
                     loginControlSelector.attr("title", data.welcomeTitle);
                     loginControlSelector.append('<i class="fa fa-send-o tm-brand-icon"></i>' + data.welcomeWord);
                     if (data.isHidden === "true") {
                         id_1_Selector.hide();
                     } else {
-                        $("#myID_2").text(data.username);
+                        $("#myID_0_2").text(data.username);
                         id_1_Selector.show();
                     }
+
+                    var myID_1_1_Selector = $("#myID_1_1");
+                    var myID_1_2_Selector = $("#myID_1_2");
+                    myID_1_1_Selector.text(data.essayTitle);
+                    var tabInstead = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    myID_1_2_Selector.html(tabInstead + data.essayContent);
                 }
             });
         }
@@ -189,15 +173,39 @@
                     type: "post",
                     url: "/login/userLogout",
                     produces: "text/html;charset=UTF-8",
-                    error: function (request) {
+                    error: function () {
                         alert("访问后端出现未知错误！");
                     },
-                    success: function (data) {
+                    success: function () {
                         alert("❤注销成功，期待再会❤");
                         location.reload();
                     }
                 });
             }
+        }
+
+        function setMainPageEssay() {
+            var essayInfo = {
+                essayTitle: $("#essay_title").val(),
+                essayContent: $("#essay_content").val()
+            };
+            $.ajax({
+                type: "post",
+                url: "/admin/setEssay",
+                data: essayInfo,
+                produces: "text/html;charset=UTF-8",
+                error: function () {
+                    alert("访问后端出现未知错误！");
+                },
+                success: function (data) {
+                    if (data !== null) {
+                        var myID_1_1_Selector = $("#myID_1_1");
+                        var myID_1_2_Selector = $("#myID_1_2");
+                        myID_1_1_Selector.text(data.essayTitle);
+                        myID_1_2_Selector.text(data.essayContent);
+                    }
+                }
+            });
         }
     </script>
 
@@ -214,7 +222,7 @@
                 url: "/download/loadNo1PPT",
                 produces: "text/html;charset=UTF-8",
                 data: postInfo,
-                error: function (request) {
+                error: function () {
                     alert("获取下载页PPT失败！");
                 },
                 success: function (data) {
@@ -237,6 +245,7 @@
             });
         }
     </script>
+
 </head>
 <body onload="onPageLoad()">
 
@@ -248,7 +257,6 @@
                 <div class="collapse navbar-toggleable-md text-xs-center text-uppercase tm-navbar" id="tmNavbar">
                     <ul class="nav navbar-nav">
                         <li class="nav-item active selected">
-                            <!--<a class="nav-link" href="#0" data-no="1">首页<span class="sr-only">sss</span></a>-->
                             <a class="nav-link" href="javascript:void(0);" data-no="1">首页</a>
                         </li>
                         <li class="nav-item">
@@ -263,80 +271,39 @@
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="5">❤</a>
                         </li>
-                        <li id="myID_1" class="nav-item">
-                            <a id="myID_2" class="nav-link" href="javascript:void(0);" data-no="6"> </a>
+                        <li id="myID_0_1" class="nav-item">
+                            <a id="myID_0_2" class="nav-link" href="javascript:void(0);" data-no="6"> </a>
                         </li>
                     </ul>
                 </div>
             </div>
-
         </nav>
     </div>
 
+    <%-- 第一页，首页，放置一些感性的东西，放置自己喜欢的文章 --%>
     <ul class="cd-hero-slider">
         <li class="selected">
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content tm-page-1" data-page-no="1">
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/moving-cloud"></div>
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-xs-12" style="margin-top: auto">
                             <div class="tm-3-col-container tm-bg-white-translucent">
-
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <h2 class="tm-text-title text-lg-center">故事长满天涯海角，包括你和你的故乡</h2>
+                                        <h2 id="myID_1_1" class="tm-text-title text-lg-center"></h2>
                                     </div>
                                 </div>
-
-                                <%--<div class="tm-3-col-textbox tm-bg-white-translucent">--%>
-                                <%--<div class="text-xs-left tm-textbox tm-textbox-padding">--%>
-
-                                <%--<h2 class="tm-text-title">Testimonial Two</h2>--%>
-
-                                <%--<p class="tm-text">Curabitur sodales, est auctor congue vulputate, nisl tellus--%>
-                                <%--finibus nunc, vitae consectetur enim erat vitae quam.</p>--%>
-
-                                <%--<p class="tm-text">Pellentesque habitant morbi tristique senectus et netus et--%>
-                                <%--malesuada fames ac turpis egestas. Nunc vitae tempor turpis.</p>--%>
-                                <%--</div>--%>
-                                <%--</div>--%>
-
-
-                                <%--<p class="tm-text"></p>--%>
                                 <div class="row">
-                                    <%--<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-left">--%>
                                     <div class="col-xs-12 col-sm-12">
-                                        <div class="text-xs-left tm-textbox">
-                                            <p class="tm-text">Motion web template integrates a very active video
-                                                background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active
-                                                video
-                                                background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active
-                                                video
-                                                background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active
-                                                video
-                                                background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active
-                                                video
-                                                background for each page. Download and use this for your website and
-                                                tell your friends about it.</p>
-                                            <p class="tm-text">This HTML CSS template is brought to you by <a
-                                                    href="http://plus.google.com/+templatemo"
-                                                    target="_blank">templatemo</a>. You can fully customize it to meet
-                                                your website needs.</p>
+                                        <div class="text-xs-left tm-textbox mainPageContainer">
+                                            <p id="myID_1_2" class="tm-text"></p>
+                                            <%--<p class="tm-text">This HTML CSS template is brought to you by <a--%>
+                                            <%--href="http://plus.google.com/+templatemo"--%>
+                                            <%--target="_blank">templatemo</a>. You can fully customize it to meet--%>
+                                            <%--your website needs.</p>--%>
                                         </div>
                                     </div>
-                                    <%--<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-right">--%>
-                                    <%--<div class="text-xs-left tm-textbox tm-2-col-textbox">--%>
-                                    <%--<p class="tm-text">Cras tempus, eros vel ultrices aliquam, velit tortor--%>
-                                    <%--sodales risus, ac facilisis lectus tortor eget neque. Nam auctor dui--%>
-                                    <%--ante. Curabitur tristique.</p>--%>
-                                    <%--<p class="tm-text">Quisque sagittis quam tortor, sit amet posuere justo--%>
-                                    <%--tempor non. Nunc eu leo sit amet elit condimentum.</p>--%>
-                                    <%--</div>--%>
-                                    <%--</div>--%>
                                 </div>
                             </div>
                         </div>
@@ -502,8 +469,8 @@
 
         </li>
 
-        <li>
 
+        <li>
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="5">
 
@@ -566,77 +533,40 @@
 
         </li>
 
+
+        <%-- 这里是设置首页文章 --%>
         <li>
             <div class="cd-full-width">
-
                 <div class="container-fluid js-tm-page-content" data-page-no="6">
-
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-loop">
-                        <!-- video element will be loaded using jQuery -->
-                    </div> <!-- .cd-bg-video-wrapper -->
-
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-loop"></div>
                     <div class="tm-contact-page">
-
                         <div class="row">
-
                             <div class="col-xs-12">
-
                                 <div class="tm-flex tm-contact-container">
-
                                     <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding tm-textbox-padding-contact">
                                         <p class="tm-text text-xs-center">
-                                                    <span style="font-family: 'Microsoft YaHei UI',monospace;font-size: 3ex">
-                                                        给我留言吧~
-                                                    </span>
+                                            <span style="font-family: 'Microsoft YaHei UI',monospace;font-size: 3ex">在这里，你可以个性化的定制首页的文章显示</span>
                                         </p>
-
-                                        <!-- contact form -->
                                         <div class="tm-contact-form">
-
-                                            <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-form-group-left">
-                                                <input type="text" id="about_user_name" name="user_name"
-                                                       class="form-control myFonts" placeholder="姓名" required/>
-                                            </div>
-
-                                            <div class="form-group col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-form-group-right">
-                                                <input type="text" id="about_email" name="e_mail"
-                                                       class="form-control myFonts" placeholder="电子邮箱" required/>
-                                            </div>
-
                                             <div class="form-group">
-                                                <input type="text" id="about_summary" name="summary"
-                                                       class="form-control myFonts" placeholder="简单摘要" required/>
+                                                <input type="text" id="essay_title" title="在这里填写文章标题"
+                                                       class="form-control myFonts" placeholder="标题"/>
                                             </div>
-
                                             <div class="form-group">
-                                                <textarea id="about_description" name="description"
-                                                          class="form-control myFonts" rows="5"
-                                                          placeholder="详细描述"></textarea>
+                                                <textarea id="essay_content" class="form-control" rows="5"
+                                                          title="在这里填写文本内容"
+                                                          placeholder="内容"></textarea>
                                             </div>
-
                                             <button class="pull-xs-right tm-submit-btn"
-                                                    onclick="ajaxAddAboutPageInfo()">发送
+                                                    onclick="setMainPageEssay()">发送
                                             </button>
-
                                         </div>
                                     </div>
-
-                                    <%--<div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding tm-textbox-padding-contact">--%>
-                                    <%--<h2 class="tm-contact-info">疏影横斜水清浅，暗香浮动月黄昏</h2>--%>
-                                    <%--<!-- google map goes here -->--%>
-                                    <%--<div id="">疏影横斜水清浅，暗香浮动月黄昏</div>--%>
-                                    <%--</div>--%>
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
         </li>
     </ul>
