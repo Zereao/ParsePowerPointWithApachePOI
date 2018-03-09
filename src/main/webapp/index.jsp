@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.parse.ppt.poi.entity.User" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -45,28 +44,6 @@
     </style>
 
     <script>
-        function adjustHeightOfPage(pageNo) {
-            var offset = 80;
-            var pageContentHeight = $(".cd-hero-slider li:nth-of-type(" + pageNo + ") .js-tm-page-content").height();
-            if ($(window).width() >= 992) {
-                offset = 120;
-            }
-            else if ($(window).width() < 480) {
-                offset = 40;
-            }
-            var totalPageHeight = 15 + $('.cd-slider-nav').height()
-                + pageContentHeight + offset
-                + $('.tm-footer').height();
-            if (totalPageHeight > $(window).height()) {
-                $('.cd-hero-slider').addClass('small-screen');
-                $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", totalPageHeight + "px");
-            }
-            else {
-                $('.cd-hero-slider').removeClass('small-screen');
-                $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", "100%");
-            }
-        }
-
         $(window).load(function () {
             adjustHeightOfPage(1);
             $('.gallery-one').magnificPopup({
@@ -91,6 +68,28 @@
             });
             $('body').addClass('loaded');
         });
+
+        function adjustHeightOfPage(pageNo) {
+            var offset = 80;
+            var pageContentHeight = $(".cd-hero-slider li:nth-of-type(" + pageNo + ") .js-tm-page-content").height();
+            if ($(window).width() >= 992) {
+                offset = 120;
+            }
+            else if ($(window).width() < 480) {
+                offset = 40;
+            }
+            var totalPageHeight = 15 + $('.cd-slider-nav').height()
+                + pageContentHeight + offset
+                + $('.tm-footer').height();
+            if (totalPageHeight > $(window).height()) {
+                $('.cd-hero-slider').addClass('small-screen');
+                $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", totalPageHeight + "px");
+            }
+            else {
+                $('.cd-hero-slider').removeClass('small-screen');
+                $('.cd-hero-slider li:nth-of-type(' + pageNo + ')').css("min-height", "100%");
+            }
+        }
     </script>
 
     <script>
@@ -117,6 +116,7 @@
                 }
             });
 
+            // 从session 中读取用户信息
             <%
                 if (session.getAttribute("user") == null){
             %>
@@ -124,6 +124,7 @@
             <%
                 }
             %>
+            getInitializeInfo();
             // 先预加载一页 下载页的信息
             getNo1PPTInfo();
             // 监听滚动条是否下拉到最下面
@@ -135,8 +136,12 @@
                     getNo1PPTInfo();
                 }
             });
-        }
 
+
+        }
+    </script>
+
+    <script>
         function loadUserFromCookies() {
             $.ajax({
                 type: "post",
@@ -154,7 +159,46 @@
             });
         }
 
+        function getInitializeInfo() {
+            $.ajax({
+                type: "post",
+                url: "/onMainPageLoad/getInitializeInfo",
+                produces: "text/html;charset=UTF-8",
+                error: function (request) {
+                    alert("访问后端出现未知错误！");
+                },
+                success: function (data) {
+                    var loginControlSelector = $("#login");
+                    var id_1_Selector = $("#myID_1");
+                    loginControlSelector.attr("title", data.welcomeTitle);
+                    loginControlSelector.append('<i class="fa fa-send-o tm-brand-icon"></i>' + data.welcomeWord);
+                    if (data.isHidden === "true") {
+                        id_1_Selector.hide();
+                    } else {
+                        $("#myID_2").text(data.username);
+                        id_1_Selector.show();
+                    }
+                }
+            });
+        }
 
+        function userLogout() {
+            var isLogout = confirm("确定注销当前用户？");
+            if (isLogout === true) {
+                $.ajax({
+                    type: "post",
+                    url: "/login/userLogout",
+                    produces: "text/html;charset=UTF-8",
+                    error: function (request) {
+                        alert("访问后端出现未知错误！");
+                    },
+                    success: function (data) {
+                        alert("❤注销成功，期待再会❤");
+                        location.reload();
+                    }
+                });
+            }
+        }
     </script>
 
     <script>
@@ -192,77 +236,15 @@
                 }
             });
         }
-
-        function userLogout() {
-            var isLogout = confirm("确定注销当前用户？");
-            if (isLogout === true) {
-                $.ajax({
-                    type: "post",
-                    url: "/login/userLogout",
-                    produces: "text/html;charset=UTF-8",
-                    error: function (request) {
-                        alert("访问后端出现未知错误！");
-                    },
-                    success: function (data) {
-                        alert("❤注销成功，期待再会❤");
-                        location.reload();
-                    }
-                });
-            }
-        }
-
-        function ajaxAddAboutPageInfo() {
-            var aboutPageInfo = {
-                user_name: $("#about_user_name").val(),
-                e_mail: $("#about_email").val(),
-                summary: $("#about_summary").val(),
-                description: $("#about_description").val()
-            };
-            $.ajax({
-                type: "post",
-                dataType: "text",
-                url: "/mainPage/servlet/AboutPageInfoServlet",
-                produces: "text/html;charset=UTF-8",
-                data: aboutPageInfo,
-                error: function (request) {
-                    alert("Connection error");
-                },
-                success: function (data) {
-                    alert("❤发送成功，谢谢来信❤")
-//                        tag = JSON.parse(data);
-                }
-            });
-        }
     </script>
 </head>
 <body onload="onPageLoad()">
-<%
-    String welcomeWord = "Hi,Melody";
-    String welcomeTitle = "点我登录/注册";
-    String username = "";
-    String isHidden = "hidden";
-    User user = (User) session.getAttribute("user");
-    System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    System.out.println("从session中获取到用户信息： the user of session = " + user);
-    System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    if (user != null) {
-        username = user.getUsername();
-        welcomeTitle = "欢迎回来，亲爱的" + username + "。右键点击退出登录";
-    }
-    if (!("".equals(username)) && username != null) {
-        welcomeWord = "Hi," + username;
-        isHidden = "";
-    }
-%>
 
 <div class="cd-hero">
     <div class="cd-slider-nav">
         <nav class="navbar">
             <div class="tm-navbar-bg">
-                <a id="login" class="navbar-brand" href="javascript:void(0);"
-                   title="<%=welcomeTitle%>">
-                    <i class="fa fa-send-o tm-brand-icon"></i><%=welcomeWord%>
-                </a>
+                <a id="login" class="navbar-brand" href="javascript:void(0);"></a>
                 <div class="collapse navbar-toggleable-md text-xs-center text-uppercase tm-navbar" id="tmNavbar">
                     <ul class="nav navbar-nav">
                         <li class="nav-item active selected">
@@ -281,9 +263,8 @@
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="5">❤</a>
                         </li>
-                        <li class="nav-item" <%=isHidden%>>
-                            <a class="nav-link" href="javascript:void(0);" data-no="6"><%=username%>
-                            </a>
+                        <li id="myID_1" class="nav-item">
+                            <a id="myID_2" class="nav-link" href="javascript:void(0);" data-no="6"> </a>
                         </li>
                     </ul>
                 </div>
@@ -308,16 +289,16 @@
                                 </div>
 
                                 <%--<div class="tm-3-col-textbox tm-bg-white-translucent">--%>
-                                    <%--<div class="text-xs-left tm-textbox tm-textbox-padding">--%>
+                                <%--<div class="text-xs-left tm-textbox tm-textbox-padding">--%>
 
-                                        <%--<h2 class="tm-text-title">Testimonial Two</h2>--%>
+                                <%--<h2 class="tm-text-title">Testimonial Two</h2>--%>
 
-                                        <%--<p class="tm-text">Curabitur sodales, est auctor congue vulputate, nisl tellus--%>
-                                            <%--finibus nunc, vitae consectetur enim erat vitae quam.</p>--%>
+                                <%--<p class="tm-text">Curabitur sodales, est auctor congue vulputate, nisl tellus--%>
+                                <%--finibus nunc, vitae consectetur enim erat vitae quam.</p>--%>
 
-                                        <%--<p class="tm-text">Pellentesque habitant morbi tristique senectus et netus et--%>
-                                            <%--malesuada fames ac turpis egestas. Nunc vitae tempor turpis.</p>--%>
-                                    <%--</div>--%>
+                                <%--<p class="tm-text">Pellentesque habitant morbi tristique senectus et netus et--%>
+                                <%--malesuada fames ac turpis egestas. Nunc vitae tempor turpis.</p>--%>
+                                <%--</div>--%>
                                 <%--</div>--%>
 
 
@@ -328,13 +309,17 @@
                                         <div class="text-xs-left tm-textbox">
                                             <p class="tm-text">Motion web template integrates a very active video
                                                 background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active video
+                                                tell your friends about it.Motion web template integrates a very active
+                                                video
                                                 background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active video
+                                                tell your friends about it.Motion web template integrates a very active
+                                                video
                                                 background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active video
+                                                tell your friends about it.Motion web template integrates a very active
+                                                video
                                                 background for each page. Download and use this for your website and
-                                                tell your friends about it.Motion web template integrates a very active video
+                                                tell your friends about it.Motion web template integrates a very active
+                                                video
                                                 background for each page. Download and use this for your website and
                                                 tell your friends about it.</p>
                                             <p class="tm-text">This HTML CSS template is brought to you by <a
@@ -344,13 +329,13 @@
                                         </div>
                                     </div>
                                     <%--<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 tm-2-col-right">--%>
-                                        <%--<div class="text-xs-left tm-textbox tm-2-col-textbox">--%>
-                                            <%--<p class="tm-text">Cras tempus, eros vel ultrices aliquam, velit tortor--%>
-                                                <%--sodales risus, ac facilisis lectus tortor eget neque. Nam auctor dui--%>
-                                                <%--ante. Curabitur tristique.</p>--%>
-                                            <%--<p class="tm-text">Quisque sagittis quam tortor, sit amet posuere justo--%>
-                                                <%--tempor non. Nunc eu leo sit amet elit condimentum.</p>--%>
-                                        <%--</div>--%>
+                                    <%--<div class="text-xs-left tm-textbox tm-2-col-textbox">--%>
+                                    <%--<p class="tm-text">Cras tempus, eros vel ultrices aliquam, velit tortor--%>
+                                    <%--sodales risus, ac facilisis lectus tortor eget neque. Nam auctor dui--%>
+                                    <%--ante. Curabitur tristique.</p>--%>
+                                    <%--<p class="tm-text">Quisque sagittis quam tortor, sit amet posuere justo--%>
+                                    <%--tempor non. Nunc eu leo sit amet elit condimentum.</p>--%>
+                                    <%--</div>--%>
                                     <%--</div>--%>
                                 </div>
                             </div>
