@@ -30,12 +30,12 @@ public class UserDownloadHistoryServiceImpl implements UserDownloadHistoryServic
     @Override
     public List<No1PPT> getHistoryByEmail(String email) {
         try {
-            logger.info("UserDownloadHistoryServiceImpl.getHistoryByEmail()   ------->  start!  email = " + email);
+            logger.info("------->  start!  email = " + email);
             List<No1PPT> pptList = userDownloadHistoryDao.getHistoryByEmail(email);
-            logger.info("UserDownloadHistoryServiceImpl.getHistoryByEmail()   ------->  end!   pptList = " + pptList);
+            logger.info("------->  end!   pptList = " + pptList);
             return pptList;
         } catch (Exception e) {
-            logger.error("UserDownloadHistoryServiceImpl.getHistoryByEmail()   ------->  ERROR!  返回 null ");
+            logger.error("------->  ERROR!  返回 null ");
             logger.error(e.getMessage());
         }
         return null;
@@ -44,12 +44,12 @@ public class UserDownloadHistoryServiceImpl implements UserDownloadHistoryServic
     @Override
     public String addDownloadHistory(UserDownloadHistory userDownloadHistory) {
         try {
-            logger.info("UserDownloadHistoryServiceImpl.addDownloadHistory()   ------->  start!  userDownloadHistory = " + userDownloadHistory);
+            logger.info("------->  start!  userDownloadHistory = " + userDownloadHistory);
             userDownloadHistoryDao.addDownloadHistory(userDownloadHistory);
-            logger.info("UserDownloadHistoryServiceImpl.addDownloadHistory()   ------->  end  SUCCESS");
+            logger.info("------->  end  SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
-            logger.error("UserDownloadHistoryServiceImpl.addDownloadHistory()   ------->  ERROR!  返回 null ");
+            logger.error("------->  ERROR!  返回 null ");
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;

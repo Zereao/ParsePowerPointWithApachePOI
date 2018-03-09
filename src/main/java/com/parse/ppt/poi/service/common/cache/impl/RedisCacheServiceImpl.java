@@ -2,7 +2,6 @@ package com.parse.ppt.poi.service.common.cache.impl;
 
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.cache.RedisCacheDao;
-import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,23 +26,24 @@ public class RedisCacheServiceImpl implements RedisCacheService {
 
     @Override
     public String addToRedisCache(String key, String value) {
-        logger.info("RedisCacheServiceImpl.addToRedisCache   ------->  start! " +
+        logger.info("------->  start! " +
                 "  key = " + key +
                 "  value = " + value);
         try {
             String result = redisCacheDao.add(key, value);
-            logger.info("RedisCacheServiceImpl.addToRedisCache   ------->  end! " +
+            logger.info("------->  end! " +
                     "  result = " + result);
             return result;
         } catch (Exception e) {
-            logger.error("RedisCacheServiceImpl.addToRedisCache   ------->  ERROR! " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }
 
     @Override
     public String addToRedisCache(Map<String, String> keyPairMap) {
-        logger.info("RedisCacheServiceImpl.addToRedisCache   ------->  start! " +
+        logger.info("------->  start! " +
                 "  map = " + keyPairMap);
         try {
             String result = ReturnCode.SUCCESS;
@@ -51,7 +51,7 @@ public class RedisCacheServiceImpl implements RedisCacheService {
                 String value = keyPairMap.get(key);
                 String tempResult = redisCacheDao.add(key, value);
                 if (tempResult.equals(ReturnCode.FAILED)) {
-                    logger.warn("RedisCacheServiceImpl.addToRedisCache     FAILED!  " +
+                    logger.warn("------->  FAILED!  " +
                             "   key = " + key +
                             "   value = " + value);
                     result = ReturnCode.FAILED;
@@ -59,50 +59,53 @@ public class RedisCacheServiceImpl implements RedisCacheService {
             }
             // map 中 每一项都成功添加到Redis中
             if (result.equals(ReturnCode.SUCCESS)) {
-                logger.info("RedisCacheServiceImpl.addToRedisCache   ------->  end !   SUCCESS");
+                logger.info("------->  end !   SUCCESS");
                 return ReturnCode.SUCCESS;
             } else {
                 // 有的项添加失败
-                logger.info("RedisCacheServiceImpl.addToRedisCache   ------->  end !  FAILED ");
+                logger.info("------->  end !  FAILED ");
                 return ReturnCode.FAILED;
             }
         } catch (Exception e) {
-            logger.error("RedisCacheServiceImpl.addToRedisCache   ------->  ERROR!  " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }
 
     @Override
     public String getByKey(String key) {
-        logger.info("RedisCacheServiceImpl.getByKey   ------->  start! " +
+        logger.info("------->  start! " +
                 "  key = " + key);
         try {
             String value = redisCacheDao.get(key);
-            logger.info("RedisCacheServiceImpl.getByKey   ------->  end! " +
+            logger.info("------->  end! " +
                     "  value = " + value);
             return value;
         } catch (Exception e) {
-            logger.error("RedisCacheServiceImpl.getByKey   ------->  ERROR! " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }
 
     @Override
     public void removeFromRedis(String key) {
-        logger.info("RedisCacheServiceImpl.removeFromRedis   ------->  start! " +
+        logger.info("------->  start! " +
                 "  key = " + key);
         try {
             String result = redisCacheDao.remove(key);
-            logger.info("RedisCacheServiceImpl.removeFromRedis   ------->  end! " +
+            logger.info("------->  end! " +
                     "  result = " + result);
         } catch (Exception e) {
-            logger.error("RedisCacheServiceImpl.removeFromRedis   ------->  ERROR! " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
     }
 
     @Override
     public String addUserPersistentKeyPair(String username, String oldPrefix) {
-        logger.info("RedisCacheServiceImpl.addUserPersistentKeyPair   ------->  start! " +
+        logger.info("------->  start! " +
                 "  username = " + username +
                 "  oldPrefix = " + oldPrefix);
         try {
@@ -116,19 +119,14 @@ public class RedisCacheServiceImpl implements RedisCacheService {
             String resultA = addToRedisCache(username.trim() + ".publicKey", publicKey);
             String resultB = addToRedisCache(username.trim() + ".privateKey", privateKey);
 
-            logger.info("RedisCacheServiceImpl.addUserPersistentKeyPair   ------->  end! " +
+            logger.info("------->  end! " +
                     "  resultA = " + resultA +
                     "  resultB = " + resultB);
             return (resultA.equals(resultB) && resultA.equals(ReturnCode.SUCCESS)) ? ReturnCode.SUCCESS : ReturnCode.FAILED;
         } catch (Exception e) {
-            logger.error("RedisCacheServiceImpl.addUserPersistentKeyPair   ------->  ERROR! " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }
-
-    @Override
-    public String addUserPersistentKeyPair(User user, String oldPrefix) {
-        return null;
-    }
-
 }

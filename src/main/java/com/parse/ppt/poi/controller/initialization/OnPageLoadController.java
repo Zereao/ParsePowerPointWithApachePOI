@@ -30,9 +30,9 @@ public class OnPageLoadController {
     @RequestMapping("/getMainPageLoadInfo")
     @ResponseBody
     public JSONObject getMainPageLoadInfo(HttpServletRequest request) {
-        logger.info("OnPageLoadController.getMainPageLoadInfo   ------->  start! ");
+        logger.info("------->  start! ");
         JSONObject resultJson = onPageLoadService.getMainPageLoadInfo(request);
-        logger.info("OnPageLoadController.getMainPageLoadInfo   ------->  end!  resultJson = " + resultJson);
+        logger.info("------->  end!  resultJson = " + resultJson);
         return resultJson;
     }
 

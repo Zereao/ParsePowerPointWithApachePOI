@@ -9,8 +9,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-
 /**
  * @author Jupiter
  * @date 2018/03/01/11:33
@@ -28,75 +26,52 @@ public class RedisCacheDaoImpl implements RedisCacheDao {
 
     @Override
     public String add(String key, String value) {
-        logger.info("RedisCacheDaoImpl.add   ------->  start ! " +
+        logger.info("------->  start ! " +
                 "  key = " + key +
                 "  value = " + value);
         try {
             ValueOperations<String, String> operator = redisTemplate.opsForValue();
             operator.set(key, value);
-            logger.info("RedisCacheDaoImpl.add   ------->  end ! ");
+            logger.info("------->  end ! ");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
-            logger.error("RedisCacheDaoImpl.add   ------->  ERROR!  " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
-        return ReturnCode.FAILED;
-    }
-
-    @Override
-    public String add(Map<String, String> map) {
-        logger.info("RedisCacheDaoImpl.add --- Overload method ! ------->  start ! " +
-                "  map = " + map);
-//        try {
-//            String result = ReturnCode.SUCCESS;
-//            for (String key : map.keySet()) {
-//                String value = map.get(key);
-//                String tempResult = add(key, value);
-//                if (tempResult.equals(ReturnCode.FAILED)) {
-//                    result = ReturnCode.FAILED;
-//                }
-//            }
-//            if (result.equals(ReturnCode.SUCCESS)) {
-//                logger.info("RedisCacheDaoImpl.add   ------->  end !  SUCCESS ");
-//                return ReturnCode.SUCCESS;
-//            } else {
-//                logger.info("RedisCacheDaoImpl.add   ------->  end !  FAILED ");
-//                return ReturnCode.FAILED;
-//            }
-//        } catch (Exception e) {
-//            logger.error("RedisCacheDaoImpl.add   ------->  ERROR!  " + e.getMessage());
-//        }
         return ReturnCode.FAILED;
     }
 
     @Override
     public String get(String key) {
         try {
-            logger.info("RedisCacheDaoImpl.get   ------->  start ! " +
+            logger.info("------->  start ! " +
                     "  key = " + key);
             ValueOperations<String, String> operator = redisTemplate.opsForValue();
             String result = operator.get(key);
-            logger.info("RedisCacheDaoImpl.get   ------->  end!  result = " + result);
+            logger.info("------->  end!  result = " + result);
             return result;
         } catch (Exception e) {
-            logger.error("RedisCacheDaoImpl.get   ------->  ERROR!  " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }
 
     @Override
     public String remove(String key) {
-        logger.info("RedisCacheDaoImpl.remove   ------->  start ! " +
+        logger.info("------->  start ! " +
                 "  key = " + key);
         try {
             boolean result = redisTemplate.delete(key);
-            logger.info("RedisCacheDaoImpl.remove   ------->  end !   result = " + result);
+            logger.info("------->  end !   result = " + result);
             if (result) {
                 return ReturnCode.SUCCESS;
             } else {
                 return ReturnCode.KEY_NOT_EXISTS;
             }
         } catch (Exception e) {
-            logger.error("RedisCacheDaoImpl.remove   ------->  ERROR!  " + e.getMessage());
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }

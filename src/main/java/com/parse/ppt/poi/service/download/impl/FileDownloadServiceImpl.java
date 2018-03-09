@@ -37,7 +37,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
 
     @Override
     public JSONArray getNo1PPT(int pageIndex) {
-        logger.info("FileDownloadServiceImpl.getNo1PPT   ------->  start!" +
+        logger.info("------->  start!" +
                 "   pageIndex = " + pageIndex);
         try {
             List<Map<String, String>> resultMapList = no1PptService.getNo1PPT(pageIndex, 40);
@@ -49,10 +49,10 @@ public class FileDownloadServiceImpl implements FileDownloadService {
                 }
                 jsonArray.add(jsonObject);
             }
-            logger.info("FileDownloadServiceImpl.getNo1PPT   ------->  end!  SUCCESS");
+            logger.info("------->  end!  SUCCESS");
             return jsonArray;
         } catch (Exception e) {
-            logger.error("FileDownloadServiceImpl.getNo1PPT   ------->  ERROR!  返回 FAILED ");
+            logger.error("------->  ERROR!  返回 FAILED ");
             logger.error(e.getMessage());
         }
         return null;
@@ -60,7 +60,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
 
     @Override
     public String downloadNo1PPT(int pptId, HttpSession session, HttpServletResponse response) {
-        logger.info("FileDownloadServiceImpl.downloadNo1PPT   ------->  start!" +
+        logger.info("------->  start!" +
                 "   pptId = " + pptId);
         try {
             String result = no1PptService.downloadNo1PPT(pptId, response);
@@ -70,10 +70,10 @@ public class FileDownloadServiceImpl implements FileDownloadService {
                 UserDownloadHistory userDownloadHistory = new UserDownloadHistory(user.getEmail(), pptId);
                 result = userDownloadHistoryService.addDownloadHistory(userDownloadHistory);
             }
-            logger.info("FileDownloadServiceImpl.downloadNo1PPT   ------->  end!  result = " + result);
+            logger.info("------->  end!  result = " + result);
             return result;
         } catch (Exception e) {
-            logger.error("FileDownloadServiceImpl.downloadNo1PPT   ------->  ERROR!  返回 FAILED ");
+            logger.error("------->  ERROR!  返回 FAILED ");
             logger.error(e.getMessage());
         }
         return null;

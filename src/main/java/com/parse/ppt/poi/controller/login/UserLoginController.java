@@ -35,12 +35,12 @@ public class UserLoginController {
                             @RequestParam("password") String encryptedPassword,
                             @RequestParam("rememberTag") String rememberTag,
                             HttpServletRequest request, HttpServletResponse response) {
-        logger.info("UserLoginController.userLogin   ------->  start! " +
+        logger.info("------->  start! " +
                 "  account = " + account +
                 "  password = " + encryptedPassword +
                 "  rememberTag = " + rememberTag);
         String result = userLoginService.userLogin(account, encryptedPassword, rememberTag, request, response);
-        logger.info("UserLoginController.userLogin   ------->  end! " +
+        logger.info("------->  end! " +
                 "  result = " + result);
         return result;
     }
@@ -52,7 +52,7 @@ public class UserLoginController {
                                @RequestParam("phoneNum") String phoneNum,
                                @RequestParam("password") String encryptedPassword,
                                HttpSession session) {
-        logger.info("UserLoginController.userRegister   ------->  start! " +
+        logger.info("------->  start! " +
                 "  username = " + username +
                 "  email = " + email +
                 "  phoneNum = " + phoneNum +
@@ -60,7 +60,7 @@ public class UserLoginController {
 
         User user = new User(username, email, phoneNum, encryptedPassword);
         String result = userLoginService.registerUser(user, session);
-        logger.info("UserLoginController.userRegister   ------->  end! " +
+        logger.info("------->  end! " +
                 " result = " + result);
         return result;
     }
@@ -68,9 +68,9 @@ public class UserLoginController {
     @RequestMapping("/userLogout")
     @ResponseBody
     public String userLogout(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("UserLoginController.userLogout   ------->  start! ");
+        logger.info("------->  start! ");
         String result = userLoginService.userLogout(request, response);
-        logger.info("UserLoginController.userLogout   ------->  end! " +
+        logger.info("------->  end! " +
                 " result = " + result);
         return result;
     }
@@ -79,10 +79,10 @@ public class UserLoginController {
     @ResponseBody
     public String getPublicKey(HttpSession session) {
         String sessionId = session.getId();
-        logger.info("UserLoginController.getPublicKey   ------->  start! " +
+        logger.info("------->  start! " +
                 "   session ID = " + sessionId);
         String result = userLoginService.getPublicKey(sessionId);
-        logger.info("UserLoginController.getPublicKey   ------->  end!  publicKey = " + result);
+        logger.info("------->  end!  publicKey = " + result);
         return result;
     }
 }

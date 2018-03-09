@@ -32,9 +32,9 @@ public class FileDownloadController {
     @RequestMapping("/loadNo1PPT")
     @ResponseBody
     public JSONArray loadNo1PPT(@RequestParam Integer pageIndex) {
-        logger.info("FileDownloadController.loadNo1PPT   ------->  start! ");
+        logger.info("------->  start! ");
         JSONArray resultJsonArray = fileDownloadService.getNo1PPT(pageIndex);
-        logger.info("FileDownloadController.loadNo1PPT   ------->  end! ");
+        logger.info("------->  end! ");
         return resultJsonArray;
     }
 
@@ -43,9 +43,9 @@ public class FileDownloadController {
     public String downloadNo1PPT(@RequestParam("id") String pptId,
                                  HttpSession session,
                                  HttpServletResponse response) {
-        logger.info("FileDownloadController.downloadNo1PPT   ------->  start! ");
+        logger.info("------->  start! ");
         String result = fileDownloadService.downloadNo1PPT(Integer.valueOf(pptId), session, response);
-        logger.info("FileDownloadController.downloadNo1PPT   ------->  end!  result = " + result);
+        logger.info("------->  end!  result = " + result);
         return result;
     }
 }

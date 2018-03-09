@@ -1,6 +1,5 @@
 package com.parse.ppt.poi.service.admin.impl;
 
-import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.admin.AdministratorService;
 import com.parse.ppt.poi.service.common.user.UserService;
@@ -29,7 +28,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public JSONObject setMainPageEssay(String essayTitle, String essayContent, HttpSession session) {
-        logger.info("AdministratorServiceImpl.setMainPageEssay   ------->  start! " +
+        logger.info("------->  start! " +
                 "   essayTitle = " + essayTitle +
                 "   essayContent = " + essayContent);
         try {
@@ -38,11 +37,11 @@ public class AdministratorServiceImpl implements AdministratorService {
             JSONObject essayInfoJson = new JSONObject();
             essayInfoJson.put("essayTitle", essayTitle);
             essayInfoJson.put("essayContent", essayContent);
-            logger.info("AdministratorServiceImpl.setMainPageEssay   ------->  end! " +
+            logger.info("------->  end! " +
                     "  essayInfoJson = " + essayInfoJson);
             return essayInfoJson;
         } catch (Exception e) {
-            logger.error("AdministratorServiceImpl.setMainPageEssay   ------->  ERROR! ");
+            logger.error("------->  ERROR! ");
             logger.error(e.getMessage());
         }
         return null;

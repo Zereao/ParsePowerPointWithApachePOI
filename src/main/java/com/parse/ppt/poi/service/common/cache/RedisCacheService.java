@@ -52,12 +52,4 @@ public interface RedisCacheService {
      */
     String addUserPersistentKeyPair(String username, String oldPrefix);
 
-    /**
-     * 根据用户对象的相关信息增加/修改用户对象专属的持久化的公钥-密钥对，用户后期的相关操作可以使用该公钥-密钥对进行加密、解密
-     *
-     * @param user      用户对象
-     * @param oldPrefix 先前的 Redis key 的前缀
-     * @return 返回码
-     */
-    String addUserPersistentKeyPair(User user, String oldPrefix);
 }

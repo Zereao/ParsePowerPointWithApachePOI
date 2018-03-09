@@ -34,7 +34,7 @@ public class No1PptServiceImpl implements No1PptService {
 
     @Override
     public List<Map<String, String>> getNo1PPT(int pageIndex, int pageSize) {
-        logger.info("No1PptServiceImpl.getNo1PPT()   ------->  start!" +
+        logger.info("------->  start!" +
                 "  pageIndex = " + pageIndex +
                 "  pageSize = " + pageSize);
         try {
@@ -49,10 +49,10 @@ public class No1PptServiceImpl implements No1PptService {
                 map.put("downloadUrl", ppt.getDownloadUrl());
                 resultList.add(map);
             }
-            logger.info("No1PptServiceImpl.getNo1PptByDescription()   ------->  end !");
+            logger.info("------->  end !");
             return resultList;
         } catch (Exception e) {
-            logger.error("No1PptServiceImpl.getNo1PptByDescription()   ------->  ERROR!  返回 null ");
+            logger.error("------->  ERROR!  返回 null ");
             logger.error(e.getMessage());
         }
         return null;
@@ -61,12 +61,12 @@ public class No1PptServiceImpl implements No1PptService {
     @Override
     public String addNo1PPT(No1PPT ppt) {
         try {
-            logger.info("No1PptServiceImpl.addNo1PPT()   ------->  start!  ppt = " + ppt);
+            logger.info("------->  start!  ppt = " + ppt);
             no1PptDao.addNo1PPT(ppt);
-            logger.info("No1PptServiceImpl.addNo1PPT()   ------->  end ! SUCCESS");
+            logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
-            logger.error("No1PptServiceImpl.addNo1PPT()   ------->  ERROR!  返回 FAILED ");
+            logger.error("------->  ERROR!  返回 FAILED ");
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
@@ -75,7 +75,7 @@ public class No1PptServiceImpl implements No1PptService {
     @Override
     public String downloadNo1PPT(int pptId, HttpServletResponse response) {
         try {
-            logger.info("No1PptServiceImpl.downloadNo1PPT()   ------->  start!");
+            logger.info("------->  start!");
             No1PPT pptTemp = no1PptDao.getNo1PPTById(pptId);
             String downloadUrl = pptTemp.getDownloadUrl();
             String downloadPageUrl = pptTemp.getDownloadPageUrl();
@@ -99,10 +99,10 @@ public class No1PptServiceImpl implements No1PptService {
             inputStream.close();
             // 关闭输出流
             outputStream.close();
-            logger.info("No1PptServiceImpl.downloadNo1PPT()   ------->  end ! SUCCESS");
+            logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
-            logger.error("No1PptServiceImpl.downloadNo1PPT()   ------->  ERROR!  返回 FAILED ");
+            logger.error("------->  ERROR!  返回 FAILED ");
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;

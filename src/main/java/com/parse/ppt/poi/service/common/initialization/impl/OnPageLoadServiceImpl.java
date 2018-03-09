@@ -32,7 +32,7 @@ public class OnPageLoadServiceImpl implements OnPageLoadService {
 
     @Override
     public JSONObject getMainPageLoadInfo(HttpServletRequest request) {
-        logger.info("OnPageLoadServiceImpl.onPageLoad   ------->  start! ");
+        logger.info("------->  start! ");
         try {
             HttpSession session = request.getSession();
             // 用户未登录时，默认的信息
@@ -64,10 +64,10 @@ public class OnPageLoadServiceImpl implements OnPageLoadService {
                 obj.put("essayTitle", redisCacheService.getByKey("essayTitle"));
                 obj.put("essayContent", redisCacheService.getByKey("essayContent").replace("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
             }
-            logger.info("OnPageLoadServiceImpl.onPageLoad()   ------->  end!   JSONObject = " + obj);
+            logger.info("------->  end!   JSONObject = " + obj);
             return obj;
         } catch (Exception e) {
-            logger.error("OnPageLoadServiceImpl.onPageLoad()   ------->  ERROR!    返回null");
+            logger.error("------->  ERROR!    返回null");
             logger.error(e.getMessage());
         }
         return null;

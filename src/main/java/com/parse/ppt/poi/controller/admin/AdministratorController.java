@@ -33,11 +33,11 @@ public class AdministratorController {
     public JSONObject setEssay(@RequestParam("essayTitle") String essayTitle,
                                @RequestParam("essayContent") String essayContent,
                                HttpSession session) {
-        logger.info("AdministratorController.setEssay   ------->  start! " +
+        logger.info("------->  start! " +
                 "  essayTitle = " + essayTitle +
                 "  essayContent = " + essayContent);
         JSONObject resultJson = administratorService.setMainPageEssay(essayTitle, essayContent, session);
-        logger.info("AdministratorController.setEssay   ------->  end! " +
+        logger.info("------->  end! " +
                 " resultJson = " + resultJson);
         return resultJson;
     }

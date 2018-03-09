@@ -50,7 +50,7 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public String userLogin(String account, String encryptedPassword, String rememberTag, HttpServletRequest request, HttpServletResponse response) {
-        logger.info("UserLoginServiceImpl.userLogin   ------->  start! " +
+        logger.info("------->  start! " +
                 "  account = " + account +
                 "  password = " + encryptedPassword +
                 "  rememberTag = " + rememberTag);
@@ -75,7 +75,7 @@ public class UserLoginServiceImpl implements UserLoginService {
             String realPassword = encryptService.contentDecrypter(privateKey, encryptedPassword);
             // 校验密码，如果不通过，返回 密码错误 错误码
             if (!(user.getPassword().equals(realPassword))) {
-                logger.info("UserLoginServiceImpl.userLogin   ------->  end!   WRONG_PASSWORD");
+                logger.info("------->  end!   WRONG_PASSWORD");
                 return ReturnCode.WRONG_PASSWORD;
             }
             logger.info("密码校验通过！开始接下来的操作！");
@@ -90,10 +90,11 @@ public class UserLoginServiceImpl implements UserLoginService {
             }
             // 把加密了信息后的用户对象放在session中
             session.setAttribute("user", user);
-            logger.info("UserLoginServiceImpl.userLogin   ------->  end! " +
+            logger.info("------->  end! " +
                     "  result = " + result);
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
+            logger.error("------->  ERROR !");
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
@@ -101,21 +102,21 @@ public class UserLoginServiceImpl implements UserLoginService {
 
     @Override
     public String registerUser(User user, HttpSession session) {
-        logger.info("UserLoginServiceImpl.registerUser   ------->  start! " +
+        logger.info("------->  start! " +
                 "  user = " + user);
         String result = ReturnCode.SUCCESS;
         try {
             String username = user.getUsername();
             String email = user.getEmail();
             String phoneNum = user.getPhoneNum();
-            logger.info("UserLoginServiceImpl.registerUser   ------->  检查用户是否已经注册过 ");
+            logger.info("------->  检查用户是否已经注册过 ");
             User userByEmail = userService.getUserByEmail(email);
             User userByPhoneNum = userService.getUserByPhoneNum(phoneNum);
             if (userByEmail != null || userByPhoneNum != null) {
-                logger.info("UserLoginServiceImpl.registerUser   ------->  用户已经存在 ！");
+                logger.info("------->  用户已经存在 ！");
                 return ReturnCode.ACCOUNT_ALREADY_EXISTS;
             }
-            logger.info("UserLoginServiceImpl.registerUser   ------->  检查完成，用户不存在于数据库中，可以注册 ");
+            logger.info("------->  检查完成，用户不存在于数据库中，可以注册 ");
             String sessionId = session.getId();
             String privateKey = redisCacheService.getByKey(sessionId + ".privateKey");
             String realPassword = encryptService.contentDecrypter(privateKey, user.getPassword());
@@ -133,34 +134,34 @@ public class UserLoginServiceImpl implements UserLoginService {
                         "下面是您注册的相关信息<br><br>" +
                         decryptedUser.toString();
                 result = mailService.sendSimpleWordMail(email, subject, content);
+                logger.info("------->  end! " +
+                        "  result = " + result);
             }
         } catch (Exception e) {
+            logger.error("------->  ERROR !");
             logger.error(e.getMessage());
-            result = ReturnCode.FAILED;
         }
-
-        logger.info("UserLoginServiceImpl.registerUser   ------->  end! " +
-                "  result = " + result);
         return result;
     }
 
     @Override
     public String userLogout(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("UserLoginServiceImpl.userLogout   ------->  start! ");
+        logger.info("------->  start! ");
         try {
             request.getSession().removeAttribute("user");
             String result = cookieService.removeUserCookie(request, response);
-            logger.info("UserLoginServiceImpl.userLogout   ------->  end!  SUCCESS");
+            logger.info("------->  end!  SUCCESS");
             return result;
         } catch (Exception e) {
-            logger.error("UserLoginServiceImpl.userLogout   ------->  ERROR " + e.getMessage());
+            logger.error("------->  ERROR !");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }
 
     @Override
     public String getPublicKey(String sessionId) {
-        logger.info("UserLoginServiceImpl.getPublicKey   ------->  start! " +
+        logger.info("------->  start! " +
                 "  session id = " + sessionId);
         try {
             Map<String, String> resultMap = encryptService.getKeyPair(sessionId);
@@ -170,10 +171,11 @@ public class UserLoginServiceImpl implements UserLoginService {
             if (result.equals(ReturnCode.FAILED)) {
                 logger.warn("添加公钥-密钥 map 到Redis高速缓存失败！  resultMap = " + resultMap);
             }
-            logger.info("UserLoginServiceImpl.getPublicKey   ------->  end!  keyPair = " + resultMap);
+            logger.info("------->  end!  keyPair = " + resultMap);
             return publicKey;
         } catch (Exception e) {
-            logger.error("UserLoginServiceImpl.getPublicKey   ------->  ERROR  " + e.getMessage());
+            logger.error("------->  ERROR !");
+            logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
     }

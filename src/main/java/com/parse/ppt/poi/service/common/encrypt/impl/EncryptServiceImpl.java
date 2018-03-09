@@ -34,36 +34,38 @@ public class EncryptServiceImpl implements EncryptService {
 
     @Override
     public Map<String, String> getKeyPair() {
-        logger.info("EncryptServiceImpl.getKeyPair   ------->  start! ");
+        logger.info("------->  start! ");
         try {
             Map<String, String> resultMap = keyPairGenerator("");
-            logger.info("EncryptServiceImpl.getKeyPair   ------->  end! " +
+            logger.info("------->  end! " +
                     "   resultMap = " + resultMap);
             return resultMap;
         } catch (Exception e) {
-            logger.error("EncryptServiceImpl.getKeyPair   ------->  ERROR ! " + e.getMessage());
+            logger.error("------->  ERROR !");
+            logger.error(e.getMessage());
         }
         return null;
     }
 
     @Override
     public Map<String, String> getKeyPair(String prefix) {
-        logger.info("EncryptServiceImpl.getKeyPair   ------->  start! " +
+        logger.info("------->  start! " +
                 "   prefix = " + prefix.trim());
         try {
             Map<String, String> resultMap = keyPairGenerator(prefix.trim());
-            logger.info("EncryptServiceImpl.getKeyPair   ------->  end! " +
+            logger.info("------->  end! " +
                     "   resultMap = " + resultMap);
             return resultMap;
         } catch (Exception e) {
-            logger.error("EncryptServiceImpl.getKeyPair   ------->  ERROR ! " + e.getMessage());
+            logger.error("------->  ERROR !");
+            logger.error(e.getMessage());
         }
         return null;
     }
 
     @Override
     public String contentDecrypter(String privateKey, String content) {
-        logger.info("EncryptServiceImpl.contentDecrypter   ------->  start ! \n" +
+        logger.info("------->  start ! \n" +
                 "  privateKey = " + privateKey + "\n" +
                 "  content = " + content);
         try {
@@ -76,10 +78,10 @@ public class EncryptServiceImpl implements EncryptService {
             byte[] contentByte = Base64.decodeBase64(content);
             byte[] resultByte = cipher.doFinal(contentByte);
             String result = new String(resultByte);
-            logger.info("EncryptServiceImpl.contentDecrypter   ------->  end !  result = " + result);
+            logger.info("------->  end !  result = " + result);
             return result;
         } catch (Exception e) {
-            logger.error("EncryptServiceImpl.contentDecrypter   ------->  ERROR ! 返回 null !");
+            logger.error("------->  ERROR ! 返回 null !");
             logger.error(e.getMessage());
         }
         return null;
@@ -87,7 +89,7 @@ public class EncryptServiceImpl implements EncryptService {
 
     @Override
     public String contentEncrypter(String publicKey, String content) {
-        logger.info("EncryptServiceImpl.contentEncrypter   ------->  start ! \n" +
+        logger.info("------->  start ! \n" +
                 "  publicKey = " + publicKey + "\n" +
                 "  content = " + content);
         try {
@@ -100,10 +102,10 @@ public class EncryptServiceImpl implements EncryptService {
             byte[] contentByte = Base64.decodeBase64(content);
             byte[] resultByte = cipher.doFinal(contentByte);
             String result = Base64.encodeBase64String(resultByte);
-            logger.info("EncryptServiceImpl.contentEncrypter   ------->  end !  result = " + result);
+            logger.info("------->  end !  result = " + result);
             return result;
         } catch (Exception e) {
-            logger.error("EncryptServiceImpl.contentEncrypter   ------->  ERROR ! 返回 null !");
+            logger.error("------->  ERROR ! 返回 null !");
             logger.error(e.getMessage());
         }
         return null;
@@ -117,7 +119,7 @@ public class EncryptServiceImpl implements EncryptService {
      * @return keyPairMap
      */
     private Map<String, String> keyPairGenerator(String prefix) {
-        logger.info("EncryptServiceImpl.keyPairGenerator   ------->  start! " +
+        logger.info("------->  start! " +
                 "   prefix = " + prefix);
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
@@ -140,12 +142,13 @@ public class EncryptServiceImpl implements EncryptService {
             }
             resultMap.put(theKeyOfPublicKey, publicKey);
             resultMap.put(theKeyOfPrivate, privateKey);
-            logger.info("EncryptServiceImpl.keyPairGenerator   ------->  end! \n" +
+            logger.info("------->  end! \n" +
                     "   publicKey = " + publicKey + "\n" +
                     "   privateKey = " + privateKey);
             return resultMap;
         } catch (Exception e) {
-            logger.error("EncryptServiceImpl.keyPairGenerator   ------->  ERROR ! " + e.getMessage());
+            logger.error("------->  ERROR !");
+            logger.error(e.getMessage());
         }
         return null;
     }

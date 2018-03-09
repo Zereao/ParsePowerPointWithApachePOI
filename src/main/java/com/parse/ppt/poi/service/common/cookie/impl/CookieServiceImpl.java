@@ -32,7 +32,7 @@ public class CookieServiceImpl implements CookieService {
 
     @Override
     public String addUserCookie(User user, HttpServletResponse response) {
-        logger.info("CookieServiceImpl.addUserCookie   ------->  start! " +
+        logger.info("------->  start! " +
                 "  user = " + user);
         try {
             String username = user.getUsername();
@@ -55,18 +55,18 @@ public class CookieServiceImpl implements CookieService {
                 cookie.setPath("/");
                 response.addCookie(cookie);
             }
-            logger.info("CookieServiceImpl.addUserCookie   ------->  end!   SUCCESS!");
+            logger.info("------->  end!   SUCCESS!");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
+            logger.error("------->  ERROR!");
             logger.error(e.getMessage());
-            logger.info("CookieServiceImpl.addUserCookie   ------->  end!   FAILED!");
         }
         return ReturnCode.FAILED;
     }
 
     @Override
     public String removeUserCookie(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("CookieServiceImpl.removeUserCookie   ------->  start! ");
+        logger.info("------->  start! ");
         try {
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
@@ -87,18 +87,18 @@ public class CookieServiceImpl implements CookieService {
                     }
                 }
             }
-            logger.info("CookieServiceImpl.removeUserCookie   ------->  end!   SUCCESS!");
+            logger.info("------->  end!   SUCCESS!");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
+            logger.error("------->  ERROR!");
             logger.error(e.getMessage());
-            logger.info("CookieServiceImpl.removeUserCookie   ------->  end!   FAILED!");
         }
         return ReturnCode.FAILED;
     }
 
     @Override
     public User loadUserCookie(HttpServletRequest request) {
-        logger.info("CookieServiceImpl.loadUserCookie   ------->  start! ");
+        logger.info("------->  start! ");
         try {
             Cookie[] cookies = request.getCookies();
             if (cookies != null && cookies.length > 0) {
@@ -125,7 +125,7 @@ public class CookieServiceImpl implements CookieService {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", newUser);
                     logger.info("已将用户信息写入session     user = " + session.getAttribute("user"));
-                    logger.info("CookieServiceImpl.loadUserCookie   ------->  end!  user = " + newUser);
+                    logger.info("------->  end!  user = " + newUser);
                     return newUser;
                 } else {
                     logger.info("cookie中记录信息有误，返回 null 。" +
@@ -136,10 +136,9 @@ public class CookieServiceImpl implements CookieService {
                 }
             }
         } catch (Exception e) {
+            logger.error("------->  ERROR!");
             logger.error(e.getMessage());
-            logger.info("CookieServiceImpl.loadUserCookie   ------->  end!   FAILED");
         }
-        logger.info("CookieServiceImpl.loadUserCookie   ------->  end! ");
         return null;
     }
 }

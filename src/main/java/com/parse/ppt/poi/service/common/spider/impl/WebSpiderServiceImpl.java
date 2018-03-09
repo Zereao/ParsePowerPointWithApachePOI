@@ -32,7 +32,7 @@ public class WebSpiderServiceImpl implements WebSpiderService {
 
     @Override
     public List<No1PPT> pptFileSpider(String pageIndex) {
-        logger.info("WebSpiderServiceImpl.pptFileSpider   ------->  start! " +
+        logger.info("------->  start! " +
                 "   pageIndex = " + pageIndex);
         try {
             List<No1PPT> resultMapList = new ArrayList<>();
@@ -64,10 +64,11 @@ public class WebSpiderServiceImpl implements WebSpiderService {
                 result = no1PptService.addNo1PPT(no1PPT);
                 resultMapList.add(no1PPT);
             }
-            logger.info("WebSpiderServiceImpl.pptFileSpider   ------->  end!  result = " + result);
+            logger.info("------->  end!  result = " + result);
             return resultMapList;
         } catch (Exception e) {
-            logger.error("WebSpiderServiceImpl.pptFileSpider   ------->  ERROR!" + e.getMessage());
+            logger.error("------->  ERROR !");
+            logger.error(e.getMessage());
         }
         return null;
     }

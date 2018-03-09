@@ -27,12 +27,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String email) {
         try {
-            logger.info("UserServiceImpl.getUserByEmail()   ------->  start!  email = " + email);
+            logger.info("------->  start!  email = " + email);
             User user = userDao.getUserByEmail(email);
-            logger.info("UserServiceImpl.getUserByEmail()   ------->  theUser = " + user);
+            logger.info("------->  theUser = " + user);
             return user;
         } catch (Exception e) {
-            logger.error("UserServiceImpl.getUserByEmail()   ------->  ERROR!  返回 null ");
+            logger.error("------->  ERROR!  返回 null ");
             logger.error(e.getMessage());
         }
         return null;
@@ -41,12 +41,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByPhoneNum(String phoneNum) {
         try {
-            logger.info("UserServiceImpl.getUserByPhoneNum()   ------->  start!  phoneNum = " + phoneNum);
+            logger.info("------->  start!  phoneNum = " + phoneNum);
             User user = userDao.getUserByPhoneNum(phoneNum);
-            logger.info("UserServiceImpl.getUserByPhoneNum()   ------->  theUser = " + user);
+            logger.info("------->  theUser = " + user);
             return user;
         } catch (Exception e) {
-            logger.error("UserServiceImpl.getUserByPhoneNum()   ------->  ERROR!  返回 null ");
+            logger.error("------->  ERROR!  返回 null ");
             logger.error(e.getMessage());
         }
         return null;
@@ -55,12 +55,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String addUser(User user) {
         try {
-            logger.info("UserServiceImpl.addUser()   ------->  start!  user = " + user);
+            logger.info("------->  start!  user = " + user);
             userDao.addUser(user);
-            logger.info("UserServiceImpl.addUser()   ------->  end ! SUCCESS");
+            logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
-            logger.error("UserServiceImpl.addUser()   ------->  ERROR!  返回 FAILED ");
+            logger.error("------->  ERROR!  返回 FAILED ");
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
@@ -69,15 +69,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public String updateUserEssay(String email, String essayTitle, String essayContent) {
         try {
-            logger.info("UserServiceImpl.updateUserEssay()   ------->  start!" +
+            logger.info("------->  start!" +
                     "   email = " + email +
-                    "   essayTitle = " + essayTitle +
-                    "   essayContent = " + essayContent);
+                    "   essayTitle = " + essayTitle);
             userDao.updateUserEssay(email, essayTitle, essayContent);
-            logger.info("UserServiceImpl.updateUserEssay()   ------->  end ! SUCCESS");
+            logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
-            logger.error("UserServiceImpl.updateUserEssay()   ------->  ERROR!  返回 FAILED ");
+            logger.error("------->  ERROR!  返回 FAILED ");
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
