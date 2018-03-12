@@ -1,4 +1,4 @@
-package com.parse.ppt.poi.service.common.other.slide.hslf;
+package com.parse.ppt.poi.service.other.slide.hslf;
 
 import org.apache.poi.hslf.usermodel.HSLFSlide;
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;

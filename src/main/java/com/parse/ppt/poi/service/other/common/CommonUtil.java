@@ -1,4 +1,4 @@
-package com.parse.ppt.poi.service.common.other.common;
+package com.parse.ppt.poi.service.other.common;
 
 import java.io.File;
 

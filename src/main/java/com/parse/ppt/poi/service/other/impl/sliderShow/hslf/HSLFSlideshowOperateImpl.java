@@ -1,6 +1,6 @@
-package com.parse.ppt.poi.service.common.other.impl.sliderShow.hslf;
+package com.parse.ppt.poi.service.other.impl.sliderShow.hslf;
 
-import com.parse.ppt.poi.service.common.other.slideshow.hslf.HSLFSlideshowOperate;
+import com.parse.ppt.poi.service.other.slideshow.hslf.HSLFSlideshowOperate;
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 import org.apache.poi.hslf.usermodel.HSLFSlideShowImpl;
 
@@ -8,7 +8,7 @@ import java.io.*;
 
 import java.awt.Dimension;
 
-import static com.parse.ppt.poi.service.common.other.common.CommonUtil.PPT_BATH_PATH;
+import static com.parse.ppt.poi.service.other.common.CommonUtil.PPT_BATH_PATH;
 
 /**
  * @author Jupiter

@@ -1,4 +1,4 @@
-package com.parse.ppt.poi.service.common.other.slideshow.hslf;
+package com.parse.ppt.poi.service.other.slideshow.hslf;
 
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 import org.springframework.stereotype.Service;

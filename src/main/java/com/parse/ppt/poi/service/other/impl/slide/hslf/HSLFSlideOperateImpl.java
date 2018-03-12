@@ -1,6 +1,6 @@
-package com.parse.ppt.poi.service.common.other.impl.slide.hslf;
+package com.parse.ppt.poi.service.other.impl.slide.hslf;
 
-import com.parse.ppt.poi.service.common.other.slide.hslf.HSLFSlideOperate;
+import com.parse.ppt.poi.service.other.slide.hslf.HSLFSlideOperate;
 import org.apache.poi.hslf.usermodel.*;
 import org.apache.poi.sl.usermodel.PictureData;
 
@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.parse.ppt.poi.service.common.other.common.CommonUtil.IMAGE_BATH_PATH;
-import static com.parse.ppt.poi.service.common.other.common.CommonUtil.getPicExt;
+import static com.parse.ppt.poi.service.other.common.CommonUtil.IMAGE_BATH_PATH;
+import static com.parse.ppt.poi.service.other.common.CommonUtil.getPicExt;
 
 
 /**
@@ -62,8 +62,8 @@ public class HSLFSlideOperateImpl implements HSLFSlideOperate {
         }
         for (HSLFPictureData picture : ppt.getPictureData()) {
             byte[] date = picture.getData();
-            /* 我估计 import org.apache.poi.sl.usermodel.PictureData;  对应着 HSLF
-                而            org.apache.poi.ss.usermodel.PictureData   对应着  HSSF
+            /* 我估计 import org.apache.hslf.sl.usermodel.PictureData;  对应着 HSLF
+                而            org.apache.hslf.ss.usermodel.PictureData   对应着  HSSF
              */
             PictureData.PictureType type = picture.getType();
             String ext = type.extension;
