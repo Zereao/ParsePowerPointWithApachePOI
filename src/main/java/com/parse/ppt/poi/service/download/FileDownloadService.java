@@ -31,4 +31,12 @@ public interface FileDownloadService {
      * @return 返回码
      */
     String downloadNo1PPT(int pptId, HttpSession session, HttpServletResponse response);
+
+    /**
+     * 根据爬取到的百度图片的下载链接信息，下载爬取到的图片到本地临时文件夹
+     *
+     * @param imgUrlList 爬取到的百度图片的下载链接信息
+     * @return 返回码-ReturnCode
+     */
+    String downloadBaiduImg(List<String> imgUrlList);
 }

@@ -10,6 +10,7 @@
     <context:component-scan base-package="com.parse.ppt.poi.common"/>
     <context:component-scan base-package="com.parse.ppt.poi.entity"/>
     <context:component-scan base-package="com.parse.ppt.poi.mapper"/>
+    <context:component-scan base-package="com.parse.ppt.poi.service.download"/>
     <!--<context:component-scan base-package="com.parse.ppt.hslf.service.login"/>-->
     <context:component-scan base-package="com.parse.ppt.poi.service.common.cache"/>
     <!--<context:component-scan base-package="com.parse.ppt.hslf.service.common.cookie"/>-->
@@ -18,6 +19,8 @@
     <context:component-scan base-package="com.parse.ppt.poi.service.common.no1ppt"/>
     <context:component-scan base-package="com.parse.ppt.poi.service.common.spider"/>
     <context:component-scan base-package="com.parse.ppt.poi.service.common.user"/>
+    <context:component-scan base-package="com.parse.ppt.poi.service.common.history"/>
+
 
     <context:property-placeholder location="classpath:test_properties/db_config.properties,
                                             classpath:test_properties/mail_config.properties,

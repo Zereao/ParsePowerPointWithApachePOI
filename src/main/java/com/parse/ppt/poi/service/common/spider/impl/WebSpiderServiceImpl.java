@@ -12,8 +12,11 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Jupiter
@@ -73,9 +76,45 @@ public class WebSpiderServiceImpl implements WebSpiderService {
         return null;
     }
 
+    @Override
+    public List<String> BaiduPicSpider(int pageIndex, String keyWord) {
+        logger.info("------->  start! " +
+                "   pageIndex = " + pageIndex +
+                "   keyWord = " + keyWord);
+        try {
+            String userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36";
+            String baseUrl = "https://image.baidu.com/search/index?ct=&z=&tn=baiduimage&ipn=r&word=";
+            String pnUrl = "&pn=";
+            String otherConfigUrl = "&face=0&istype=2&ie=utf-8&oe=utf-8&cl=&lm=-1&st=-1&fr=&fmq=&ic=0&se=&sme=";
+
+            List<String> resultList = new ArrayList<>();
+            for (int i = 0; i < pageIndex; i++) {
+                //  下面的 i*30 就表示了，每一页30张图片信息
+                String urlTemp = baseUrl + keyWord + pnUrl + (i * 30) + otherConfigUrl;
+                String url = new String(urlTemp.getBytes("utf-8"));
+                Document document = Jsoup.connect(url).userAgent(userAgent).get();
+                Pattern pattern = Pattern.compile("objURL\":\"http://.+?\"");
+                Matcher matcher = pattern.matcher(document.toString());
+                while (matcher.find()) {
+                    // String reg = "objURL\":\"http://.+?\""; 中 url 的起始下标
+                    int start = 9;
+                    String imgUrl = matcher.group().substring(start, matcher.group().length() - 1);
+                    resultList.add(imgUrl);
+                }
+            }
+            logger.info("------->  end!" +
+                    "   resultList = " + resultList);
+            return resultList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
 
     /**
-     * 私有方法
+     * 私有方法-针对第1PPT 的下载
      * <p>
      * 根据下载页面的链接，通过解析，得到PPT文件的下载链接
      *

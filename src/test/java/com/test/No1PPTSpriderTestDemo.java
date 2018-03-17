@@ -1,12 +1,15 @@
 package com.test;
 
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
+import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * @author Jupiter
@@ -28,7 +31,7 @@ public class No1PPTSpriderTestDemo {
     @Test
     public void testU() {
         for (int i = 1; i < 87; i++) {
-            webSpiderService.pptFileSpider(String.valueOf(i));
+            List<No1PPT> resultMapList = webSpiderService.pptFileSpider(String.valueOf(i));
         }
     }
 
