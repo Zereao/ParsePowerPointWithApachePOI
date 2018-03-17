@@ -39,4 +39,5 @@ public interface FileDownloadService {
      * @return 返回码-ReturnCode
      */
     String downloadBaiduImg(List<String> imgUrlList);
+
 }

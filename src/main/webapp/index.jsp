@@ -265,10 +265,10 @@
                             <a class="nav-link" href="javascript:void(0);" data-no="2">下载</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-no="3">搜索</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="3">生成</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-no="4">生成</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="4">❤</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="5">❤</a>
@@ -335,21 +335,28 @@
         </li>
 
 
-        <!-- 第三页，用户搜索，爬取图片，用户选择，生成PPT -->
+        <!-- 第三页，生成 - POI核心，爬取图片，用户选择，生成PPT -->
         <li>
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="3">
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-cloud"></div>
                     <div class="tm-img-gallery-container">
-                        <div class="tm-img-gallery gallery-one">
-                            <!-- Gallery One pop up connected with JS code below -->
+                        <div class="tm-img-gallery">
                             <div class="tm-img-gallery-info-container">
-                                <h2 class="tm-text-title tm-gallery-title">Gallery One</h2>
-                                <p class="tm-text">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor tempus
-                                    massa, eget tempus quam
-                                    nibh vel nulla. Maecenas purus sem, lobortis id odio in, ultrices scelerisque
-                                    sapien.
-                                </p>
+                                <h2 class="tm-text-title tm-gallery-title">POI Gallery
+                                    <p class="tm-text">这里是使用<a href="http://poi.apache.org/" target="_blank"><span
+                                            style="color: #00FFFF">Apache POI</span></a>技术实现PPT模板一键生成的。
+                                    </p>
+                                </h2>
+
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-group" type="button">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -402,13 +409,9 @@
                                 </a>
                             </div>
                         </div>
-
-                    </div> <!-- .tm-img-gallery-container -->
-
-                </div> <!-- .container-fluid -->
-
-            </div> <!-- .cd-full-width -->
-
+                    </div>
+                </div>
+            </div>
         </li>
 
 
@@ -417,11 +420,9 @@
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="4">
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/red-flower"></div>
-
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="tm-flex tm-2-col-container-2">
-
                                 <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding">
                                     <h2 class="tm-text-title">Lorem ipsum dolor</h2>
                                     <p class="tm-text">Nulla efficitur, ligula et imperdiet volutpat, lacus tortor
@@ -431,19 +432,14 @@
                                     <p class="tm-text">Pellentesque semper, est nec consequat viverra, sem augue
                                         tincidunt nisi, a posuere nisi sapien sed sapien. Nulla facilisi.</p>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-            </div> <!-- .cd-full-width -->
-
-
+            </div>
         </li>
 
-
+        <%-- 第五页 三列 --%>
         <li>
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="5">
@@ -496,19 +492,15 @@
                                             finibus. Mauris condimentum ex vestibulum fringilla consectetur.</p>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-
         </li>
 
 
-        <%-- 这里是设置首页文章 --%>
+        <%-- 第六页 设置首页文章 --%>
         <li>
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="6">

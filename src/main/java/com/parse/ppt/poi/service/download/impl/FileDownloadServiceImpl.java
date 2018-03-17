@@ -130,6 +130,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
         return ReturnCode.FAILED;
     }
 
+
     /**
      * 私有的图片下载方法
      *
@@ -177,4 +178,6 @@ public class FileDownloadServiceImpl implements FileDownloadService {
             return false;
         }
     }
+
+
 }

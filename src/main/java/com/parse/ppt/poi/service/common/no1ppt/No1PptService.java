@@ -38,4 +38,19 @@ public interface No1PptService {
      * @return 返回码
      */
     String downloadNo1PPT(int pptId, HttpServletResponse response);
+
+    /**
+     * 测试方法中执行的方法，批量把 pages页的PPT下载到本地
+     *
+     * @param pages 需要下载的总页数，每一页含有40张PPT
+     * @return 返回码
+     */
+    String downloadAllNo1PPT(int pages);
+
+    /**
+     * 测试方法中执行的方法，开启5个线程，每个线程下载340条No1PPT到本地，共计1700条信息
+     *
+     * @return 返回码
+     */
+    String downloadAllNo1PPTSync();
 }

@@ -16,10 +16,10 @@ import java.util.List;
 @Repository
 public interface No1PptDao {
     /**
-     * 通过email获取用户信息
+     * 分页查询。
      *
-     * @param pageIndex 分页-位置偏移量[索引]
-     * @param pageSize  分页-需要取得的行数
+     * @param pageIndex 分页-位置偏移量[索引]-查询开始的索引，从第pageIndex开始
+     * @param pageSize  分页-需要取得的行数-需要取得的数据的条数
      * @return PPT信息对象List
      */
     @Select(value = "<script>"
@@ -32,7 +32,7 @@ public interface No1PptDao {
     List<No1PPT> getNo1PPT(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
 
     /**
-     * 通过email获取用户信息
+     * 根据pptID 获取到一个No1PPT对象
      *
      * @return PPT信息对象List
      */

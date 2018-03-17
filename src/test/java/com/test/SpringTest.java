@@ -3,6 +3,7 @@ package com.test;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
+import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import com.parse.ppt.poi.service.download.FileDownloadService;
 import org.junit.Test;
@@ -29,16 +30,16 @@ public class SpringTest {
     @Autowired
     private WebSpiderService webSpiderService;
     @Autowired
-    private No1PptDao no1PptDao;
+    private No1PptService no1PptService;
     @Autowired
     private RedisCacheService redisCacheService;
     @Autowired
     private FileDownloadService fileDownloadService;
 
     @Test
-    public void testU() {
-        List<String> list = webSpiderService.BaiduPicSpider(1, "ppt");
-        fileDownloadService.downloadBaiduImg(list);
+    public void testU() throws InterruptedException {
+        String result = no1PptService.downloadAllNo1PPTSync();
+        Thread.sleep(24 * 3600 * 1000);
     }
 
 
