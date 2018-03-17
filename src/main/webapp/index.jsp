@@ -265,10 +265,10 @@
                             <a class="nav-link" href="javascript:void(0);" data-no="2">下载</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-no="3">❤</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="3">搜索</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-no="4">❤</a>
+                            <a class="nav-link" href="javascript:void(0);" data-no="4">生成</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="5">❤</a>
@@ -411,16 +411,12 @@
 
         </li>
 
-        <!-- Page 4 -->
+
+        <%-- 第四页，生成页面 - POI核心 --%>
         <li>
-
             <div class="cd-full-width">
-
                 <div class="container-fluid js-tm-page-content" data-page-no="4">
-
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/red-flower">
-                        <!-- video element will be loaded using jQuery -->
-                    </div> <!-- .cd-bg-video-wrapper -->
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/red-flower"></div>
 
                     <div class="row">
                         <div class="col-xs-12">
@@ -434,18 +430,6 @@
                                         elit in velit ultricies aliquet sed in magna.</p>
                                     <p class="tm-text">Pellentesque semper, est nec consequat viverra, sem augue
                                         tincidunt nisi, a posuere nisi sapien sed sapien. Nulla facilisi.</p>
-                                </div>
-
-                                <div class="tm-bg-white-translucent text-xs-left tm-textbox tm-2-col-textbox-2 tm-textbox-padding">
-                                    <h2 class="tm-text-title">Aliquam sem sem</h2>
-                                    <p class="tm-text">Proin sagittis mauris dolor, vel efficitur lectus dictum nec. Sed
-                                        ultrices placerat arcu, id malesuada metus cursus suscipit. Donex quis
-                                        consectetur ligula. Proin accumsan eros id nisi porttitor, a facilisis quam
-                                        cursus.</p>
-                                    <p class="tm-text">Donec vitae bibendum est, et ultrices urna. Curabitur ac bibendum
-                                        augue, a convallis mi. Cum sociis natoque penatibus et magnis dis parturient
-                                        montes, nascetur ridiculus mus. Mauris consequat metus hendrerit, tincidunt mi
-                                        nec, euismod massa.</p>
                                 </div>
 
                             </div>
