@@ -1,11 +1,11 @@
-package com.parse.ppt.poi.service.download.impl;
+package com.parse.ppt.poi.service.common.download.impl;
 
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.entity.UserDownloadHistory;
 import com.parse.ppt.poi.service.common.history.UserDownloadHistoryService;
-import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
-import com.parse.ppt.poi.service.download.FileDownloadService;
+import com.parse.ppt.poi.service.no1ppt.No1PptService;
+import com.parse.ppt.poi.service.common.download.FileDownloadService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;

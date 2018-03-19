@@ -40,6 +40,8 @@
         <jsoup.version>1.11.2</jsoup.version>
         <!-- Json-lib -->
         <json-lib.version>2.4</json-lib.version>
+        <!-- Commons-compress -->
+        <commons-compress.version>1.16.1</commons-compress.version>
         <!-- log4j -->
         <log4j.version>2.10.0</log4j.version>
         <!-- JUnit -->
@@ -171,6 +173,12 @@
             <artifactId>json-lib</artifactId>
             <version>${json-lib.version}</version>
             <classifier>jdk15</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>${commons-compress.version}</version>
         </dependency>
 
 

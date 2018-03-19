@@ -1,9 +1,9 @@
-package com.parse.ppt.poi.service.common.no1ppt.impl;
+package com.parse.ppt.poi.service.no1ppt.impl;
 
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
-import com.parse.ppt.poi.service.common.no1ppt.No1PptService;
+import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,6 @@ public class No1PptServiceImpl implements No1PptService {
             conn.setRequestProperty("referer", downloadPageUrl);
             InputStream inputStream = conn.getInputStream();
             // 创建输出流
-            response.setHeader("Content-type", "application-download");
             OutputStream outputStream = response.getOutputStream();
             // 创建缓冲区
             byte[] buffer = new byte[1024];
@@ -148,38 +147,11 @@ public class No1PptServiceImpl implements No1PptService {
             if (!tempFile.exists()) {
                 boolean isCreate = tempFile.mkdir();
             }
-
-            Thread thread1 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    downloadNo1PPT(no1PPTList1, BASE_PATH);
-                }
-            });
-            Thread thread2 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    downloadNo1PPT(no1PPTList2, BASE_PATH);
-                }
-            });
-            downloadNo1PPT(no1PPTList1, BASE_PATH);
-            Thread thread3 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    downloadNo1PPT(no1PPTList3, BASE_PATH);
-                }
-            });
-            Thread thread4 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    downloadNo1PPT(no1PPTList4, BASE_PATH);
-                }
-            });
-            Thread thread5 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    downloadNo1PPT(no1PPTList5, BASE_PATH);
-                }
-            });
+            Thread thread1 = new Thread(() -> downloadNo1PPT(no1PPTList1, BASE_PATH));
+            Thread thread2 = new Thread(() -> downloadNo1PPT(no1PPTList2, BASE_PATH));
+            Thread thread3 = new Thread(() -> downloadNo1PPT(no1PPTList3, BASE_PATH));
+            Thread thread4 = new Thread(() -> downloadNo1PPT(no1PPTList4, BASE_PATH));
+            Thread thread5 = new Thread(() -> downloadNo1PPT(no1PPTList5, BASE_PATH));
             thread1.start();
             thread2.start();
             thread3.start();
@@ -207,10 +179,10 @@ public class No1PptServiceImpl implements No1PptService {
                 "   BASE_PATH = " + BASE_PATH);
         try {
             for (No1PPT no1PPT : no1PPTList) {
-                String pptName = no1PPT.getSrcDescription().trim();
+                int pptName = no1PPT.getId();
                 String downloadUrl = no1PPT.getDownloadUrl().trim();
                 String downloadPageUrl = no1PPT.getDownloadPageUrl();
-                String fileExt = downloadUrl.substring(downloadUrl.length() - 4, downloadUrl.length());
+                String fileExt = downloadUrl.substring(downloadUrl.length() - 4);
                 HttpURLConnection conn = (HttpURLConnection) new URL(downloadUrl).openConnection();
                 conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36");
                 conn.setRequestProperty("referer", downloadPageUrl);

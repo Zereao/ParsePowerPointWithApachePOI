@@ -1,6 +1,6 @@
-package com.parse.ppt.poi.service.hslf.impl;
+package com.parse.ppt.poi.service.poi.hslf.impl;
 
-import com.parse.ppt.poi.service.hslf.PptOperateService;
+import com.parse.ppt.poi.service.poi.hslf.PptOperateService;
 import org.springframework.stereotype.Service;
 
 @Service

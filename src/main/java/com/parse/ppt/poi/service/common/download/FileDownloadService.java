@@ -1,4 +1,4 @@
-package com.parse.ppt.poi.service.download;
+package com.parse.ppt.poi.service.common.download;
 
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jupiter

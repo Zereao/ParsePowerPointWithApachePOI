@@ -1,6 +1,6 @@
 package com.parse.ppt.poi.controller.download;
 
-import com.parse.ppt.poi.service.download.FileDownloadService;
+import com.parse.ppt.poi.service.common.download.FileDownloadService;
 import net.sf.json.JSONArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
