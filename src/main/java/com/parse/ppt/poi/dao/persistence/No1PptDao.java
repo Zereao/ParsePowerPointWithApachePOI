@@ -34,6 +34,7 @@ public interface No1PptDao {
     /**
      * 根据pptID 获取到一个No1PPT对象
      *
+     * @param pptId No1PPT的ID
      * @return PPT信息对象List
      */
     @Select(value = "<script>"
@@ -51,5 +52,21 @@ public interface No1PptDao {
      * @param ppt 爬取到的 ppt 的信息对象
      */
     void addNo1PPT(No1PPT ppt);
+
+    /**
+     * 更新No1PPT 的信息
+     *
+     * @param no1PPT No1PPT对象
+     */
+    void updateNo1PPT(No1PPT no1PPT);
+
+    /**
+     * 更新No1PPT的信息——修改压缩包中的PPT文件的文件名
+     *
+     * @param pptId       No1PPT的ID
+     * @param pptFileName 压缩包中的PPT文件的文件名
+     */
+    void updateNo1PPTFileName(@Param("pptId") int pptId,
+                              @Param("pptFileName") String pptFileName);
 
 }

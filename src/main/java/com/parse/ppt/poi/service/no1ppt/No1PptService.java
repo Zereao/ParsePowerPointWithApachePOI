@@ -13,6 +13,14 @@ import java.util.Map;
 @Service
 public interface No1PptService {
     /**
+     * 根据No1PPT的ID查询 No1PPT 的信息
+     *
+     * @param pptId No1PPT对象的ID
+     * @return 对应的No1PPT对象
+     */
+    No1PPT getNo1PptById(String pptId);
+
+    /**
      * 数据库分页查询 No1PPT 的信息
      *
      * @param pageIndex 分页-位置偏移量[索引]
@@ -29,6 +37,15 @@ public interface No1PptService {
      * @return 返回码
      */
     String addNo1PPT(No1PPT ppt);
+
+    /**
+     * 更新No1PPT的信息——修改压缩包中的PPT文件的文件名
+     *
+     * @param pptId       No1PPT的ID
+     * @param pptFileName 压缩包中的PPT文件的文件名
+     * @return ReturnCode - 返回码
+     */
+    String updateNo1PPTFileName(String pptId, String pptFileName);
 
     /**
      * 根据前端传递过来的 pptID，获取到PPT的相关信息
@@ -53,4 +70,5 @@ public interface No1PptService {
      * @return 返回码
      */
     String downloadAllNo1PPTSync();
+
 }

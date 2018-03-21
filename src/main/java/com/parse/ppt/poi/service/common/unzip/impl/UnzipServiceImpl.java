@@ -15,6 +15,33 @@ public class UnzipServiceImpl implements UnzipService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
+    public String getPptName(String zipFileName) {
+        logger.info("------->  start!  zipFileName = " + zipFileName);
+        String zipFilePath = "文件输出/NO1PPTS/" + zipFileName;
+        try (
+                InputStream inputStream = new FileInputStream(new File(zipFilePath));
+                ZipArchiveInputStream zipArchiveInputStream = new ZipArchiveInputStream(inputStream, "GBK", false, true);
+        ) {
+            ArchiveEntry archiveEntry = null;
+            while (null != (archiveEntry = zipArchiveInputStream.getNextEntry())) {
+                //获取文件名
+                String archiveEntryFileName = archiveEntry.getName();
+                boolean isPPTFile = archiveEntryFileName.toLowerCase().contains(".ppt") ||
+                        archiveEntryFileName.toLowerCase().contains(".pptx");
+                if (isPPTFile) {
+                    logger.info("------->  end!  PPT文件的文件名为 = " + archiveEntryFileName);
+                    return archiveEntryFileName;
+                }
+            }
+            logger.info("------->  end!  压缩包中不存在PPT/PPTX文件！    返回 null ");
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 null ");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public String unzipFileByName(String zipFileName) {
         logger.info("------->  start!  zipFileName = " + zipFileName);
 

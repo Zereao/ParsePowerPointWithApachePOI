@@ -6,6 +6,7 @@ import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import com.parse.ppt.poi.service.common.unzip.UnzipService;
 import com.parse.ppt.poi.service.common.download.FileDownloadService;
 import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
+import com.parse.ppt.poi.service.ppt2img.No1Ppt2imgService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class SpringTest {
     @Autowired
     private FileDownloadService fileDownloadService;
     @Autowired
-    private UnzipService unzipService;
-    @Autowired
     private PptxOperateService pptxOperateService;
+    @Autowired
+    private No1Ppt2imgService no1Ppt2imgService;
 
     private String result = null;
 
@@ -49,13 +50,14 @@ public class SpringTest {
 
     @Test
     public void testU() {
-        File file = new File("文件输出/NO1PPTS/unzip/丝绸之路驼队背景的企业培训PPT模板/丝绸之路.pptx");
-        pptxOperateService.pptx2png(file);
+        for (int i = 1; i < 5; i++) {
+            no1Ppt2imgService.ppt2img(String.valueOf(i));
+        }
+
     }
 
     @Test
     public void test3() throws InterruptedException {
-        String re = unzipService.unzipFileByName("彩色三角形创意时尚PPT模板.zip");
         Thread.sleep(1000);
     }
 

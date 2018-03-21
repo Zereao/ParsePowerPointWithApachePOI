@@ -8,6 +8,7 @@
             <arg column="img_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="download_page_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
             <arg column="download_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ppt_file_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
         </constructor>
     </resultMap>
 
@@ -17,5 +18,15 @@
         VALUES (#{srcDescription,jdbcType=VARCHAR}, #{srcImgUrl,jdbcType=VARCHAR},
                 #{downloadPageUrl,jdbcType=VARCHAR}, #{downloadUrl,jdbcType=VARCHAR})
     </insert>
+
+    <update id="updateNo1PPTFileName">
+        update no_1_ppt
+        <set>
+            <if test="pptFileName != null">
+                ppt_file_name = #{pptFileName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{pptId,jdbcType=INTEGER}
+    </update>
 
 </mapper>

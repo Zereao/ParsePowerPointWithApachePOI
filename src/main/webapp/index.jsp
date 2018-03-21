@@ -234,7 +234,36 @@
                         var imgUrl = currentValue.imgUrl;
                         var downloadUrl = currentValue.downloadUrl;
                         var fileExt = downloadUrl.substring(downloadUrl.length - 4, downloadUrl.length);
-                        htmlText += '<div class="grid-item" title="' + description + '">' +
+                        htmlText += '<div class="grid-item" title="' + description + '" onmouseover="">' +
+                            ' <a href="/download/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
+                            '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
+                            ' </a>' +
+                            ' </div>';
+                    });
+                    $("#pptGallery").append(htmlText);
+                }
+            });
+        }
+
+        function ppt2imgDisplay() {
+            $.ajax({
+                type: "post",
+                url: "/download/loadNo1PPT",
+                produces: "text/html;charset=UTF-8",
+                data: postInfo,
+                error: function () {
+                    alert("获取下载页PPT失败！");
+                },
+                success: function (data) {
+                    pageIndex += 40;
+                    var htmlText = '';
+                    data.forEach(function (currentValue, index, data) {
+                        var pptId = currentValue.id;
+                        var description = currentValue.description;
+                        var imgUrl = currentValue.imgUrl;
+                        var downloadUrl = currentValue.downloadUrl;
+                        var fileExt = downloadUrl.substring(downloadUrl.length - 4, downloadUrl.length);
+                        htmlText += '<div class="grid-item" title="' + description + '" onmouseover="">' +
                             ' <a href="/download/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
                             '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +

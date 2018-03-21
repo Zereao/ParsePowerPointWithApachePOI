@@ -35,6 +35,20 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
+    public No1PPT getNo1PptById(String pptId) {
+        try {
+            logger.info("------->  start!  pptId = " + pptId);
+            No1PPT no1PPT = no1PptDao.getNo1PPTById(Integer.parseInt(pptId));
+            logger.info("------->  end ! no1PPT = " + no1PPT);
+            return no1PPT;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 null ");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public List<Map<String, String>> getNo1PPT(int pageIndex, int pageSize) {
         logger.info("------->  start!" +
                 "  pageIndex = " + pageIndex +
@@ -75,10 +89,26 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
+    public String updateNo1PPTFileName(String pptId, String pptFileName) {
+        try {
+            logger.info("------->  start! " +
+                    "  pptId = " + pptId +
+                    "  pptFileName = " + pptFileName);
+            no1PptDao.updateNo1PPTFileName(Integer.parseInt(pptId), pptFileName);
+            logger.info("------->  end ! SUCCESS");
+            return ReturnCode.SUCCESS;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 FAILED ");
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
+    }
+
+    @Override
     public String downloadNo1PPT(int pptId, HttpServletResponse response) {
         try {
             logger.info("------->  start!");
-            No1PPT pptTemp = no1PptDao.getNo1PPTById(pptId);
+            No1PPT pptTemp = getNo1PptById(String.valueOf(pptId));
             String downloadUrl = pptTemp.getDownloadUrl();
             String downloadPageUrl = pptTemp.getDownloadPageUrl();
 
