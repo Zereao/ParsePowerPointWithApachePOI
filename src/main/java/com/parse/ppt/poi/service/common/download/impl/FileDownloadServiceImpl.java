@@ -42,48 +42,15 @@ public class FileDownloadServiceImpl implements FileDownloadService {
         this.userDownloadHistoryService = userDownloadHistoryService;
     }
 
+
     @Override
     public JSONArray getNo1PPT(int pageIndex) {
-        logger.info("------->  start!" +
-                "   pageIndex = " + pageIndex);
-        try {
-            List<Map<String, String>> resultMapList = no1PptService.getNo1PPT(pageIndex, 40);
-            JSONArray jsonArray = new JSONArray();
-            for (Map<String, String> map : resultMapList) {
-                JSONObject jsonObject = new JSONObject();
-                for (String key : map.keySet()) {
-                    jsonObject.put(key, map.get(key));
-                }
-                jsonArray.add(jsonObject);
-            }
-            logger.info("------->  end!  SUCCESS");
-            return jsonArray;
-        } catch (Exception e) {
-            logger.error("------->  ERROR!  返回 null ");
-            logger.error(e.getMessage());
-        }
         return null;
     }
 
     @Override
     public String downloadNo1PPT(int pptId, HttpSession session, HttpServletResponse response) {
-        logger.info("------->  start!" +
-                "   pptId = " + pptId);
-        try {
-            String result = no1PptService.downloadNo1PPT(pptId, response);
-            boolean addUserDownloadHistory = result.equals(ReturnCode.SUCCESS) && session.getAttribute("user") != null;
-            if (addUserDownloadHistory) {
-                User user = (User) session.getAttribute("user");
-                UserDownloadHistory userDownloadHistory = new UserDownloadHistory(user.getEmail(), pptId);
-                result = userDownloadHistoryService.addDownloadHistory(userDownloadHistory);
-            }
-            logger.info("------->  end!  result = " + result);
-            return result;
-        } catch (Exception e) {
-            logger.error("------->  ERROR!  返回 FAILED ");
-            logger.error(e.getMessage());
-        }
-        return ReturnCode.FAILED;
+        return null;
     }
 
     @Override

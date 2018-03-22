@@ -2,7 +2,6 @@ package com.parse.ppt.poi.service.common.ppt2img.impl;
 
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
-import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.poi.hslf.PptOperateService;
 import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
 import com.parse.ppt.poi.service.common.ppt2img.No1Ppt2imgService;

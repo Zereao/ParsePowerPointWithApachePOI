@@ -29,15 +29,6 @@ public class FileDownloadController {
         this.fileDownloadService = fileDownloadService;
     }
 
-    @RequestMapping("/loadNo1PPT")
-    @ResponseBody
-    public JSONArray loadNo1PPT(@RequestParam Integer pageIndex) {
-        logger.info("------->  start! ");
-        JSONArray resultJsonArray = fileDownloadService.getNo1PPT(pageIndex);
-        logger.info("------->  end! ");
-        return resultJsonArray;
-    }
-
     @RequestMapping("/downloadNo1PPT")
     @ResponseBody
     public String downloadNo1PPT(@RequestParam("id") String pptId,

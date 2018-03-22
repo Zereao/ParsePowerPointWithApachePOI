@@ -3,14 +3,21 @@ package com.parse.ppt.poi.service.no1ppt.impl;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.entity.User;
+import com.parse.ppt.poi.entity.UserDownloadHistory;
+import com.parse.ppt.poi.service.common.history.UserDownloadHistoryService;
 import com.parse.ppt.poi.service.common.ppt2img.No1Ppt2imgService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -28,10 +35,13 @@ public class No1PptServiceImpl implements No1PptService {
     private final No1PptDao no1PptDao;
     private final No1Ppt2imgService no1Ppt2imgService;
 
+    private final UserDownloadHistoryService userDownloadHistoryService;
+
     @Autowired
-    public No1PptServiceImpl(No1PptDao no1PptDao, No1Ppt2imgService no1Ppt2imgService) {
+    public No1PptServiceImpl(No1PptDao no1PptDao, No1Ppt2imgService no1Ppt2imgService, UserDownloadHistoryService userDownloadHistoryService) {
         this.no1PptDao = no1PptDao;
         this.no1Ppt2imgService = no1Ppt2imgService;
+        this.userDownloadHistoryService = userDownloadHistoryService;
     }
 
     @Override
@@ -49,29 +59,35 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
-    public List<Map<String, String>> getNo1PPT(int pageIndex, int pageSize) {
+    public JSONArray getNo1PPT(int pageIndex, int pageSize) {
         logger.info("------->  start!" +
                 "  pageIndex = " + pageIndex +
                 "  pageSize = " + pageSize);
         try {
-            List<Map<String, String>> resultList = new ArrayList<>();
+            JSONArray no1pptJsonArray = new JSONArray();
             List<No1PPT> pptList = no1PptDao.getNo1PPT(pageIndex, pageSize);
             for (No1PPT ppt : pptList) {
-                Map<String, String> map = new HashMap<>();
-                map.put("id", String.valueOf(ppt.getId()));
-                map.put("description", ppt.getSrcDescription());
-                map.put("imgUrl", ppt.getSrcImgUrl());
-                map.put("downloadPageUrl", ppt.getDownloadPageUrl());
-                map.put("downloadUrl", ppt.getDownloadUrl());
-                resultList.add(map);
+                JSONObject json = new JSONObject();
+                json.put("id", String.valueOf(ppt.getId()));
+                json.put("description", ppt.getSrcDescription());
+                json.put("imgUrl", ppt.getSrcImgUrl());
+                json.put("downloadPageUrl", ppt.getDownloadPageUrl());
+                json.put("downloadUrl", ppt.getDownloadUrl());
+                json.put("pptFileName", ppt.getPptFileName());
+                no1pptJsonArray.add(json);
             }
             logger.info("------->  end !");
-            return resultList;
+            return no1pptJsonArray;
         } catch (Exception e) {
             logger.error("------->  ERROR!  返回 null ");
             logger.error(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public JSONArray getNo1PptWithSize40(int pageIndex) {
+        return getNo1PPT(pageIndex, 40);
     }
 
     @Override
@@ -105,7 +121,7 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
-    public String downloadNo1PPT(int pptId, HttpServletResponse response) {
+    public String downloadNo1PPT(int pptId, HttpServletRequest request, HttpServletResponse response) {
         try {
             logger.info("------->  start!");
             No1PPT pptTemp = getNo1PptById(String.valueOf(pptId));
@@ -130,6 +146,15 @@ public class No1PptServiceImpl implements No1PptService {
             inputStream.close();
             // 关闭输出流
             outputStream.close();
+
+            // 如果用户登录，则添加用户的下载记录到数据库
+            HttpSession session = request.getSession();
+            if (session.getAttribute("user") != null) {
+                User user = (User) session.getAttribute("user");
+                UserDownloadHistory userDownloadHistory = new UserDownloadHistory(user.getEmail(), pptId);
+                String result = userDownloadHistoryService.addDownloadHistory(userDownloadHistory);
+            }
+
             logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {

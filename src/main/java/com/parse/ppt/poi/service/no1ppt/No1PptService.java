@@ -1,11 +1,11 @@
 package com.parse.ppt.poi.service.no1ppt;
 
 import com.parse.ppt.poi.entity.No1PPT;
+import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jupiter
@@ -25,10 +25,17 @@ public interface No1PptService {
      *
      * @param pageIndex 分页-位置偏移量[索引]
      * @param pageSize  分页-需要取得的行数
-     * @return 爬取到的 ppt 的信息对象List
+     * @return 包含ppt信息Json对象的JsonArray
      */
-    List<Map<String, String>> getNo1PPT(int pageIndex, int pageSize);
+    JSONArray getNo1PPT(int pageIndex, int pageSize);
 
+    /**
+     * 获取40页 No1PPT 的信息
+     *
+     * @param pageIndex 分页-位置偏移量[索引]
+     * @return 包含 ppt信息Json对象的JsonArray
+     */
+    JSONArray getNo1PptWithSize40(int pageIndex);
 
     /**
      * 增加 ppt 的信息对象
@@ -51,10 +58,11 @@ public interface No1PptService {
      * 根据前端传递过来的 pptID，获取到PPT的相关信息
      *
      * @param pptId    数据库中当前PPT的ID
+     * @param request  HttpServletRequest对象
      * @param response HttpServletResponse对象
      * @return 返回码
      */
-    String downloadNo1PPT(int pptId, HttpServletResponse response);
+    String downloadNo1PPT(int pptId, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 测试方法中执行的方法，批量把 pages页的PPT下载到本地

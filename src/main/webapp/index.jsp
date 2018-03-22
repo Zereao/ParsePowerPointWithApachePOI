@@ -219,7 +219,7 @@
             };
             $.ajax({
                 type: "post",
-                url: "/download/loadNo1PPT",
+                url: "/no1ppt/loadNo1PPT",
                 produces: "text/html;charset=UTF-8",
                 data: postInfo,
                 error: function () {
@@ -237,7 +237,7 @@
                         //          myID_第二页_pptId
                         var theId = "myID_2_" + pptId;
                         htmlText += '<div id="' + theId + '" class="grid-item" title="' + description + '" onmouseover="ppt2imgDisplay(' + pptId + ')">' +
-                            ' <a href="/download/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
+                            ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
                             '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +
                             ' </div>';
