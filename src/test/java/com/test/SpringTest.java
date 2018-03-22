@@ -3,17 +3,14 @@ package com.test;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
-import com.parse.ppt.poi.service.common.unzip.UnzipService;
 import com.parse.ppt.poi.service.common.download.FileDownloadService;
 import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
-import com.parse.ppt.poi.service.ppt2img.No1Ppt2imgService;
+import com.parse.ppt.poi.service.common.ppt2img.No1Ppt2imgService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.io.File;
 
 /**
  * @author Jupiter

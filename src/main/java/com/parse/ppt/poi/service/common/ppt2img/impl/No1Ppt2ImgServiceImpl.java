@@ -1,10 +1,11 @@
-package com.parse.ppt.poi.service.ppt2img.impl;
+package com.parse.ppt.poi.service.common.ppt2img.impl;
 
 import com.parse.ppt.poi.common.ReturnCode;
+import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.poi.hslf.PptOperateService;
 import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
-import com.parse.ppt.poi.service.ppt2img.No1Ppt2imgService;
+import com.parse.ppt.poi.service.common.ppt2img.No1Ppt2imgService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,15 @@ import java.util.Objects;
 public class No1Ppt2ImgServiceImpl implements No1Ppt2imgService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
-    private final No1PptService no1PptService;
     private final PptOperateService pptOperateService;
     private final PptxOperateService pptxOperateService;
+    private final No1PptDao no1PptDao;
 
     @Autowired
-    public No1Ppt2ImgServiceImpl(No1PptService no1PptService, PptOperateService pptOperateService, PptxOperateService pptxOperateService) {
-        this.no1PptService = no1PptService;
+    public No1Ppt2ImgServiceImpl(PptOperateService pptOperateService, PptxOperateService pptxOperateService, No1PptDao no1PptDao) {
         this.pptOperateService = pptOperateService;
         this.pptxOperateService = pptxOperateService;
+        this.no1PptDao = no1PptDao;
     }
 
 
@@ -52,7 +53,8 @@ public class No1Ppt2ImgServiceImpl implements No1Ppt2imgService {
             assert files != null;
             // 数组index为0时即返回的是我们需要的ppt/pptx文件对象
             String fileName = files[0].getName();
-            result = no1PptService.updateNo1PPTFileName(no1PptID, fileName);
+            no1PptDao.updateNo1PPTFileName(Integer.parseInt(no1PptID), fileName);
+            logger.info("++++++++++++++++");
             if (fileName.toLowerCase().contains(".ppt") && (!(fileName.toLowerCase().contains(".pptx")))) {
                 result = pptOperateService.ppt2img(files[0]);
             } else if (fileName.toLowerCase().contains(".pptx")) {

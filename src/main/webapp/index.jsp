@@ -233,10 +233,12 @@
                         var description = currentValue.description;
                         var imgUrl = currentValue.imgUrl;
                         var downloadUrl = currentValue.downloadUrl;
-                        var fileExt = downloadUrl.substring(downloadUrl.length - 4, downloadUrl.length);
-                        htmlText += '<div class="grid-item" title="' + description + '" onmouseover="">' +
+                        var fileExt = downloadUrl.substring(downloadUrl.length - 4);
+                        //          myID_第二页_pptId
+                        var theId = "myID_2_" + pptId;
+                        htmlText += '<div id="' + theId + '" class="grid-item" title="' + description + '" onmouseover="ppt2imgDisplay(' + pptId + ')">' +
                             ' <a href="/download/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
-                            '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
+                            '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +
                             ' </div>';
                     });
@@ -245,31 +247,34 @@
             });
         }
 
-        function ppt2imgDisplay() {
+        function ppt2imgDisplay(thePptId) {
+            var postInfo = {
+                pptId: thePptId
+            };
+            var theImgId = "myID_2_" + thePptId + "_1";
             $.ajax({
                 type: "post",
-                url: "/download/loadNo1PPT",
+                url: "/ppt2img/no1ppt2img",
                 produces: "text/html;charset=UTF-8",
                 data: postInfo,
                 error: function () {
-                    alert("获取下载页PPT失败！");
+                    alert("访问ppt2img后台失败！");
                 },
                 success: function (data) {
-                    pageIndex += 40;
-                    var htmlText = '';
-                    data.forEach(function (currentValue, index, data) {
-                        var pptId = currentValue.id;
-                        var description = currentValue.description;
-                        var imgUrl = currentValue.imgUrl;
-                        var downloadUrl = currentValue.downloadUrl;
-                        var fileExt = downloadUrl.substring(downloadUrl.length - 4, downloadUrl.length);
-                        htmlText += '<div class="grid-item" title="' + description + '" onmouseover="">' +
-                            ' <a href="/download/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
-                            '   <img src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
-                            ' </a>' +
-                            ' </div>';
-                    });
-                    $("#pptGallery").append(htmlText);
+                    var myID_2_Selector = $("#" + theImgId);
+                    var imgNum = data;
+                    var i = 1;
+                    while (i <= data) {
+                        var imgText = '<img id="' + theImgId + '" src="' + '文件输出/NO1PPTS/1/PPT2IMG/' + i + '.png' + '" alt="Image" class="img-fluid tm-img">'
+                        i++;
+                        if (i === imgNum + 1) {
+                            i = 1;
+                        }
+                        myID_2_Selector.html(imgText);
+                        setTimeout(2000);
+                    }
+
+
                 }
             });
         }

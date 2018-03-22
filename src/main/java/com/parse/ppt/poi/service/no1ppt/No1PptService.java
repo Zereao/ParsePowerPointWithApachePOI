@@ -71,4 +71,12 @@ public interface No1PptService {
      */
     String downloadAllNo1PPTSync();
 
+    /**
+     * 获取某一个PPT转换成图片的图片张数
+     *
+     * @param pptId No1PPTd的ID
+     * @return 某一个PPT转换成图片的图片张数
+     */
+    int getImgsNum(String pptId);
+
 }

@@ -1,4 +1,4 @@
-package com.parse.ppt.poi.service.ppt2img;
+package com.parse.ppt.poi.service.common.ppt2img;
 
 import org.springframework.stereotype.Service;
 

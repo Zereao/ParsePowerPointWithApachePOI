@@ -3,6 +3,7 @@ package com.parse.ppt.poi.service.no1ppt.impl;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.service.common.ppt2img.No1Ppt2imgService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,10 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Jupiter
@@ -28,10 +26,12 @@ import java.util.Map;
 public class No1PptServiceImpl implements No1PptService {
     private Logger logger = LogManager.getLogger(this.getClass());
     private final No1PptDao no1PptDao;
+    private final No1Ppt2imgService no1Ppt2imgService;
 
     @Autowired
-    public No1PptServiceImpl(No1PptDao no1PptDao) {
+    public No1PptServiceImpl(No1PptDao no1PptDao, No1Ppt2imgService no1Ppt2imgService) {
         this.no1PptDao = no1PptDao;
+        this.no1Ppt2imgService = no1Ppt2imgService;
     }
 
     @Override
@@ -194,6 +194,29 @@ public class No1PptServiceImpl implements No1PptService {
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
+    }
+
+    @Override
+    public int getImgsNum(String pptId) {
+        try {
+            logger.info("------->  start!" +
+                    "   pptId = " + pptId);
+            String result = no1Ppt2imgService.ppt2img(pptId);
+            if (result.equals(ReturnCode.SUCCESS)) {
+                final String FILE_BASE_PATH = "文件输出/NO1PPTS/" + pptId + "/";
+                // 存放转换后图片的文件夹
+                String ppt2imgPath = "文件输出/NO1PPTS/" + pptId + "/PPT2IMG/";
+                File ppt2imgFolder = new File(ppt2imgPath);
+                int imgsNum = Objects.requireNonNull(ppt2imgFolder.listFiles()).length;
+                logger.info("------->  end!" +
+                        "   imgsNum = " + imgsNum);
+                return imgsNum;
+            }
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回  -1 ");
+            logger.error(e.getMessage());
+        }
+        return -1;
     }
 
 
