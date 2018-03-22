@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.service.poi.hslf.impl;
 
+import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.service.poi.hslf.PptOperateService;
 import org.apache.logging.log4j.LogManager;
@@ -20,14 +21,14 @@ public class PptOperateServiceImpl implements PptOperateService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
-    public String ppt2img(File pptFile) {
+    public String ppt2img(String pptId, File pptFile) {
         logger.info("------->  start!   pptPath = " + pptFile.getPath());
         try (FileInputStream inputStream = new FileInputStream(pptFile);
              HSLFSlideShow ppt = new HSLFSlideShow(inputStream)
         ) {
             // ppt转换图片后的图片所在的父目录
-            final String FILE_BASE_PATH = pptFile.getParent() + "/PPT2IMG/";
-            File mkDir = new File(FILE_BASE_PATH);
+            final String PPT2IMG_PATH = PathUtil.getAbstractPpt2imgPath(pptId);
+            File mkDir = new File(PPT2IMG_PATH);
             if (!mkDir.exists()) {
                 boolean isMkDir = mkDir.mkdir();
             }
@@ -43,7 +44,7 @@ public class PptOperateServiceImpl implements PptOperateService {
                 // render
                 slide.draw(graphics);
                 // save the output
-                String filename = FILE_BASE_PATH + index + ".png";
+                String filename = PPT2IMG_PATH + index + ".png";
                 FileOutputStream out = new FileOutputStream(filename);
                 javax.imageio.ImageIO.write(img, "png", out);
                 out.close();

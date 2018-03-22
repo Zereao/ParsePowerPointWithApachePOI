@@ -32,7 +32,7 @@ public class OnPageLoadController {
     public JSONObject getMainPageLoadInfo(HttpServletRequest request) {
         logger.info("------->  start! ");
         JSONObject resultJson = onPageLoadService.getMainPageLoadInfo(request);
-        logger.info("------->  end!  resultJson = " + resultJson);
+        logger.info("------->  end!");
         return resultJson;
     }
 

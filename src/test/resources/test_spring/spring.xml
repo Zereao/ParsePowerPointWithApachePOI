@@ -12,7 +12,6 @@
     <context:component-scan base-package="com.parse.ppt.poi.mapper"/>
     <context:component-scan base-package="com.parse.ppt.poi.service.no1ppt"/>
     <context:component-scan base-package="com.parse.ppt.poi.service.poi"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.ppt2img"/>
     <!--<context:component-scan base-package="com.parse.ppt.hslf.service.login"/>-->
     <context:component-scan base-package="com.parse.ppt.poi.service.common.cache"/>
     <!--<context:component-scan base-package="com.parse.ppt.hslf.service.common.cookie"/>-->

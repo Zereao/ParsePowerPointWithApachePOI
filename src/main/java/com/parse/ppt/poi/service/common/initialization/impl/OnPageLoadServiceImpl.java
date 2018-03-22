@@ -64,7 +64,7 @@ public class OnPageLoadServiceImpl implements OnPageLoadService {
                 obj.put("essayTitle", redisCacheService.getByKey("essayTitle"));
                 obj.put("essayContent", redisCacheService.getByKey("essayContent").replace("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
             }
-            logger.info("------->  end!   JSONObject = " + obj);
+            logger.info("------->  end!");
             return obj;
         } catch (Exception e) {
             logger.error("------->  ERROR!    返回null");

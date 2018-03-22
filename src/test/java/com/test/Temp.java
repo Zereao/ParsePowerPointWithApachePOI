@@ -1,5 +1,6 @@
 package com.test;
 
+import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.service.common.encrypt.impl.EncryptServiceImpl;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
@@ -102,5 +103,22 @@ public class Temp {
             }
         }
         return flag;
+    }
+
+    @Test
+    public void test3() {
+        String path = "文件输出/NO1PPTS/2/奖牌领奖台.ppt";
+        File file = new File(path);
+        System.out.println(file.getParent());
+        System.out.println(file.getParentFile().getParent());
+        System.out.println(file.getParentFile().getParentFile().getParent());
+    }
+
+    @Test
+    public void test4() {
+        String path = PathUtil.getAbstractPptPath("4");
+        File file = new File(path);
+        File[] files = file.listFiles();
+        System.out.println(files.length);
     }
 }

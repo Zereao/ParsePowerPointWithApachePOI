@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.controller.no1ppt;
 
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import net.sf.json.JSONArray;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/no1ppt")
@@ -44,5 +44,20 @@ public class No1PptController {
         String result = no1PptService.downloadNo1PPT(Integer.valueOf(pptId), request, response);
         logger.info("------->  end!  result = " + result);
         return result;
+    }
+
+    @RequestMapping("/ppt2img")
+    @ResponseBody
+    public int no1ppt2img(@RequestParam("pptId") String pptId) {
+        logger.info("------->  start! " +
+                "  pptId = " + pptId);
+        String result = no1PptService.ppt2img(pptId);
+        int imgNum = 0;
+        if (result.equals(ReturnCode.SUCCESS)) {
+            imgNum = no1PptService.getImgsNum(pptId);
+        }
+        logger.info("------->  end! " +
+                "  imgNum = " + imgNum);
+        return imgNum;
     }
 }

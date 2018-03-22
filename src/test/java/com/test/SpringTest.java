@@ -5,7 +5,6 @@ import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import com.parse.ppt.poi.service.common.download.FileDownloadService;
 import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
-import com.parse.ppt.poi.service.common.ppt2img.No1Ppt2imgService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,6 @@ public class SpringTest {
     private FileDownloadService fileDownloadService;
     @Autowired
     private PptxOperateService pptxOperateService;
-    @Autowired
-    private No1Ppt2imgService no1Ppt2imgService;
 
     private String result = null;
 
@@ -47,9 +44,7 @@ public class SpringTest {
 
     @Test
     public void testU() {
-        for (int i = 1; i < 5; i++) {
-            no1Ppt2imgService.ppt2img(String.valueOf(i));
-        }
+            result = no1PptService.ppt2img("7");
 
     }
 

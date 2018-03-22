@@ -1,13 +1,15 @@
 package com.parse.ppt.poi.service.no1ppt.impl;
 
+import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.entity.UserDownloadHistory;
 import com.parse.ppt.poi.service.common.history.UserDownloadHistoryService;
-import com.parse.ppt.poi.service.common.ppt2img.No1Ppt2imgService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
+import com.parse.ppt.poi.service.poi.hslf.PptOperateService;
+import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
@@ -33,15 +35,17 @@ import java.util.*;
 public class No1PptServiceImpl implements No1PptService {
     private Logger logger = LogManager.getLogger(this.getClass());
     private final No1PptDao no1PptDao;
-    private final No1Ppt2imgService no1Ppt2imgService;
+    private final PptOperateService pptOperateService;
+    private final PptxOperateService pptxOperateService;
 
     private final UserDownloadHistoryService userDownloadHistoryService;
 
     @Autowired
-    public No1PptServiceImpl(No1PptDao no1PptDao, No1Ppt2imgService no1Ppt2imgService, UserDownloadHistoryService userDownloadHistoryService) {
+    public No1PptServiceImpl(No1PptDao no1PptDao, UserDownloadHistoryService userDownloadHistoryService, PptOperateService pptOperateService, PptxOperateService pptxOperateService) {
         this.no1PptDao = no1PptDao;
-        this.no1Ppt2imgService = no1Ppt2imgService;
         this.userDownloadHistoryService = userDownloadHistoryService;
+        this.pptOperateService = pptOperateService;
+        this.pptxOperateService = pptxOperateService;
     }
 
     @Override
@@ -222,15 +226,58 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
+    public String ppt2img(String no1PptID) {
+        logger.info("------->  start!" +
+                "  No1PptID = " + no1PptID);
+        try {
+            String result = null;
+            final String PPT_PATH = PathUtil.getAbstractPptPath(no1PptID);
+            // 存放转换后图片的文件夹
+            final String PPT2IMG_PATH = PathUtil.getAbstractPpt2imgPath(no1PptID);
+            File ppt2imgFolder = new File(PPT2IMG_PATH);
+            boolean isFolderAndExists = ppt2imgFolder.isDirectory() && ppt2imgFolder.exists();
+            boolean isNotNull = ppt2imgFolder.listFiles() != null && Objects.requireNonNull(ppt2imgFolder.listFiles()).length > 0;
+            if (isFolderAndExists && isNotNull) {
+                logger.info("------->  end !  ID = " + no1PptID + " 的PPT已经被转化成了图片，可以直接读取。   result = " + ReturnCode.SUCCESS);
+                return ReturnCode.SUCCESS;
+            }
+            File pptPath = new File(PPT_PATH);
+            // 返回PPT所在目录下的所有文件
+            File[] files = pptPath.listFiles();
+            if (files == null || files.length < 1) {
+                logger.info("------->  end !  PATH = " + PPT_PATH + "  路径下不存在任何文件，为空！");
+                return ReturnCode.FAILED;
+            }
+            for (File file : files) {
+                String fileName = file.getName();
+                updateNo1PPTFileName(no1PptID, fileName);
+                if (fileName.toLowerCase().contains(".ppt") && (!(fileName.toLowerCase().contains(".pptx")))) {
+                    result = pptOperateService.ppt2img(no1PptID, file);
+                } else if (fileName.toLowerCase().contains(".pptx")) {
+                    result = pptxOperateService.pptx2img(no1PptID, file);
+                } else {
+                    logger.info("------->  end !  PATH = " + PPT_PATH + "  路径下不存在PPTX文件！");
+                    return ReturnCode.FAILED;
+                }
+            }
+            logger.info("------->  end ! result = " + result);
+            return result;
+        } catch (Exception e) {
+            logger.error("------->  ERROR! result = " + ReturnCode.FAILED);
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
+    }
+
+    @Override
     public int getImgsNum(String pptId) {
         try {
             logger.info("------->  start!" +
                     "   pptId = " + pptId);
-            String result = no1Ppt2imgService.ppt2img(pptId);
+            String result = ppt2img(pptId);
             if (result.equals(ReturnCode.SUCCESS)) {
-                final String FILE_BASE_PATH = "文件输出/NO1PPTS/" + pptId + "/";
                 // 存放转换后图片的文件夹
-                String ppt2imgPath = "文件输出/NO1PPTS/" + pptId + "/PPT2IMG/";
+                String ppt2imgPath = PathUtil.getAbstractPpt2imgPath(pptId);
                 File ppt2imgFolder = new File(ppt2imgPath);
                 int imgsNum = Objects.requireNonNull(ppt2imgFolder.listFiles()).length;
                 logger.info("------->  end!" +

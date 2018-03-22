@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.service.poi.xslf.impl;
 
+import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
 import org.apache.logging.log4j.LogManager;
@@ -19,17 +20,17 @@ public class PptxOperateServiceImpl implements PptxOperateService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
-    public String pptx2img(File pptxFile) {
+    public String pptx2img(String pptxId, File pptxFile) {
         logger.info("------->  start!   pptPath = " + pptxFile.getPath());
         try (
                 FileInputStream inputStream = new FileInputStream(pptxFile);
                 XMLSlideShow pptx = new XMLSlideShow(inputStream)
         ) {
             // pptx转换图片后的图片所在的父目录
-            final String FILE_BASE_PATH = pptxFile.getParent() + "/PPT2IMG/";
-            File mkDir = new File(FILE_BASE_PATH);
+            final String PPT2IMG_PATH = PathUtil.getAbstractPpt2imgPath(pptxId);
+            File mkDir = new File(PPT2IMG_PATH);
             if (!mkDir.exists()) {
-                boolean isMkDir = mkDir.mkdir();
+                boolean isMkDir = mkDir.mkdirs();
             }
             Dimension pageSize = pptx.getPageSize();
             for (int i = 0; i < pptx.getSlides().size(); i++) {
@@ -54,7 +55,7 @@ public class PptxOperateServiceImpl implements PptxOperateService {
                 // render - 给予，提交，表达   这里就是提交信息，开始绘画图片
                 pptx.getSlides().get(i).draw(graphics);
                 // save the output
-                String filename = FILE_BASE_PATH + (i + 1) + ".png";
+                String filename = PPT2IMG_PATH + (i + 1) + ".png";
                 FileOutputStream out = new FileOutputStream(filename);
                 javax.imageio.ImageIO.write(img, "png", out);
                 out.close();

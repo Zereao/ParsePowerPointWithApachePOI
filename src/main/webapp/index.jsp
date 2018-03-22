@@ -227,7 +227,6 @@
                 },
                 success: function (data) {
                     pageIndex += 40;
-                    var htmlText = '';
                     data.forEach(function (currentValue, index, data) {
                         var pptId = currentValue.id;
                         var description = currentValue.description;
@@ -236,13 +235,24 @@
                         var fileExt = downloadUrl.substring(downloadUrl.length - 4);
                         //          myID_第二页_pptId
                         var theId = "myID_2_" + pptId;
-                        htmlText += '<div id="' + theId + '" class="grid-item" title="' + description + '" onmouseover="ppt2imgDisplay(' + pptId + ')">' +
+                        var htmlText = '<div id="' + theId + '" class="grid-item" title="' + description + '">' +
                             ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
                             '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +
                             ' </div>';
+                        $("#pptGallery").append(htmlText);
+
+                        $("#" + theId).hover(function () {
+                            timer = setTimeout(function () {
+                                ppt2imgDisplay(pptId);
+                            }, 3000);
+                        }, function () {
+                            //这里去clear
+                            clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
+                        });
                     });
-                    $("#pptGallery").append(htmlText);
+
+
                 }
             });
         }
@@ -254,7 +264,7 @@
             var theImgId = "myID_2_" + thePptId + "_1";
             $.ajax({
                 type: "post",
-                url: "/ppt2img/no1ppt2img",
+                url: "/no1ppt/ppt2img",
                 produces: "text/html;charset=UTF-8",
                 data: postInfo,
                 error: function () {
@@ -265,7 +275,7 @@
                     var imgNum = data;
                     var i = 1;
                     while (i <= data) {
-                        var imgText = '<img id="' + theImgId + '" src="' + '文件输出/NO1PPTS/1/PPT2IMG/' + i + '.png' + '" alt="Image" class="img-fluid tm-img">'
+                        var imgText = '<img id="' + theImgId + '" src="' + '文件输出/PPT2IMG/1/' + i + '.png' + '" alt="Image" class="img-fluid tm-img">'
                         i++;
                         if (i === imgNum + 1) {
                             i = 1;

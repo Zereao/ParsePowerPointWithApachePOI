@@ -80,6 +80,14 @@ public interface No1PptService {
     String downloadAllNo1PPTSync();
 
     /**
+     * 把No1PPT - PPT文件转换为PNG格式的图片，并且将其存储于 pptFile 所在的路径下的 PPT2IMG 路径下
+     *
+     * @param no1PptID NO1PPT的ID，对应的PPT文件可以是.PPT格式的，也可以是.PPTX格式的
+     * @return ReturnCode-返回码
+     */
+    String ppt2img(String no1PptID);
+
+    /**
      * 获取某一个PPT转换成图片的图片张数
      *
      * @param pptId No1PPTd的ID
