@@ -40,4 +40,9 @@ public class ReturnCode {
      * Redis .remove(String key)  ;  key不存在
      */
     public static final String KEY_NOT_EXISTS = "KEY_NOT_EXISTS";
+
+    /**
+     * 所请求的资源不存在
+     */
+    public static final String RESOURCES_NOT_EXISTS = "RESOURCES_NOT_EXISTS";
 }

@@ -242,6 +242,7 @@
                             ' </div>';
                         $("#pptGallery").append(htmlText);
 
+                        var timer;
                         $("#" + theId).hover(function () {
                             timer = setTimeout(function () {
                                 ppt2imgDisplay(pptId);
@@ -251,8 +252,6 @@
                             clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
                         });
                     });
-
-
                 }
             });
         }
@@ -271,20 +270,28 @@
                     alert("访问ppt2img后台失败！");
                 },
                 success: function (data) {
-                    var myID_2_Selector = $("#" + theImgId);
-                    var imgNum = data;
-                    var i = 1;
-                    while (i <= data) {
-                        var imgText = '<img id="' + theImgId + '" src="' + '文件输出/PPT2IMG/1/' + i + '.png' + '" alt="Image" class="img-fluid tm-img">'
-                        i++;
-                        if (i === imgNum + 1) {
-                            i = 1;
-                        }
-                        myID_2_Selector.html(imgText);
-                        setTimeout(2000);
+                    for(var)
+                    var index = 1;
+                    $(function () {
+                        var task = setInterval(chageImg, 1000);
+                        $("#stop").click(stop);
+                    });
+
+                    while (index <= data) {
+                        (function (index) {
+                            var timer1 = setTimeout(function () {
+                                var myID_2_Selector = $("#" + theImgId);
+                                myID_2_Selector.attr("src", "文件输出/PPT2IMG/" + thePptId + "/" + index + ".png");
+                            }, index * 20000);
+                            alert(index);
+                            clearTimeout(timer1);
+
+                        })(index);
+                        index++;
+                        // if (index === data + 1) {
+                        //     index = 1;
+                        // }
                     }
-
-
                 }
             });
         }
@@ -387,12 +394,10 @@
                     <div class="tm-img-gallery-container">
                         <div class="tm-img-gallery">
                             <div class="tm-img-gallery-info-container">
-                                <h2 class="tm-text-title tm-gallery-title">POI Gallery
-                                    <p class="tm-text">这里是使用<a href="http://poi.apache.org/" target="_blank"><span
-                                            style="color: #00FFFF">Apache POI</span></a>技术实现PPT模板一键生成的。
-                                    </p>
-                                </h2>
-
+                                <h2 class="tm-text-title tm-gallery-title">POI Gallery</h2>
+                                <p class="tm-text">这里是使用<a href="http://poi.apache.org/" target="_blank"><span
+                                        style="color: #00FFFF">Apache POI</span></a>技术实现PPT模板一键生成的。
+                                </p>
                                 <div class="col-lg-10">
                                     <div class="input-group">
                                         <input type="text" class="form-control">

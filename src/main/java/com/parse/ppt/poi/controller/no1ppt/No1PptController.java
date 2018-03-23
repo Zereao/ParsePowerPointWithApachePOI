@@ -41,7 +41,7 @@ public class No1PptController {
                                  HttpServletRequest request,
                                  HttpServletResponse response) {
         logger.info("------->  start! ");
-        String result = no1PptService.downloadNo1PPT(Integer.valueOf(pptId), request, response);
+        String result = no1PptService.downloadNo1PPT(pptId, request, response);
         logger.info("------->  end!  result = " + result);
         return result;
     }

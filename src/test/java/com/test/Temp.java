@@ -95,7 +95,7 @@ public class Temp {
      * @param fileName 需要判断的文件名
      * @return 是zip文件返回true, 否则返回false
      */
-    public static boolean isEndsWithZip(String fileName) {
+    private static boolean isEndsWithZip(String fileName) {
         boolean flag = false;
         if (fileName != null && !"".equals(fileName.trim())) {
             if (fileName.endsWith(".ZIP") || fileName.endsWith(".zip")) {
@@ -116,7 +116,7 @@ public class Temp {
 
     @Test
     public void test4() {
-        String path = PathUtil.getAbstractPptPath("4");
+        String path = PathUtil.getAbsolutelyPptPath("4");
         File file = new File(path);
         File[] files = file.listFiles();
         System.out.println(files.length);

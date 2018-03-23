@@ -62,22 +62,7 @@ public interface No1PptService {
      * @param response HttpServletResponse对象
      * @return 返回码
      */
-    String downloadNo1PPT(int pptId, HttpServletRequest request, HttpServletResponse response);
-
-    /**
-     * 测试方法中执行的方法，批量把 pages页的PPT下载到本地
-     *
-     * @param pages 需要下载的总页数，每一页含有40张PPT
-     * @return 返回码
-     */
-    String downloadAllNo1PPT(int pages);
-
-    /**
-     * 测试方法中执行的方法，开启5个线程，每个线程下载340条No1PPT到本地，共计1700条信息
-     *
-     * @return 返回码
-     */
-    String downloadAllNo1PPTSync();
+    String downloadNo1PPT(String pptId, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 把No1PPT - PPT文件转换为PNG格式的图片，并且将其存储于 pptFile 所在的路径下的 PPT2IMG 路径下

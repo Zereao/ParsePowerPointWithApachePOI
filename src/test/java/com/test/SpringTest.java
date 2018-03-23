@@ -38,13 +38,13 @@ public class SpringTest {
 
     @Test
     public void test1() throws InterruptedException {
-        result = no1PptService.downloadAllNo1PPTSync();
+        result = fileDownloadService.downloadPptImgssSync();
         Thread.sleep(24 * 3600 * 1000);
     }
 
     @Test
     public void testU() {
-            result = no1PptService.ppt2img("7");
+        result = no1PptService.ppt2img("7");
 
     }
 
