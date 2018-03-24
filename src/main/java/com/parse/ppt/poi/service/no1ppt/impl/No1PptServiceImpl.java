@@ -231,16 +231,17 @@ public class No1PptServiceImpl implements No1PptService {
         try {
             logger.info("------->  start!" +
                     "   pptId = " + pptId);
-            String result = ppt2img(pptId);
-            if (result.equals(ReturnCode.SUCCESS)) {
-                // 存放转换后图片的文件夹
-                String ppt2imgPath = PathUtil.getAbsolutePpt2imgPath(pptId);
-                File ppt2imgFolder = new File(ppt2imgPath);
-                int imgsNum = Objects.requireNonNull(ppt2imgFolder.listFiles()).length;
-                logger.info("------->  end!" +
-                        "   imgsNum = " + imgsNum);
-                return imgsNum;
+            // 存放转换后图片的文件夹
+            String ppt2imgPath = PathUtil.getAbsolutePpt2imgPath(pptId);
+            File ppt2imgFolder = new File(ppt2imgPath);
+            File[] files = ppt2imgFolder.listFiles();
+            int imgsNum = 0;
+            if (files != null) {
+                imgsNum = files.length;
             }
+            logger.info("------->  end!" +
+                    "   imgsNum = " + imgsNum);
+            return imgsNum;
         } catch (Exception e) {
             logger.error("------->  ERROR!  返回  -1 ");
             logger.error(e.getMessage());
