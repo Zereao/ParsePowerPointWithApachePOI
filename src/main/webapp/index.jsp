@@ -207,6 +207,7 @@
     <script>
         <%-- 一个全局JS变量，用来表示下载页已经下载的页数。JS变量，一刷新，就相当于重新赋值，然后归零 --%>
         var pageIndex = 0;
+        var task;
 
         function getNo1PPTInfo() {
             var postInfo = {
@@ -236,14 +237,19 @@
                             ' </div>';
                         $("#pptGallery").append(htmlText);
 
+                        var theIdSelector = $("#" + theId);
                         var timer;
-                        $("#" + theId).hover(function () {
+                        theIdSelector.hover(function () {
                             timer = setTimeout(function () {
-                                // ppt2imgDisplay(pptId);
+                                ppt2imgDisplay(pptId);
                             }, 3000);
                         }, function () {
                             //这里去clear
                             clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
+                        });
+
+                        theIdSelector.mouseleave(function () {
+                            clearInterval(task);
                         });
                     });
                 }
@@ -264,31 +270,29 @@
                     alert("访问ppt2img后台失败！");
                 },
                 success: function (data) {
-                    for (var )
-                         var index = 1;
+                    var imgArray = new Array(data);
+                    var imgIndex = 0;
+                    for (var i = 1; i <= data; i++) {
+                        imgArray[i] = "/ZeroFilesOutput/PPT2IMG/" + thePptId + "/" + i + ".png";
+                    }
+
                     $(function () {
-                        var task = setInterval(chageImg, 1000);
-                        $("#stop").click(stop);
+                        task = setInterval(changeImg, 2000);
                     });
 
-                    while (index <= data) {
-                        (function (index) {
-                            var timer1 = setTimeout(function () {
-                                var myID_2_Selector = $("#" + theImgId);
-                                myID_2_Selector.attr("src", "文件输出/PPT2IMG/" + thePptId + "/" + index + ".png");
-                            }, index * 20000);
-                            alert(index);
-                            clearTimeout(timer1);
-
-                        })(index);
-                        index++;
-                        // if (index === data + 1) {
-                        //     index = 1;
-                        // }
+                    function changeImg() {
+                        $("#" + theImgId).attr("src", imgArray[imgIndex]);
+                        if (imgIndex < imgArray.length) {
+                            imgIndex++;
+                        } else {
+                            imgIndex = 0;
+                        }
                     }
                 }
             });
         }
+
+
     </script>
 
 </head>

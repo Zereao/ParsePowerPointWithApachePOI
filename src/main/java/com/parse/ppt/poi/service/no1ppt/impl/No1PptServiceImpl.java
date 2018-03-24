@@ -193,7 +193,6 @@ public class No1PptServiceImpl implements No1PptService {
                 "  No1PptID = " + no1PptID);
         try {
             String result = null;
-            final String PPT_PATH = PathUtil.getAbsolutePptPath(no1PptID);
             // 存放转换后图片的文件夹
             final String PPT2IMG_PATH = PathUtil.getAbsolutePpt2imgPath(no1PptID);
             File ppt2imgFolder = new File(PPT2IMG_PATH);
@@ -204,24 +203,19 @@ public class No1PptServiceImpl implements No1PptService {
                 logger.info("------->  end !  ID = " + no1PptID + " 的PPT已经被转化成了图片，可以直接读取。   result = " + ReturnCode.SUCCESS);
                 return ReturnCode.SUCCESS;
             }
-            File pptPath = new File(PPT_PATH);
+            File pptFile = PathUtil.getPptFile(no1PptID);
             // 返回PPT所在目录下的所有文件
-            File[] files = pptPath.listFiles();
-            if (files == null || files.length < 1) {
-                logger.info("------->  end !  PATH = " + PPT_PATH + "  路径下不存在任何文件，为空！");
-                return ReturnCode.FAILED;
+            if (pptFile == null) {
+                logger.warn("------->  end !  PATH = " + PathUtil.getAbsolutePptPath(no1PptID) + "  路径下不存在PPTX文件！" +
+                        "   return " + ReturnCode.RESOURCES_NOT_EXISTS);
+                return ReturnCode.RESOURCES_NOT_EXISTS;
             }
-            for (File file : files) {
-                String fileName = file.getName();
-                result = updateNo1PPTFileName(no1PptID, fileName);
-                if (fileName.toLowerCase().contains(".ppt") && (!(fileName.toLowerCase().contains(".pptx")))) {
-                    result = pptOperateService.ppt2img(no1PptID, file);
-                } else if (fileName.toLowerCase().contains(".pptx")) {
-                    result = pptxOperateService.pptx2img(no1PptID, file);
-                } else {
-                    logger.info("------->  end !  PATH = " + PPT_PATH + "  路径下不存在PPTX文件！");
-                    return ReturnCode.FAILED;
-                }
+            String fileName = pptFile.getName();
+            result = updateNo1PPTFileName(no1PptID, fileName);
+            if (fileName.toLowerCase().contains(".ppt") && (!(fileName.toLowerCase().contains(".pptx")))) {
+                result = pptOperateService.ppt2img(no1PptID, pptFile);
+            } else if (fileName.toLowerCase().contains(".pptx")) {
+                result = pptxOperateService.pptx2img(no1PptID, pptFile);
             }
             logger.info("------->  end ! result = " + result);
             return result;
