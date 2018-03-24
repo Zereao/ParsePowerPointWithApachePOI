@@ -29,10 +29,10 @@ import java.util.*;
 @Service
 public class No1PptServiceImpl implements No1PptService {
     private Logger logger = LogManager.getLogger(this.getClass());
+
     private final No1PptDao no1PptDao;
     private final PptOperateService pptOperateService;
     private final PptxOperateService pptxOperateService;
-
     private final UserDownloadHistoryService userDownloadHistoryService;
 
     @Autowired

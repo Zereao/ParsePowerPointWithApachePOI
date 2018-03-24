@@ -180,4 +180,23 @@ public class UserLoginServiceImpl implements UserLoginService {
         return ReturnCode.FAILED;
     }
 
+    @Override
+    public String getUserLoginStatus(HttpSession session) {
+        logger.info("------->  start!");
+        try {
+            String result = null;
+            if (session.getAttribute("user") != null) {
+                result = "true";
+            } else {
+                result = "false";
+            }
+            logger.info("------->  start!" +
+                    "   result = " + result);
+            return result;
+        } catch (Exception e) {
+            logger.error("------->  ERROR !");
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
+    }
 }

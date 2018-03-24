@@ -85,4 +85,13 @@ public class UserLoginController {
         logger.info("------->  end!  publicKey = " + result);
         return result;
     }
+
+    @RequestMapping("/getUserLoginStatus")
+    @ResponseBody
+    public String getUserLoginStatus(HttpSession session) {
+        logger.info("------->  start!");
+        String result = userLoginService.getUserLoginStatus(session);
+        logger.info("------->  end!  result = " + result);
+        return result;
+    }
 }

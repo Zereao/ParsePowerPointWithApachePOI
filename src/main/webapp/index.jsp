@@ -51,48 +51,6 @@
         }
     </style>
 
-
-    <script>
-        <%--  页面初始化 JavaScript  --%>
-
-        function onPageLoad() {
-            // 监听 id 为 login 的控件的鼠标左右键点击事件
-            $('#login').mousedown(function (e) {
-                if (e.which === 1) {
-                    // alert('这是左键单击事件');
-                    <%
-                        if (session.getAttribute("user") == null){
-                    %>
-                    window.location.href = "pages/login.jsp";
-                    <%
-                        }
-                    %>
-                } else if (e.which === 3) {
-                    <%
-                    if (session.getAttribute("user") != null){
-                    %>
-                    userLogout();
-                    <%
-                        }
-                    %>
-                }
-            });
-            getInitializeInfo();
-            // 先预加载一页 下载页的信息
-            getNo1PPTInfo();
-            // 监听滚动条是否下拉到最下面
-            $("#pptGallery").scroll(function () {
-                var nDivHight = $("#pptGallery").height();
-                var nScrollHight = $(this)[0].scrollHeight;
-                var nScrollTop = $(this)[0].scrollTop;
-                if ((nScrollTop + nDivHight) / nScrollHight >= 0.98) {
-                    getNo1PPTInfo();
-                }
-            });
-        }
-
-    </script>
-
 </head>
 <body onload="onPageLoad()">
 
@@ -186,12 +144,9 @@
                 <div class="container-fluid js-tm-page-content" data-page-no="3">
                     <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-cloud"></div>
                     <div class="tm-img-gallery-container">
-                        <div class="tm-img-gallery myContainer">
+                        <div id="poiGallery" class="tm-img-gallery myContainer">
                             <div class="tm-img-gallery-info-container">
                                 <h2 class="tm-text-title tm-gallery-title">POI Gallery</h2>
-                                <%--<p class="tm-text">这里是使用<span--%>
-                                <%--style="color: #00FFFF">Apache POI</span>技术实现PPT模板一键生成的。--%>
-                                <%--</p>--%>
                                 <div class="col-lg-10">
                                     <div class="input-group input-group-lg">
                                         <input type="text" class="form-control myInputBoxStyle"
@@ -203,7 +158,6 @@
                                 </div>
                             </div>
                             <br>
-
                             <div class="grid-item">
                                 <a href="webResources/mainPage/img/tm-img-08.jpg">
                                     <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"

@@ -50,4 +50,12 @@ public interface UserLoginService {
      * @return publicKey
      */
     String getPublicKey(String sessionId);
+
+    /**
+     * 获取用户的登陆状态，即获取session中是否存在 user 属性
+     *
+     * @param session HttpSession对象
+     * @return true-存在用户对象<p>false-不存在用户对象<p>返回的是字符串 true/false
+     */
+    String getUserLoginStatus(HttpSession session);
 }

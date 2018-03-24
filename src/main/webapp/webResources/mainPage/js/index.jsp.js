@@ -46,8 +46,61 @@ function adjustHeightOfPage(pageNo) {
     }
 }
 
-// 以下为自己写
+/**
+ * 以下为自己写
+ */
+
 // 页面初始化
+var userLoginStatus;
+
+function onPageLoad() {
+    getInitializeInfo();
+    getUserLoginStatus();
+    // 监听 id 为 login 的控件的鼠标左右键点击事件
+    $('#login').mousedown(function (e) {
+        if (e.which === 1) {
+            // alert('这是左键单击事件');
+            if (userLoginStatus === "false") {
+                window.location.href = "pages/login.jsp";
+            }
+        } else if (e.which === 3) {
+            if (userLoginStatus === "true") {
+                userLogout();
+            }
+        }
+    });
+    // 先预加载一页 下载页的信息
+    getNo1PPTInfo();
+    // 监听滚动条是否下拉到最下面
+    $("#pptGallery").scroll(function () {
+        var nDivHight = $("#pptGallery").height();
+        var nScrollHight = $(this)[0].scrollHeight;
+        var nScrollTop = $(this)[0].scrollTop;
+        if ((nScrollTop + nDivHight) / nScrollHight >= 0.98) {
+            getNo1PPTInfo();
+        }
+    });
+}
+
+function getUserLoginStatus() {
+    $.ajax({
+        type: "get",
+        url: "/login/getUserLoginStatus",
+        produces: "text/html;charset=UTF-8",
+        async: false,
+        error: function () {
+            alert("获取用户登陆状态出错！");
+        },
+        success: function (data) {
+            if (data !== "FAILED") {
+                userLoginStatus = data;
+            } else {
+                alert("获取用户登陆状态-后端返回FAILED!-请刷新重试！")
+            }
+        }
+    });
+}
+
 function getInitializeInfo() {
     $.ajax({
         type: "post",
@@ -208,3 +261,5 @@ function ppt2imgDisplay(thePptId) {
         }
     });
 }
+
+// POI处理部分
