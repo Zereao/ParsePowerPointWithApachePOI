@@ -236,7 +236,6 @@
                             ' </a>' +
                             ' </div>';
                         $("#pptGallery").append(htmlText);
-
                         var theIdSelector = $("#" + theId);
                         var timer;
                         theIdSelector.hover(function () {
@@ -247,9 +246,10 @@
                             //这里去clear
                             clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
                         });
-
                         theIdSelector.mouseleave(function () {
                             clearInterval(task);
+                            var theImgId = theId + "_1";
+                            $("#" + theImgId).attr("src", imgUrl);
                         });
                     });
                 }
@@ -261,6 +261,7 @@
                 pptId: thePptId
             };
             var theImgId = "myID_2_" + thePptId + "_1";
+            $("#" + theImgId).attr("src", "webResources/images/loading.gif");
             $.ajax({
                 type: "post",
                 url: "/no1ppt/ppt2img",
@@ -275,7 +276,6 @@
                     for (var i = 1; i <= data; i++) {
                         imgArray[i] = "/ZeroFilesOutput/PPT2IMG/" + thePptId + "/" + i + ".png";
                     }
-
                     $(function () {
                         task = setInterval(changeImg, 2000);
                     });
@@ -291,13 +291,10 @@
                 }
             });
         }
-
-
     </script>
 
 </head>
 <body onload="onPageLoad()">
-
 
 <%-- 导航栏 --%>
 <div class="cd-hero">
@@ -372,8 +369,7 @@
                                 </h2>
                                 <p class="tm-text">
                                     <span class="tm-white">
-                                        这儿是使用爬虫技术从<a href="http://www.1ppt.com/" target="_blank"><span
-                                            style="color: deeppink">第一PPT</span></a>网站上直接爬取得到的相关PPT的信息，点击相关的图片就能直接下载。
+                                        这儿是本地仓库中现成的PPT，鼠标悬停在PPT上就能预览，点击即可下载。
                                     </span>
                                 </p>
                             </div>
@@ -396,9 +392,9 @@
                                 <p class="tm-text">这里是使用<a href="http://poi.apache.org/" target="_blank"><span
                                         style="color: #00FFFF">Apache POI</span></a>技术实现PPT模板一键生成的。
                                 </p>
-                                <div class="col-lg-10">
+                                <div class="col-lg-5">
                                     <div class="input-group">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" placeholder="搜索一下，你就知道">
                                         <span class="input-group-btn">
                                             <button class="btn btn-group" type="button">Go!</button>
                                         </span>
@@ -490,13 +486,8 @@
         <li>
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="5">
-
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/padaut-bee">
-                        <!-- video element will be loaded using jQuery -->
-                    </div> <!-- .cd-bg-video-wrapper -->
-
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/padaut-bee"></div>
                     <div class="row">
-
                         <div class="col-xs-12">
                             <div class="tm-flex tm-3-col-container">
 
@@ -507,13 +498,10 @@
                                         <p class="tm-text">Etiam vitae imperdiet magna. Vestibulum blandit vehicula
                                             metus, ac ornare eros elementum et. Pellentesque habitant morbi tristique
                                             senectus et ntus et malesuada fames ac turpis egestas.</p>
-
                                         <p class="tm-text">Mauris lobortis lorem nulla, non tristique enim sollicitudin
                                             eu. Praesent tempus dapibus odio nec elementum.</p>
-
                                     </div>
                                 </div>
-
                                 <div class="tm-3-col-textbox tm-bg-white-translucent">
                                     <div class="text-xs-left tm-textbox tm-textbox-padding">
 

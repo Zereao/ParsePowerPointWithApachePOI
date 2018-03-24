@@ -57,12 +57,25 @@ public class OnPageLoadServiceImpl implements OnPageLoadService {
                 obj.put("welcomeTitle", "欢迎回来，亲爱的" + user.getUsername() + "。右键点击退出登录");
                 obj.put("isHidden", "false");
                 // 读取用户设置的首页文章
-                obj.put("essayTitle", user.getMainPageEssayTitle());
-                obj.put("essayContent", user.getMainPageEssayContent().replace("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
+                String essayTitle = user.getMainPageEssayTitle();
+                String essayContent = user.getMainPageEssayContent();
+                if (essayTitle == null && essayContent == null) {
+                    // 用户没有设置首页文章时，显示默认的首页文章
+                    obj.put("essayTitle", redisCacheService.getByKey("essayTitle"));
+                    obj.put("essayContent", redisCacheService.getByKey("essayContent").replace("\n", "<br/>"));
+                } else {
+                    obj.put("essayTitle", essayTitle);
+                    if (essayContent != null && essayContent.contains("\n")) {
+                        essayContent = essayContent.replace("\n", "<br/>");
+                        obj.put("essayContent", essayContent);
+                    } else {
+                        obj.put("essayContent", essayContent);
+                    }
+                }
             } else {
                 // 默认的首页文章
                 obj.put("essayTitle", redisCacheService.getByKey("essayTitle"));
-                obj.put("essayContent", redisCacheService.getByKey("essayContent").replace("\n", "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"));
+                obj.put("essayContent", redisCacheService.getByKey("essayContent").replace("\n", "<br/>"));
             }
             logger.info("------->  end!");
             return obj;
