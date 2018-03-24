@@ -116,7 +116,6 @@
                     %>
                 }
             });
-
             getInitializeInfo();
             // 先预加载一页 下载页的信息
             getNo1PPTInfo();
@@ -129,13 +128,10 @@
                     getNo1PPTInfo();
                 }
             });
-
-
         }
     </script>
 
     <script>
-
         function getInitializeInfo() {
             $.ajax({
                 type: "post",
@@ -156,7 +152,6 @@
                         $("#myID_0_2").text(data.username);
                         id_1_Selector.show();
                     }
-
                     var myID_1_1_Selector = $("#myID_1_1");
                     var myID_1_2_Selector = $("#myID_1_2");
                     myID_1_1_Selector.text(data.essayTitle);
@@ -230,13 +225,12 @@
                     data.forEach(function (currentValue, index, data) {
                         var pptId = currentValue.id;
                         var description = currentValue.description;
-                        var imgUrl = currentValue.imgUrl;
-                        var downloadUrl = currentValue.downloadUrl;
-                        var fileExt = downloadUrl.substring(downloadUrl.length - 4);
+                        var imgUrl = "/ZeroFilesOutput/NO1PPTS/" + pptId + "/" + pptId + ".png";
+                        var pptName = currentValue.pptName;
                         //          myID_第二页_pptId
                         var theId = "myID_2_" + pptId;
                         var htmlText = '<div id="' + theId + '" class="grid-item" title="' + description + '">' +
-                            ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + description + fileExt + '">' +
+                            ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + pptName + '">' +
                             '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
                             ' </a>' +
                             ' </div>';
@@ -245,7 +239,7 @@
                         var timer;
                         $("#" + theId).hover(function () {
                             timer = setTimeout(function () {
-                                ppt2imgDisplay(pptId);
+                                // ppt2imgDisplay(pptId);
                             }, 3000);
                         }, function () {
                             //这里去clear
@@ -256,45 +250,45 @@
             });
         }
 
-        function ppt2imgDisplay(thePptId) {
-            var postInfo = {
-                pptId: thePptId
-            };
-            var theImgId = "myID_2_" + thePptId + "_1";
-            $.ajax({
-                type: "post",
-                url: "/no1ppt/ppt2img",
-                produces: "text/html;charset=UTF-8",
-                data: postInfo,
-                error: function () {
-                    alert("访问ppt2img后台失败！");
-                },
-                success: function (data) {
-                    for(var)
-                    var index = 1;
-                    $(function () {
-                        var task = setInterval(chageImg, 1000);
-                        $("#stop").click(stop);
-                    });
-
-                    while (index <= data) {
-                        (function (index) {
-                            var timer1 = setTimeout(function () {
-                                var myID_2_Selector = $("#" + theImgId);
-                                myID_2_Selector.attr("src", "文件输出/PPT2IMG/" + thePptId + "/" + index + ".png");
-                            }, index * 20000);
-                            alert(index);
-                            clearTimeout(timer1);
-
-                        })(index);
-                        index++;
-                        // if (index === data + 1) {
-                        //     index = 1;
-                        // }
-                    }
-                }
-            });
-        }
+        // function ppt2imgDisplay(thePptId) {
+        //     var postInfo = {
+        //         pptId: thePptId
+        //     };
+        //     var theImgId = "myID_2_" + thePptId + "_1";
+        //     $.ajax({
+        //         type: "post",
+        //         url: "/no1ppt/ppt2img",
+        //         produces: "text/html;charset=UTF-8",
+        //         data: postInfo,
+        //         error: function () {
+        //             alert("访问ppt2img后台失败！");
+        //         },
+        //         success: function (data) {
+        //             for (var )
+        //                  var index = 1;
+        //             $(function () {
+        //                 var task = setInterval(chageImg, 1000);
+        //                 $("#stop").click(stop);
+        //             });
+        //
+        //             while (index <= data) {
+        //                 (function (index) {
+        //                     var timer1 = setTimeout(function () {
+        //                         var myID_2_Selector = $("#" + theImgId);
+        //                         myID_2_Selector.attr("src", "文件输出/PPT2IMG/" + thePptId + "/" + index + ".png");
+        //                     }, index * 20000);
+        //                     alert(index);
+        //                     clearTimeout(timer1);
+        //
+        //                 })(index);
+        //                 index++;
+        //                 // if (index === data + 1) {
+        //                 //     index = 1;
+        //                 // }
+        //             }
+        //         }
+        //     });
+        // }
     </script>
 
 </head>

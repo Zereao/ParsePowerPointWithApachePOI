@@ -67,12 +67,17 @@ public class No1PptServiceImpl implements No1PptService {
             List<No1PPT> pptList = no1PptDao.getNo1PPT(pageIndex, pageSize);
             for (No1PPT ppt : pptList) {
                 JSONObject json = new JSONObject();
-                json.put("id", String.valueOf(ppt.getId()));
+                String pptId = String.valueOf(ppt.getId());
+                json.put("id", pptId);
                 json.put("description", ppt.getSrcDescription());
                 json.put("imgUrl", ppt.getSrcImgUrl());
-                json.put("downloadPageUrl", ppt.getDownloadPageUrl());
-                json.put("downloadUrl", ppt.getDownloadUrl());
-                json.put("pptFileName", ppt.getPptFileName());
+                // 根据pptId获取到本地仓库  ZeroFilesOutput 目录下对应的PPT文件
+                File pptFile = PathUtil.getPptFile(pptId);
+                if (pptFile == null) {
+                    logger.error("------->  ERROR!  本地仓库目录【" + PathUtil.getAbsolutelyPptPath(pptId) + "】路径下不存在PPT/PPTX文件！   return null");
+                } else {
+                    json.put("pptName", pptFile.getName());
+                }
                 no1pptJsonArray.add(json);
             }
             logger.info("------->  end !");

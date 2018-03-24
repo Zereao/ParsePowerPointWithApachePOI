@@ -1,6 +1,8 @@
 package com.parse.ppt.poi.common;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PathUtil {
     private static String getAbstractProjectPath() {
@@ -53,14 +55,35 @@ public class PathUtil {
      */
     public static File getPptFile(String pptId) {
         File[] files = new File(getAbsolutelyPptPath(pptId)).listFiles();
-        if (files != null) {
-            for (File file : files) {
-                String fileName = file.getName();
-                if (fileName.toLowerCase().contains(".ppt") || fileName.toLowerCase().contains(".pptx")) {
-                    return file;
-                }
+        List<File> fileList = getPptFile(files, new ArrayList<>());
+        for (File file : fileList) {
+            String fileName = file.getName().toLowerCase();
+            if (fileName.contains(".pptx") || fileName.contains(".ppt")) {
+                return file;
             }
         }
         return null;
+    }
+
+    /**
+     * 递归得到 files 路径下的第一个PPT/PPTX文件
+     *
+     * @param files new File(getAbsolutelyPptPath(pptId)).listFiles()
+     * @return 得到的第一个PPT/PPTX文件File对象
+     */
+    private static List<File> getPptFile(File[] files, List<File> fileList) {
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    getPptFile(file.listFiles(), fileList);
+                } else if (file.isFile()) {
+                    String fileName = file.getName();
+                    if (fileName.toLowerCase().contains(".ppt") || fileName.toLowerCase().contains(".pptx")) {
+                        fileList.add(file);
+                    }
+                }
+            }
+        }
+        return fileList;
     }
 }
