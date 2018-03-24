@@ -232,7 +232,7 @@
                         var theId = "myID_2_" + pptId;
                         var htmlText = '<div id="' + theId + '" class="grid-item" title="' + description + '">' +
                             ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + pptName + '">' +
-                            '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img">' +
+                            '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img" style="height: 200px">' +
                             ' </a>' +
                             ' </div>';
                         $("#pptGallery").append(htmlText);
