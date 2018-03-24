@@ -27,7 +27,7 @@ public class PptxOperateServiceImpl implements PptxOperateService {
                 XMLSlideShow pptx = new XMLSlideShow(inputStream)
         ) {
             // pptx转换图片后的图片所在的父目录
-            final String PPT2IMG_PATH = PathUtil.getAbsolutelyPpt2imgPath(pptxId);
+            final String PPT2IMG_PATH = PathUtil.getAbsolutePpt2imgPath(pptxId);
             File mkDir = new File(PPT2IMG_PATH);
             if (!mkDir.exists()) {
                 boolean isMkDir = mkDir.mkdirs();

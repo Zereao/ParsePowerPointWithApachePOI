@@ -74,7 +74,7 @@ public class No1PptServiceImpl implements No1PptService {
                 // 根据pptId获取到本地仓库  ZeroFilesOutput 目录下对应的PPT文件
                 File pptFile = PathUtil.getPptFile(pptId);
                 if (pptFile == null) {
-                    logger.error("------->  ERROR!  本地仓库目录【" + PathUtil.getAbsolutelyPptPath(pptId) + "】路径下不存在PPT/PPTX文件！   return null");
+                    logger.error("------->  ERROR!  本地仓库目录【" + PathUtil.getAbsolutePptPath(pptId) + "】路径下不存在PPT/PPTX文件！   return null");
                 } else {
                     json.put("pptName", pptFile.getName());
                 }
@@ -193,9 +193,9 @@ public class No1PptServiceImpl implements No1PptService {
                 "  No1PptID = " + no1PptID);
         try {
             String result = null;
-            final String PPT_PATH = PathUtil.getAbsolutelyPptPath(no1PptID);
+            final String PPT_PATH = PathUtil.getAbsolutePptPath(no1PptID);
             // 存放转换后图片的文件夹
-            final String PPT2IMG_PATH = PathUtil.getAbsolutelyPpt2imgPath(no1PptID);
+            final String PPT2IMG_PATH = PathUtil.getAbsolutePpt2imgPath(no1PptID);
             File ppt2imgFolder = new File(PPT2IMG_PATH);
             logger.info(ppt2imgFolder.getAbsolutePath());
             boolean isFolderAndExists = ppt2imgFolder.isDirectory() && ppt2imgFolder.exists();
@@ -240,7 +240,7 @@ public class No1PptServiceImpl implements No1PptService {
             String result = ppt2img(pptId);
             if (result.equals(ReturnCode.SUCCESS)) {
                 // 存放转换后图片的文件夹
-                String ppt2imgPath = PathUtil.getAbsolutelyPpt2imgPath(pptId);
+                String ppt2imgPath = PathUtil.getAbsolutePpt2imgPath(pptId);
                 File ppt2imgFolder = new File(ppt2imgPath);
                 int imgsNum = Objects.requireNonNull(ppt2imgFolder.listFiles()).length;
                 logger.info("------->  end!" +

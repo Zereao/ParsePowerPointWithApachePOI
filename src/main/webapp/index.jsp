@@ -250,45 +250,45 @@
             });
         }
 
-        // function ppt2imgDisplay(thePptId) {
-        //     var postInfo = {
-        //         pptId: thePptId
-        //     };
-        //     var theImgId = "myID_2_" + thePptId + "_1";
-        //     $.ajax({
-        //         type: "post",
-        //         url: "/no1ppt/ppt2img",
-        //         produces: "text/html;charset=UTF-8",
-        //         data: postInfo,
-        //         error: function () {
-        //             alert("访问ppt2img后台失败！");
-        //         },
-        //         success: function (data) {
-        //             for (var )
-        //                  var index = 1;
-        //             $(function () {
-        //                 var task = setInterval(chageImg, 1000);
-        //                 $("#stop").click(stop);
-        //             });
-        //
-        //             while (index <= data) {
-        //                 (function (index) {
-        //                     var timer1 = setTimeout(function () {
-        //                         var myID_2_Selector = $("#" + theImgId);
-        //                         myID_2_Selector.attr("src", "文件输出/PPT2IMG/" + thePptId + "/" + index + ".png");
-        //                     }, index * 20000);
-        //                     alert(index);
-        //                     clearTimeout(timer1);
-        //
-        //                 })(index);
-        //                 index++;
-        //                 // if (index === data + 1) {
-        //                 //     index = 1;
-        //                 // }
-        //             }
-        //         }
-        //     });
-        // }
+        function ppt2imgDisplay(thePptId) {
+            var postInfo = {
+                pptId: thePptId
+            };
+            var theImgId = "myID_2_" + thePptId + "_1";
+            $.ajax({
+                type: "post",
+                url: "/no1ppt/ppt2img",
+                produces: "text/html;charset=UTF-8",
+                data: postInfo,
+                error: function () {
+                    alert("访问ppt2img后台失败！");
+                },
+                success: function (data) {
+                    for (var )
+                         var index = 1;
+                    $(function () {
+                        var task = setInterval(chageImg, 1000);
+                        $("#stop").click(stop);
+                    });
+
+                    while (index <= data) {
+                        (function (index) {
+                            var timer1 = setTimeout(function () {
+                                var myID_2_Selector = $("#" + theImgId);
+                                myID_2_Selector.attr("src", "文件输出/PPT2IMG/" + thePptId + "/" + index + ".png");
+                            }, index * 20000);
+                            alert(index);
+                            clearTimeout(timer1);
+
+                        })(index);
+                        index++;
+                        // if (index === data + 1) {
+                        //     index = 1;
+                        // }
+                    }
+                }
+            });
+        }
     </script>
 
 </head>

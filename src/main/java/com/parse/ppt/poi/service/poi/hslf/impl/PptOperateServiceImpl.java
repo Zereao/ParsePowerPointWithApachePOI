@@ -27,7 +27,7 @@ public class PptOperateServiceImpl implements PptOperateService {
              HSLFSlideShow ppt = new HSLFSlideShow(inputStream)
         ) {
             // ppt转换图片后的图片所在的父目录
-            final String PPT2IMG_PATH = PathUtil.getAbsolutelyPpt2imgPath(pptId);
+            final String PPT2IMG_PATH = PathUtil.getAbsolutePpt2imgPath(pptId);
             File mkDir = new File(PPT2IMG_PATH);
             if (!mkDir.exists()) {
                 boolean isMkDir = mkDir.mkdir();

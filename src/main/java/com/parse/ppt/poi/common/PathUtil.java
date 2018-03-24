@@ -5,46 +5,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PathUtil {
-    private static String getAbstractProjectPath() {
+    private static String getAbsoluteProjectPath() {
         return PathUtil.class.getResource("/").getPath().replaceAll("^(/)|(target/ParsePowerPointWithApachePOI/WEB-INF/classes/)$", "");
     }
 
     /**
-     * @return ${AbstractProjectPath}/ZeroFilesOutput/
+     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/
      */
-    public static String getAbsolutelyLocalResourcePath() {
-        return getAbstractProjectPath() + "/ZeroFilesOutput/";
+    public static String getAbsoluteLocalResourcePath() {
+        return getAbsoluteProjectPath() + "/ZeroFilesOutput/";
     }
 
     /**
      * @param no1pptId no1pptId
-     * @return ${AbstractProjectPath}/ZeroFilesOutput/NO1PPTS/${no1pptId}/
+     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/NO1PPTS/${no1pptId}/
      */
-    public static String getAbsolutelyPptPath(String no1pptId) {
-        return getAbstractProjectPath() + "/ZeroFilesOutput/NO1PPTS/" + no1pptId + "/";
+    public static String getAbsolutePptPath(String no1pptId) {
+        return getAbsoluteProjectPath() + "/ZeroFilesOutput/NO1PPTS/" + no1pptId + "/";
     }
 
     /**
      * @param no1pptId no1pptId
-     * @return ${AbstractProjectPath}/ZeroFilesOutput/PPT2IMG/${no1pptId}/
+     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/PPT2IMG/${no1pptId}/
      */
-    public static String getAbsolutelyPpt2imgPath(String no1pptId) {
-        return getAbstractProjectPath() + "/ZeroFilesOutput/PPT2IMG/" + no1pptId + "/";
+    public static String getAbsolutePpt2imgPath(String no1pptId) {
+        return getAbsoluteProjectPath() + "/ZeroFilesOutput/PPT2IMG/" + no1pptId + "/";
     }
 
     /**
      * @param no1pptId no1pptId
-     * @return ${AbstractProjectPath}/ZeroFilesOutput/ZIPEDPPT/
+     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ZIPEDPPT/
      */
-    public static String getAbsolutelyZipedPptPath(String no1pptId) {
-        return getAbstractProjectPath() + "/ZeroFilesOutput/ZIPEDPPT/" + no1pptId + "/";
+    public static String getAbsoluteZipedPptPath(String no1pptId) {
+        return getAbsoluteProjectPath() + "/ZeroFilesOutput/ZIPEDPPT/" + no1pptId + "/";
     }
 
     /**
-     * @return ${AbstractProjectPath}/ZeroFilesOutput/BAIDUIMGS/
+     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/BAIDUIMGS/
      */
-    public static String getAbsolutelyBaiduImgPath() {
-        return getAbstractProjectPath() + "/ZeroFilesOutput/BAIDUIMGS/";
+    public static String getAbsoluteBaiduImgPath() {
+        return getAbsoluteProjectPath() + "/ZeroFilesOutput/BAIDUIMGS/";
     }
 
     /**
@@ -54,7 +54,7 @@ public class PathUtil {
      * @return ppt的File对象
      */
     public static File getPptFile(String pptId) {
-        File[] files = new File(getAbsolutelyPptPath(pptId)).listFiles();
+        File[] files = new File(getAbsolutePptPath(pptId)).listFiles();
         List<File> fileList = getPptFile(files, new ArrayList<>());
         for (File file : fileList) {
             String fileName = file.getName().toLowerCase();
@@ -68,7 +68,7 @@ public class PathUtil {
     /**
      * 递归得到 files 路径下的第一个PPT/PPTX文件
      *
-     * @param files new File(getAbsolutelyPptPath(pptId)).listFiles()
+     * @param files new File(getAbsolutePptPath(pptId)).listFiles()
      * @return 得到的第一个PPT/PPTX文件File对象
      */
     private static List<File> getPptFile(File[] files, List<File> fileList) {

@@ -108,7 +108,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
             int pptId = no1PPT.getId();
             String imgUrl = no1PPT.getSrcImgUrl();
             // count_name 作为文件名的数量标记，文件名最终为  1.jpg 2.png 3.jpg 4.gif 等
-            final String pptPath = PathUtil.getAbsolutelyPptPath(String.valueOf(pptId)) + pptId + ".png";
+            final String pptPath = PathUtil.getAbsolutePptPath(String.valueOf(pptId)) + pptId + ".png";
             boolean isDownloadSuccess = imgDownloader(imgUrl, pptPath);
             logger.info("------->  end!  result = " + isDownloadSuccess);
             if (isDownloadSuccess) {
@@ -131,7 +131,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
                 int pptId = no1PPT.getId();
                 String imgUrl = no1PPT.getSrcImgUrl();
                 // count_name 作为文件名的数量标记，文件名最终为  1.jpg 2.png 3.jpg 4.gif 等
-                final String pptPath = PathUtil.getAbsolutelyPptPath(String.valueOf(pptId)) + pptId + ".png";
+                final String pptPath = PathUtil.getAbsolutePptPath(String.valueOf(pptId)) + pptId + ".png";
                 boolean isDownloadSuccess = imgDownloader(imgUrl, pptPath);
                 if (!isDownloadSuccess) {
                     logger.error("------->  ERROR!  no1PPT = " + no1PPT);
@@ -187,7 +187,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
         try {
             // count_name 作为文件名的数量标记，文件名最终为  1.jpg 2.png 3.jpg 4.gif 等
             int count_name = 1;
-            final String BASE_PATH = PathUtil.getAbsolutelyBaiduImgPath();
+            final String BASE_PATH = PathUtil.getAbsoluteBaiduImgPath();
             File tempFile = new File(BASE_PATH);
             if (!tempFile.exists()) {
                 boolean isCreate = tempFile.mkdir();
@@ -235,7 +235,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
         OutputStream outputStream = null;
         try {
             int pptId = no1PPT.getId();
-            String pptPath = PathUtil.getAbsolutelyZipedPptPath(String.valueOf(pptId));
+            String pptPath = PathUtil.getAbsoluteZipedPptPath(String.valueOf(pptId));
             // 如果路径文件夹不存在，则创建
             File file = new File(pptPath);
             if (!file.exists()) {
