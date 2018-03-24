@@ -1,4 +1,4 @@
-package com.parse.ppt.poi.service.poi.xslf;
+package com.parse.ppt.poi.service.common.poi.xslf;
 
 import org.springframework.stereotype.Service;
 

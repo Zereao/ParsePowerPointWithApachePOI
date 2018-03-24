@@ -4,7 +4,7 @@ import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import com.parse.ppt.poi.service.common.download.FileDownloadService;
-import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
+import com.parse.ppt.poi.service.common.poi.xslf.PptxOperateService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

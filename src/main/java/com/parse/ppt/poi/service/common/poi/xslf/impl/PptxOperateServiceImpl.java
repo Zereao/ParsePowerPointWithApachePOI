@@ -1,8 +1,8 @@
-package com.parse.ppt.poi.service.poi.xslf.impl;
+package com.parse.ppt.poi.service.common.poi.xslf.impl;
 
 import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
-import com.parse.ppt.poi.service.poi.xslf.PptxOperateService;
+import com.parse.ppt.poi.service.common.poi.xslf.PptxOperateService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.xslf.usermodel.*;

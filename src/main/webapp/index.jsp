@@ -182,42 +182,8 @@
                                          class="img-fluid tm-img">
                                 </a>
                             </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
+
+
 
                         </div>
                     </div>
