@@ -47,6 +47,7 @@ public class OnPageLoadServiceImpl implements OnPageLoadService {
             } else {
                 user = (User) session.getAttribute("user");
             }
+            logger.info("------->    user = " + user);
             if (user != null) {
                 session.setAttribute("user", user);
                 obj.put("username", user.getUsername());

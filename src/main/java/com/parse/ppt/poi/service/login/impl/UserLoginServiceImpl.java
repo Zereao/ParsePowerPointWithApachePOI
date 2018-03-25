@@ -126,7 +126,8 @@ public class UserLoginServiceImpl implements UserLoginService {
             // 如果注册成功，则将当前用户信息写入session
             if (ReturnCode.SUCCESS.equals(result)) {
                 result = redisCacheService.addUserPersistentKeyPair(username, sessionId);
-                session.setAttribute("user", user);
+                User sessionUser = userService.getUserByEmail(user.getEmail());
+                session.setAttribute("user", sessionUser);
                 // 并且将用户信息发送到用户邮箱
                 String subject = "nbsp;nbsp;nbsp;nbsp;亲爱的" + username + "，欢迎注册！<br>" +
                         "nbsp;nbsp;nbsp;nbsp;如果终有离别，请别辜负相遇。请享受接下来的愉快时光。";

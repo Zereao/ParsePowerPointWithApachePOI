@@ -54,9 +54,9 @@ public class Ppt2ImgServiceImpl implements Ppt2ImgService {
             }
             String fileName = pptFile.getName();
             if (fileName.toLowerCase().contains(".ppt") && (!(fileName.toLowerCase().contains(".pptx")))) {
-                result = pptOperateService.ppt2img(pptId, pptFile);
+                result = pptOperateService.ppt2img(pptFile, ppt2imgsPath);
             } else if (fileName.toLowerCase().contains(".pptx")) {
-                result = pptxOperateService.pptx2img(pptId, pptFile);
+                result = pptxOperateService.pptx2img(pptFile, ppt2imgsPath);
             }
             logger.info("------->  end ! result = " + result);
             return result;

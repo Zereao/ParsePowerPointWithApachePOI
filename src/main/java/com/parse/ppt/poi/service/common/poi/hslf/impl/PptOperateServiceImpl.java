@@ -1,6 +1,5 @@
 package com.parse.ppt.poi.service.common.poi.hslf.impl;
 
-import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.service.common.poi.hslf.PptOperateService;
 import org.apache.logging.log4j.LogManager;
@@ -21,16 +20,18 @@ public class PptOperateServiceImpl implements PptOperateService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
-    public String ppt2img(String pptId, File pptFile) {
-        logger.info("------->  start!   pptPath = " + pptFile.getPath());
-        try (FileInputStream inputStream = new FileInputStream(pptFile);
-             HSLFSlideShow ppt = new HSLFSlideShow(inputStream)
+    public String ppt2img(File pptFile, String targetPath) {
+        logger.info("------->  start!" +
+                "   pptFile = " + pptFile.getAbsolutePath() +
+                "   targetPath = " + targetPath);
+        try (
+                FileInputStream inputStream = new FileInputStream(pptFile);
+                HSLFSlideShow ppt = new HSLFSlideShow(inputStream)
         ) {
-            // ppt转换图片后的图片所在的父目录
-            final String PPT2IMG_PATH = PathUtil.getAbsoluteNo1PPT2imgPath(pptId);
-            File mkDir = new File(PPT2IMG_PATH);
-            if (!mkDir.exists()) {
-                boolean isMkDir = mkDir.mkdir();
+            // 如果输出目录不存在，则创建
+            File target = new File(targetPath);
+            if (!target.exists()) {
+                boolean isMkDirs = target.mkdirs();
             }
             Dimension pageSize = ppt.getPageSize();
             // 图片被命名为 1.png , 2.png , 3.png
@@ -44,7 +45,7 @@ public class PptOperateServiceImpl implements PptOperateService {
                 // render
                 slide.draw(graphics);
                 // save the output
-                String filename = PPT2IMG_PATH + index + ".png";
+                String filename = targetPath + index + ".png";
                 FileOutputStream out = new FileOutputStream(filename);
                 javax.imageio.ImageIO.write(img, "png", out);
                 out.close();

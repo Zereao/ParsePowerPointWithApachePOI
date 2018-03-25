@@ -14,22 +14,16 @@
         </constructor>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id, username, email, phone_num, password, main_page_essay_title, main_page_essay_content
-    </sql>
-
     <select id="getUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from user
-        where email = #{email,jdbcType=VARCHAR}
+        SELECT *
+        FROM user
+        WHERE email = #{email,jdbcType=VARCHAR}
     </select>
 
     <select id="getUserByPhoneNum" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from user
-        where phone_num = #{phoneNum,jdbcType=VARCHAR}
+        SELECT *
+        FROM user
+        WHERE phone_num = #{phoneNum,jdbcType=VARCHAR}
     </select>
 
     <insert id="addUser" parameterType="com.parse.ppt.poi.entity.User">
