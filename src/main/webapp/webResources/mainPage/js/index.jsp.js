@@ -69,15 +69,13 @@ function onPageLoad() {
             }
         }
     });
-    // 先预加载一页 下载页的信息
-    getNo1PPTInfo();
     // 监听滚动条是否下拉到最下面
     $("#pptGallery").scroll(function () {
         var nDivHight = $("#pptGallery").height();
         var nScrollHight = $(this)[0].scrollHeight;
         var nScrollTop = $(this)[0].scrollTop;
         if ((nScrollTop + nDivHight) / nScrollHight >= 0.98) {
-            getNo1PPTInfo();
+            getNo1PPT();
         }
     });
 }
@@ -130,6 +128,23 @@ function getInitializeInfo() {
     });
 }
 
+var isFirstClick_no1ppt = 0;
+var isFirstClick_poippt = 0;
+
+/**
+ *根据tag执行对应的getPPT方法
+ * @param tag 2-No1PPT下载方法<p>3-PoiPPT下载方法
+ */
+function getPPT(tag) {
+    if (tag === 2 && isFirstClick_no1ppt === 0) {
+        getNo1PPT();
+        isFirstClick_no1ppt++;
+    } else if (tag === 3 && isFirstClick_poippt === 0) {
+        // getPoiPPT();
+        isFirstClick_poippt++;
+    }
+}
+
 // 用户登陆登出、设置首页文章
 function userLogout() {
     var isLogout = confirm("确定注销当前用户？");
@@ -178,15 +193,15 @@ function setMainPageEssay() {
 var no1pptPageIndex = 0;
 var no1pptTask;
 
-function getNo1PPTInfo() {
-    var postInfo = {
+function getNo1PPT() {
+    var jsonData = {
         pageIndex: no1pptPageIndex
     };
     $.ajax({
-        type: "post",
+        type: "get",
         url: "/no1ppt/loadNo1PPT",
         produces: "text/html;charset=UTF-8",
-        data: postInfo,
+        data: jsonData,
         async: false,
         error: function () {
             alert("获取下载页PPT失败！");
@@ -196,7 +211,7 @@ function getNo1PPTInfo() {
             data.forEach(function (currentValue, index, data) {
                 var pptId = currentValue.id;
                 var description = currentValue.description;
-                var imgUrl = "/ZeroFilesOutput/NO1PPTS/" + pptId + "/" + pptId + ".png";
+                var imgUrl = "/ZeroFilesOutput/ppts/no1ppts/" + pptId + "/" + pptId + ".png";
                 var pptName = currentValue.pptName;
                 //          myID_第二页_pptId
                 var theId = "myID_2_" + pptId;
@@ -227,16 +242,16 @@ function getNo1PPTInfo() {
 }
 
 function ppt2imgDisplay(thePptId) {
-    var postInfo = {
+    var jsonData = {
         pptId: thePptId
     };
     var theImgId = "myID_2_" + thePptId + "_1";
     $("#" + theImgId).attr("src", "webResources/images/loading.gif");
     $.ajax({
-        type: "post",
+        type: "get",
         url: "/no1ppt/ppt2img",
         produces: "text/html;charset=UTF-8",
-        data: postInfo,
+        data: jsonData,
         error: function () {
             alert("访问ppt2img后台失败！");
         },
@@ -244,7 +259,7 @@ function ppt2imgDisplay(thePptId) {
             var imgArray = new Array(data);
             var imgIndex = 0;
             for (var i = 1; i <= data; i++) {
-                imgArray[i] = "/ZeroFilesOutput/PPT2IMG/" + thePptId + "/" + i + ".png";
+                imgArray[i] = "/ZeroFilesOutput/ppt2imgs/no1ppt2imgs/" + thePptId + "/" + i + ".png";
             }
             $(function () {
                 no1pptTask = setInterval(changeImg, 2000);
@@ -267,18 +282,18 @@ function ppt2imgDisplay(thePptId) {
 var poiPageIndex = 0;
 var poiTask;
 
-function getPoiPPTInfo() {
-    var postInfo = {
+function getPoiPPT() {
+    var jsonData = {
         poiIndex: poiPageIndex
     };
     $.ajax({
-        type: "post",
+        type: "get",
         url: "/no1ppt/loadNo1PPT",
         produces: "text/html;charset=UTF-8",
-        data: postInfo,
+        data: jsonData,
         async: false,
         error: function () {
-            alert("获取下载页PPT失败！");
+            alert("获取POI-PPT失败！");
         },
         success: function (data) {
             poiPageIndex += 40;

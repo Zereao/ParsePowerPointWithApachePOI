@@ -116,7 +116,7 @@ public class Temp {
 
     @Test
     public void test4() {
-        String path = PathUtil.getAbsolutePptPath("4");
+        String path = PathUtil.getAbsoluteNo1PptPath("4");
         File file = new File(path);
         File[] files = file.listFiles();
         System.out.println(files.length);

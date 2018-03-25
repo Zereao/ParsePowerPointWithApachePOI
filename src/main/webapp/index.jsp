@@ -66,10 +66,10 @@
                             <a class="nav-link" href="javascript:void(0);" data-no="1">首页</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-no="2">下载</a>
+                            <a class="nav-link" href="javascript:void(0);" onclick="getPPT(2)" data-no="2">下载</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);" data-no="3">生成</a>
+                            <a class="nav-link" href="javascript:void(0);" onclick="getPPT(3)" data-no="3">生成</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript:void(0);" data-no="4">❤</a>
@@ -182,7 +182,6 @@
                                          class="img-fluid tm-img">
                                 </a>
                             </div>
-
 
 
                         </div>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 
+@Deprecated
 @Service
 public class UnzipServiceImpl implements UnzipService {
     private Logger logger = LogManager.getLogger(this.getClass());

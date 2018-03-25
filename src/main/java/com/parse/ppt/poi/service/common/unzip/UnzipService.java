@@ -2,6 +2,7 @@ package com.parse.ppt.poi.service.common.unzip;
 
 import org.springframework.stereotype.Service;
 
+@Deprecated
 @Service
 public interface UnzipService {
     /**

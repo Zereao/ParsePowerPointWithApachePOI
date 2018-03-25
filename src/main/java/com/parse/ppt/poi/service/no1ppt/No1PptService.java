@@ -15,10 +15,10 @@ public interface No1PptService {
     /**
      * 根据No1PPT的ID查询 No1PPT 的信息
      *
-     * @param pptId No1PPT对象的ID
+     * @param no1PptId No1PPT对象的ID
      * @return 对应的No1PPT对象
      */
-    No1PPT getNo1PptById(String pptId);
+    No1PPT getNo1PptById(String no1PptId);
 
     /**
      * 数据库分页查询 No1PPT 的信息
@@ -48,21 +48,21 @@ public interface No1PptService {
     /**
      * 更新No1PPT的信息——修改压缩包中的PPT文件的文件名
      *
-     * @param pptId       No1PPT的ID
+     * @param no1PptId    No1PPT的ID
      * @param pptFileName 压缩包中的PPT文件的文件名
      * @return ReturnCode - 返回码
      */
-    String updateNo1PPTFileName(String pptId, String pptFileName);
+    String updateNo1PPTFileName(String no1PptId, String pptFileName);
 
     /**
-     * 根据前端传递过来的 pptID，获取到PPT的相关信息
+     * 根据前端传递过来的 no1PptID，获取到PPT的相关信息
      *
-     * @param pptId    数据库中当前PPT的ID
+     * @param no1PptID 数据库中当前no1PptID的ID
      * @param request  HttpServletRequest对象
      * @param response HttpServletResponse对象
      * @return 返回码
      */
-    String downloadNo1PPT(String pptId, HttpServletRequest request, HttpServletResponse response);
+    String downloadNo1PPT(String no1PptID, HttpServletRequest request, HttpServletResponse response);
 
     /**
      * 把No1PPT - PPT文件转换为PNG格式的图片，并且将其存储于 pptFile 所在的路径下的 PPT2IMG 路径下
@@ -75,9 +75,9 @@ public interface No1PptService {
     /**
      * 获取某一个PPT转换成图片的图片张数
      *
-     * @param pptId No1PPTd的ID
+     * @param no1PptId No1PPTd的ID
      * @return 某一个PPT转换成图片的图片张数
      */
-    int getImgsNum(String pptId);
+    int getImgsNum(String no1PptId);
 
 }
