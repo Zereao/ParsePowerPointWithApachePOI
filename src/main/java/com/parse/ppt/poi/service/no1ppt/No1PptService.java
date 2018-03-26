@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jupiter
@@ -36,6 +38,38 @@ public interface No1PptService {
      * @return 包含 ppt信息Json对象的JsonArray
      */
     JSONArray getNo1PptWithSize40(int pageIndex);
+
+    /**
+     * 根据 keyword 关键词模糊搜索符合条件的No1PPT对象
+     *
+     * @param keyword 关键词，用来模糊搜索符合条件的关键字
+     * @return 包含No1PPT对象的List
+     */
+    List<No1PPT> getNo1PPTByKeyWordFuzzy(String keyword);
+
+    /**
+     * 根据多个 keyword 关键词模糊搜索符合条件的No1PPT对象
+     *
+     * @param keywordsList 包含关键词的List
+     * @return 包含No1PPT对象的List
+     */
+    List<No1PPT> getNo1PPTByKeyWordsFuzzy(List<String> keywordsList);
+
+    /**
+     * 根据多个 keyword关键词 按关联程度 模糊搜索符合条件的No1PPT对象
+     *
+     * @param keywordsList 包含关键词的List
+     * @return 包含No1PPT对象的Set - 保证去重
+     */
+    Set<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList);
+
+    /**
+     * 精确搜索同时包含keywordsList中所有关键词的No1PPT
+     *
+     * @param keywordsList 包含关键词的List
+     * @return 同时包含keywordsList中所有关键词的No1PPTList
+     */
+    List<No1PPT> getNo1PPTByKeyWordsExact(List<String> keywordsList);
 
     /**
      * 增加 ppt 的信息对象

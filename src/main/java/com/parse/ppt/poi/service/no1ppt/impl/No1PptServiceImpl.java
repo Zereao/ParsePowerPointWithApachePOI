@@ -90,6 +90,78 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
+    public List<No1PPT> getNo1PPTByKeyWordFuzzy(String keyword) {
+        try {
+            logger.info("------->  start!  keyword = " + keyword);
+            List<No1PPT> resultList = no1PptDao.getNo1PPTByKeyWordFuzzy(keyword);
+            logger.info("------->  end !    resultList = " + resultList);
+            return resultList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<No1PPT> getNo1PPTByKeyWordsFuzzy(List<String> keywordsList) {
+        try {
+            logger.info("------->  start!   keywordsList = " + keywordsList);
+            List<No1PPT> resultList = no1PptDao.getNo1PPTByKeyWordsFuzzy(keywordsList);
+            logger.info("------->  end !    resultList = " + resultList);
+            return resultList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Set<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList) {
+        try {
+            logger.info("------->  start!   keywordsList = " + keywordsList);
+            Set<No1PPT> resultSet = new LinkedHashSet<>();
+            List<List<String>> keywordCombinationList = new ArrayList<>();
+            for (int i = 1; i <= keywordsList.size(); i++) {
+                combination(keywordsList, new ArrayList<>(), i, keywordCombinationList);
+            }
+            logger.info("keywordCombinationList = " + keywordCombinationList);
+            // 反转 keywordCombinationList ，使关联度越高的 关键词组List 越靠前
+            Collections.reverse(keywordCombinationList);
+            logger.info("keywordCombinationList + " + keywordCombinationList);
+            for (List<String> stringList : keywordCombinationList) {
+
+                logger.info(stringList);
+                List<No1PPT> resultList = no1PptDao.getNo1PPTByKeyWordsExact(stringList);
+                logger.info(resultList);
+                logger.info("+++++++++++++++++++++++++++++++++++++");
+                resultSet.addAll(resultList);
+            }
+            logger.info("------->  end !    resultList = " + resultSet);
+            return resultSet;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<No1PPT> getNo1PPTByKeyWordsExact(List<String> keywordsList) {
+        try {
+            logger.info("------->  start!   keywordsList = " + keywordsList);
+            List<No1PPT> resultList = no1PptDao.getNo1PPTByKeyWordsExact(keywordsList);
+            logger.info("------->  end !    resultList = " + resultList);
+            return resultList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public String addNo1PPT(No1PPT ppt) {
         try {
             logger.info("------->  start!  ppt = " + ppt);
@@ -164,5 +236,29 @@ public class No1PptServiceImpl implements No1PptService {
         return -1;
     }
 
+    /**
+     * 私有的 排列组合之组合 求值方法，从字符串List - stringList中取出 n 个 字符串进行组合
+     *
+     * @param stringList 字符串List
+     * @param workSpace  工作空间List，直接传入一个 new ArrayList<>() 即可
+     * @param k          选取个数
+     * @param resultList 保存了结果的List
+     */
+    private void combination(List<String> stringList, List<String> workSpace, int k, List<List<String>> resultList) {
+        List<String> copyData;
+        List<String> copyWorkSpace;
+        if (workSpace.size() == k) {
+            List<String> tempList = new ArrayList<>(workSpace);
+            resultList.add(tempList);
+        }
+        for (int i = 0; i < stringList.size(); i++) {
+            copyData = new ArrayList<>(stringList);
+            copyWorkSpace = new ArrayList<>(workSpace);
+            copyWorkSpace.add(copyData.get(i));
+            for (int j = i; j >= 0; j--)
+                copyData.remove(j);
+            combination(copyData, copyWorkSpace, k, resultList);
+        }
+    }
 
 }

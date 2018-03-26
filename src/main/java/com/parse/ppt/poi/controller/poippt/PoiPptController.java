@@ -1,6 +1,6 @@
-package com.parse.ppt.poi.controller.poi;
+package com.parse.ppt.poi.controller.poippt;
 
-import com.parse.ppt.poi.service.poi.PoiPptService;
+import com.parse.ppt.poi.service.poippt.PoiPptService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,12 @@ public class PoiPptController {
         this.poiPptService = poiPptService;
     }
 
-    @RequestMapping("/rebulidNo1ppt")
+    @RequestMapping("/search")
     @ResponseBody
-    public String loadNo1PPT(@RequestParam Integer pageIndex) {
-        logger.info("------->  start! ");
+    public String loadNo1PPT(@RequestParam String keywords) {
+        logger.info("------->  start!" +
+                "   keywords = " + keywords);
+
         logger.info("------->  end! ");
         return null;
     }

@@ -149,7 +149,7 @@
                                 <h2 class="tm-text-title tm-gallery-title">POI Gallery</h2>
                                 <div class="col-lg-10">
                                     <div class="input-group input-group-lg">
-                                        <input type="text" class="form-control myInputBoxStyle"
+                                        <input id="myID_3_1" type="text" class="form-control myInputBoxStyle"
                                                placeholder="输入关键词，使用Apache POI技术实现PPT模板一键生成">
                                         <span class="input-group-btn">
                                             <button class="btn btn-secondary btn-lg" type="button">Go!</button>
@@ -158,6 +158,7 @@
                                 </div>
                             </div>
                             <br>
+
                             <div class="grid-item">
                                 <a href="webResources/mainPage/img/tm-img-08.jpg">
                                     <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"

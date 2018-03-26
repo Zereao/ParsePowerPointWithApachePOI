@@ -7,6 +7,9 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Temp {
     @Test
@@ -120,5 +123,103 @@ public class Temp {
         File file = new File(path);
         File[] files = file.listFiles();
         System.out.println(files.length);
+    }
+
+    @Test
+    public void test5() {
+        List<String> resultList = new ArrayList<>();
+        List<String> stringList = new ArrayList<>();
+        List<String> result = new ArrayList<>();
+
+        stringList.add("红色");
+        stringList.add("蓝天");
+        stringList.add("45");
+        stringList.add("狐狸");
+        stringList.add("啦啦");
+        stringList.add("猪");
+        stringList.add("小白");
+        for (int i = 0; i < 4; i++) {
+            result.addAll(resultList);
+        }
+        System.out.println("+++++++++++++++++++++++++");
+        for (String s : result) {
+            System.out.println(s);
+        }
+
+    }
+
+    @Test
+    public void combination() {
+        String[] strArray = {"红色", "蓝天", "45", "狐狸", "啦啦", "猪", "小白"};
+        char[][] c = new char[strArray.length][];
+        int[] cnt = new int[strArray.length];
+        int[] index = new int[strArray.length]; //进位用计数器
+        Arrays.fill(index, 0); //初始为0
+        for (int i = 0; i < strArray.length; i++) {
+            c[i] = strArray[i].toCharArray(); //把多个字符的字符串拆分为多个字符
+            cnt[i] = c[i].length; //每个位置的字符数
+        }
+
+        while (true) {
+            for (int i = 0; i < index.length; i++) {
+                System.out.print(c[i][index[i]]); //打印每个位置的字符
+            }
+            System.out.println();
+            index[index.length - 1]++; //最后一个位置计数器增加
+            for (int i = index.length - 1; i > 0; i--) { //判断是否发生进位
+                if (index[i] == cnt[i]) { //如果某一个位置的计数器达到该位置的最大字符数
+                    index[i] = 0; //该位置的计数器清0
+                    index[i - 1]++; //进位，也就是某位置的前一位递增
+                }
+            }
+            if (index[0] == cnt[0]) { //如果进位到头了，则退出while循环
+                break;
+            }
+        }
+    }
+
+    public void combination(List<String> stringList, List<String> workSpace, int k, List<List<String>> resultList) {
+
+        List<String> copyData;
+        List<String> copyWorkSpace;
+
+        if (workSpace.size() == k) {
+            List<String> a = new ArrayList<>(workSpace);
+            resultList.add(a);
+            System.out.println();
+        }
+
+        for (int i = 0; i < stringList.size(); i++) {
+            copyData = new ArrayList<>(stringList);
+            copyWorkSpace = new ArrayList<>(workSpace);
+
+            copyWorkSpace.add(copyData.get(i));
+            for (int j = i; j >= 0; j--)
+                copyData.remove(j);
+            combination(copyData, copyWorkSpace, k, resultList);
+        }
+
+    }
+
+    @Test
+    public void main() {
+        List<String> data = new ArrayList<>();
+        data.add("红色");
+        data.add("蓝天");
+        data.add("45");
+        data.add("狐狸");
+        data.add("啦啦");
+        data.add("猪");
+        data.add("小白");
+        List<List<String>> objectList = new ArrayList<>();
+        for (int i = 1; i < data.size(); i++)
+            combination(data, new ArrayList<>(), i, objectList);
+
+        System.out.println("++++++++++++++++");
+        int i = 1;
+        for (List o : objectList) {
+            System.out.println(o.toString() + "    " + i);
+            i++;
+        }
     }
 }

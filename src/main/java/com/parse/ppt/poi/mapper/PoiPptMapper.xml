@@ -13,20 +13,21 @@
     </resultMap>
 
 
-    <insert id="addNo1PPT" parameterType="com.parse.ppt.poi.entity.No1PPT">
-        INSERT INTO no_1_ppt (description, img_url, download_page_url, download_url)
-        VALUES (#{srcDescription,jdbcType=VARCHAR}, #{srcImgUrl,jdbcType=VARCHAR},
-                #{downloadPageUrl,jdbcType=VARCHAR}, #{downloadUrl,jdbcType=VARCHAR})
+    <insert id="addPoiPPT" parameterType="com.parse.ppt.poi.entity.PoiPPT">
+        INSERT INTO poi_ppt (description, img_address, download_url)
+        VALUES (#{pptDescription,jdbcType=VARCHAR},
+                #{pptImgAddress,jdbcType=VARCHAR},
+                #{pptDownloadUrl,jdbcType=VARCHAR})
     </insert>
 
-    <update id="updateNo1PPTFileName">
-        update no_1_ppt
+    <update id="updatePoiPptFileName">
+        update poi_ppt
         <set>
-            <if test="pptFileName != null">
-                ppt_file_name = #{pptFileName,jdbcType=VARCHAR},
+            <if test="poiPptFileName != null">
+                ppt_file_name = #{poiPptFileName,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{pptId,jdbcType=INTEGER}
+        where id = #{poiPptId,jdbcType=INTEGER}
     </update>
 
 </mapper>

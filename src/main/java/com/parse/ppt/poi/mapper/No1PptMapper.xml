@@ -15,18 +15,20 @@
 
     <insert id="addNo1PPT" parameterType="com.parse.ppt.poi.entity.No1PPT">
         INSERT INTO no_1_ppt (description, img_url, download_page_url, download_url)
-        VALUES (#{srcDescription,jdbcType=VARCHAR}, #{srcImgUrl,jdbcType=VARCHAR},
-                #{downloadPageUrl,jdbcType=VARCHAR}, #{downloadUrl,jdbcType=VARCHAR})
+        VALUES (#{srcDescription,jdbcType=VARCHAR},
+                #{srcImgUrl,jdbcType=VARCHAR},
+                #{downloadPageUrl,jdbcType=VARCHAR},
+                #{downloadUrl,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateNo1PPTFileName">
         update no_1_ppt
         <set>
-            <if test="pptFileName != null">
-                ppt_file_name = #{pptFileName,jdbcType=VARCHAR},
+            <if test="no1pptIdFileName != null">
+                ppt_file_name = #{no1pptIdFileName,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{pptId,jdbcType=INTEGER}
+        where id = #{no1pptId,jdbcType=INTEGER}
     </update>
 
 </mapper>

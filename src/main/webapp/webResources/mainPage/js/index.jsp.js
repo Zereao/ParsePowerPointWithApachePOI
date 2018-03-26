@@ -330,6 +330,53 @@ function getPoiPPT() {
     });
 }
 
+function onPoiSerach() {
+    var jsonData = {
+        keywords: $("#myID_3_1").val()
+    };
+    $.ajax({
+        type: "post",
+        url: "/poi/search",
+        produces: "text/html;charset=UTF-8",
+        data: jsonData,
+        error: function () {
+            alert("Error-3-1:搜索失败！");
+        },
+        success: function (data) {
+            poiPageIndex += 40;
+            data.forEach(function (currentValue, index, data) {
+                var pptId = currentValue.id;
+                var description = currentValue.description;
+                var imgUrl = "/ZeroFilesOutput/NO1PPTS/" + pptId + "/" + pptId + ".png";
+                var pptName = currentValue.pptName;
+                //          myID_第二页_pptId
+                var theId = "myID_2_" + pptId;
+                var htmlText = '<div id="' + theId + '" class="grid-item" title="' + description + '">' +
+                    ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + pptName + '">' +
+                    '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img" style="height: 200px">' +
+                    ' </a>' +
+                    ' </div>';
+                $("#pptGallery").append(htmlText);
+                var theIdSelector = $("#" + theId);
+                var timer;
+                theIdSelector.hover(function () {
+                    timer = setTimeout(function () {
+                        ppt2imgDisplay(pptId);
+                    }, 3000);
+                }, function () {
+                    //这里去clear
+                    clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
+                });
+                theIdSelector.mouseleave(function () {
+                    clearInterval(no1pptTask);
+                    var theImgId = theId + "_1";
+                    $("#" + theImgId).attr("src", imgUrl);
+                });
+            });
+        }
+    });
+}
+
 
 
 

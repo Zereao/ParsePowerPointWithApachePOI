@@ -4,25 +4,30 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- 自动扫描 Dao 和 Service -->
-    <context:component-scan base-package="com.parse.ppt.poi.dao.cache"/>
-    <context:component-scan base-package="com.parse.ppt.poi.dao.persistence"/>
-    <context:component-scan base-package="com.parse.ppt.poi.common"/>
-    <context:component-scan base-package="com.parse.ppt.poi.entity"/>
-    <context:component-scan base-package="com.parse.ppt.poi.mapper"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.no1ppt"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.poi"/>
-    <!--<context:component-scan base-package="com.parse.ppt.hslf.service.login"/>-->
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.cache"/>
-    <!--<context:component-scan base-package="com.parse.ppt.hslf.service.common.cookie"/>-->
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.encrypt"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.mail"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.download"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.spider"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.user"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.history"/>
-    <context:component-scan base-package="com.parse.ppt.poi.service.common.unzip"/>
+    <!--&lt;!&ndash; 自动扫描 Dao 和 Service &ndash;&gt;-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.dao.cache"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.dao.persistence"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.common"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.entity"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.mapper"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.no1ppt"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.poi"/>-->
+    <!--&lt;!&ndash;<context:component-scan base-package="com.parse.ppt.hslf.service.login"/>&ndash;&gt;-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.cache"/>-->
+    <!--&lt;!&ndash;<context:component-scan base-package="com.parse.ppt.hslf.service.common.cookie"/>&ndash;&gt;-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.encrypt"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.mail"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.download"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.spider"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.user"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.history"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.unzip"/>-->
+    <!--<context:component-scan base-package="com.parse.ppt.poi.service.common.ppt2img"/>-->
 
+    <!-- 自动扫描 Dao 和 Service -->
+    <context:component-scan base-package="com.parse.ppt.poi">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
     <context:property-placeholder location="classpath:test_properties/db_config.properties,
                                             classpath:test_properties/mail_config.properties,
