@@ -1,27 +1,31 @@
-package com.parse.ppt.poi.service.common.ppt2img.impl;
+package com.parse.ppt.poi.service.common.poi.service.impl;
 
 import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
-import com.parse.ppt.poi.service.common.poi.hslf.PptOperateService;
-import com.parse.ppt.poi.service.common.poi.xslf.PptxOperateService;
-import com.parse.ppt.poi.service.common.ppt2img.Ppt2ImgService;
+import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.service.common.poi.operate.hslf.PptOperateService;
+import com.parse.ppt.poi.service.common.poi.operate.xslf.PptxOperateService;
+import com.parse.ppt.poi.service.common.poi.service.PoiService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Service
-public class Ppt2ImgServiceImpl implements Ppt2ImgService {
+public class PoiServiceImpl implements PoiService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     private final PptOperateService pptOperateService;
     private final PptxOperateService pptxOperateService;
 
     @Autowired
-    public Ppt2ImgServiceImpl(PptOperateService pptOperateService, PptxOperateService pptxOperateService) {
+    public PoiServiceImpl(PptOperateService pptOperateService, PptxOperateService pptxOperateService) {
         this.pptOperateService = pptOperateService;
         this.pptxOperateService = pptxOperateService;
     }
@@ -94,4 +98,24 @@ public class Ppt2ImgServiceImpl implements Ppt2ImgService {
         }
         return -1;
     }
+
+    @Override
+    public List<No1PPT> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum) {
+        logger.info("------->  start!" +
+                "   no1PPTCollection = " + no1PPTCollection +
+                "   minPage = " + minPageNum);
+        try {
+
+
+            // 存放转换后图片的文件夹
+            logger.info("------->  end!" +
+                    "   imgsNum = " + "");
+            return null;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return -1 ");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
 }

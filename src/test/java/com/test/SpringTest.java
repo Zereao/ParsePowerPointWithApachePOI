@@ -3,10 +3,12 @@ package com.test;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
+import com.parse.ppt.poi.service.common.ocr.OcrService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import com.parse.ppt.poi.service.common.download.FileDownloadService;
-import com.parse.ppt.poi.service.common.poi.xslf.PptxOperateService;
+import com.parse.ppt.poi.service.common.poi.operate.xslf.PptxOperateService;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,8 @@ public class SpringTest {
     private PptxOperateService pptxOperateService;
     @Autowired
     private No1PptDao no1PptDao;
+    @Autowired
+    private OcrService ocrService;
 
     private String result = null;
 
@@ -57,8 +61,13 @@ public class SpringTest {
     }
 
     @Test
-    public void test3() throws InterruptedException {
-        Thread.sleep(1000);
+    public void test3() {
+        String imgPath = "ZeroFilesOutput/baiduImgs/13.png";
+        System.out.println("+++++++++++++++++++++++++++++++++++");
+        List<String> result = null;
+//        result = ocrService.getWordsWithBaiduOCR(imgPath);
+        result = ocrService.getWordsWithTencentOCR(imgPath);
+        System.out.println(result);
     }
 
     @Test

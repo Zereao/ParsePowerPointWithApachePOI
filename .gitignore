@@ -3,6 +3,7 @@
 ######################
 
 ZeroFilesOutput/
+ocr_config.properties
 
 
 ######################
@@ -23,7 +24,7 @@ ZeroFilesOutput/
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.ear
 *.zip

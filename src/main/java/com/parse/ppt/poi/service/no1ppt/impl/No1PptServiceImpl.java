@@ -6,7 +6,7 @@ import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.download.PptDownloadService;
-import com.parse.ppt.poi.service.common.ppt2img.Ppt2ImgService;
+import com.parse.ppt.poi.service.common.poi.service.PoiService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -28,14 +28,14 @@ public class No1PptServiceImpl implements No1PptService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     private final No1PptDao no1PptDao;
-    private final Ppt2ImgService ppt2ImgService;
+    private final PoiService poiService;
     private final PptDownloadService pptDownloadService;
 
     @Autowired
-    public No1PptServiceImpl(No1PptDao no1PptDao, PptDownloadService pptDownloadService, Ppt2ImgService ppt2ImgService) {
+    public No1PptServiceImpl(No1PptDao no1PptDao, PptDownloadService pptDownloadService, PoiService poiService) {
         this.no1PptDao = no1PptDao;
         this.pptDownloadService = pptDownloadService;
-        this.ppt2ImgService = ppt2ImgService;
+        this.poiService = poiService;
     }
 
     @Override
@@ -126,16 +126,10 @@ public class No1PptServiceImpl implements No1PptService {
             for (int i = 1; i <= keywordsList.size(); i++) {
                 combination(keywordsList, new ArrayList<>(), i, keywordCombinationList);
             }
-            logger.info("keywordCombinationList = " + keywordCombinationList);
             // 反转 keywordCombinationList ，使关联度越高的 关键词组List 越靠前
             Collections.reverse(keywordCombinationList);
-            logger.info("keywordCombinationList + " + keywordCombinationList);
             for (List<String> stringList : keywordCombinationList) {
-
-                logger.info(stringList);
                 List<No1PPT> resultList = no1PptDao.getNo1PPTByKeyWordsExact(stringList);
-                logger.info(resultList);
-                logger.info("+++++++++++++++++++++++++++++++++++++");
                 resultSet.addAll(resultList);
             }
             logger.info("------->  end !    resultList = " + resultSet);
@@ -210,7 +204,7 @@ public class No1PptServiceImpl implements No1PptService {
         logger.info("------->  start!" +
                 "  No1PptID = " + no1PptID);
         try {
-            String result = ppt2ImgService.ppt2imgs(no1PptID, PptTag.TYPE_NO1);
+            String result = poiService.ppt2imgs(no1PptID, PptTag.TYPE_NO1);
             logger.info("------->  end!" +
                     "   result = " + result);
             return result;
@@ -226,7 +220,7 @@ public class No1PptServiceImpl implements No1PptService {
         try {
             logger.info("------->  start!" +
                     "   pptId = " + no1PptId);
-            int result = ppt2ImgService.getImgsNum(no1PptId, PptTag.TYPE_NO1);
+            int result = poiService.getImgsNum(no1PptId, PptTag.TYPE_NO1);
             logger.info("------->  end ! result = " + result);
             return result;
         } catch (Exception e) {

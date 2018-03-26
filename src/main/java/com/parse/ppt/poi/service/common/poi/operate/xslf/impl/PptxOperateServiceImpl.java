@@ -1,11 +1,10 @@
-package com.parse.ppt.poi.service.common.poi.hslf.impl;
+package com.parse.ppt.poi.service.common.poi.operate.xslf.impl;
 
 import com.parse.ppt.poi.common.ReturnCode;
-import com.parse.ppt.poi.service.common.poi.hslf.PptOperateService;
+import com.parse.ppt.poi.service.common.poi.operate.xslf.PptxOperateService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.hslf.usermodel.HSLFSlide;
-import org.apache.poi.hslf.usermodel.HSLFSlideShow;
+import org.apache.poi.xslf.usermodel.*;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -16,40 +15,49 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 @Service
-public class PptOperateServiceImpl implements PptOperateService {
+public class PptxOperateServiceImpl implements PptxOperateService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
     @Override
-    public String ppt2img(File pptFile, String targetPath) {
+    public String pptx2img(File pptxFile, String targetPath) {
         logger.info("------->  start!" +
-                "   pptFile = " + pptFile.getAbsolutePath() +
-                "   targetPath = " + targetPath);
+                "   pptPath = " + pptxFile.getPath());
         try (
-                FileInputStream inputStream = new FileInputStream(pptFile);
-                HSLFSlideShow ppt = new HSLFSlideShow(inputStream)
+                FileInputStream inputStream = new FileInputStream(pptxFile);
+                XMLSlideShow pptx = new XMLSlideShow(inputStream)
         ) {
             // 如果输出目录不存在，则创建
             File target = new File(targetPath);
             if (!target.exists()) {
                 boolean isMkDirs = target.mkdirs();
             }
-            Dimension pageSize = ppt.getPageSize();
-            // 图片被命名为 1.png , 2.png , 3.png
-            int index = 1;
-            for (HSLFSlide slide : ppt.getSlides()) {
+            Dimension pageSize = pptx.getPageSize();
+            for (int i = 0; i < pptx.getSlides().size(); i++) {
+                //防止中文乱码-设置每一张字体族 都为 宋体      ++++++++++++++++++++++++++ 备用代码
+                /*
+                for (XSLFShape shape : pptx.getSlides().get(i).getShapes()) {
+                    if (shape instanceof XSLFTextShape) {
+                        XSLFTextShape tsh = (XSLFTextShape) shape;
+                        for (XSLFTextParagraph p : tsh) {
+                            for (XSLFTextRun r : p) {
+                                r.setFontFamily("宋体");
+                            }
+                        }
+                    }
+                }
+                */
                 BufferedImage img = new BufferedImage(pageSize.width, pageSize.height, BufferedImage.TYPE_INT_RGB);
                 Graphics2D graphics = img.createGraphics();
                 // clear the drawing area
                 graphics.setPaint(Color.white);
                 graphics.fill(new Rectangle2D.Float(0, 0, pageSize.width, pageSize.height));
-                // render
-                slide.draw(graphics);
+                // render - 给予，提交，表达   这里就是提交信息，开始绘画图片
+                pptx.getSlides().get(i).draw(graphics);
                 // save the output
-                String filename = targetPath + index + ".png";
+                String filename = targetPath + (i + 1) + ".png";
                 FileOutputStream out = new FileOutputStream(filename);
                 javax.imageio.ImageIO.write(img, "png", out);
                 out.close();
-                index++;
             }
             logger.info("------->  end! result = " + ReturnCode.SUCCESS);
             return ReturnCode.SUCCESS;

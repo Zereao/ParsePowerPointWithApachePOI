@@ -1,6 +1,10 @@
-package com.parse.ppt.poi.service.common.ppt2img;
+package com.parse.ppt.poi.service.common.poi.service;
 
+import com.parse.ppt.poi.entity.No1PPT;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 把PPT/PPTX的每一张幻灯片都转化为图片的Service
@@ -9,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @date 2018/3/25/10:58
  */
 @Service
-public interface Ppt2ImgService {
+public interface PoiService {
     /**
      * 把 PPT文件转换为PNG格式的图片
      *
@@ -27,4 +31,13 @@ public interface Ppt2ImgService {
      * @return 某一个PPT转换成图片的图片张数
      */
     int getImgsNum(String pptId, String pptTag);
+
+    /**
+     * 从 No1PPT 集合 no1PPTCollection 中挑选出幻灯片张数 ≥ minPage 的 No1PPT对象
+     *
+     * @param no1PPTCollection No1PPTCollection
+     * @param minPageNum       最小幻灯片张数
+     * @return 某一个PPT转换成图片的图片张数
+     */
+    List<No1PPT> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum);
 }
