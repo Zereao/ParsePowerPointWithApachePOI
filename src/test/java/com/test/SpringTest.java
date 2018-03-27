@@ -4,6 +4,7 @@ import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import com.parse.ppt.poi.service.common.ocr.OcrService;
+import com.parse.ppt.poi.service.common.poi.service.PoiService;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
 import com.parse.ppt.poi.service.common.download.FileDownloadService;
@@ -45,6 +46,8 @@ public class SpringTest {
     private No1PptDao no1PptDao;
     @Autowired
     private OcrService ocrService;
+    @Autowired
+    private PoiService poiService;
 
     private String result = null;
 
@@ -62,7 +65,7 @@ public class SpringTest {
 
     @Test
     public void test3() {
-        String imgPath = "ZeroFilesOutput/baiduImgs/13.png";
+        String imgPath = "ZeroFilesOutput/baiduImgs/14.png";
         System.out.println("+++++++++++++++++++++++++++++++++++");
         List<String> result = null;
 //        result = ocrService.getWordsWithBaiduOCR(imgPath);
@@ -91,5 +94,20 @@ public class SpringTest {
         for (No1PPT no1PPT : no1PPTSet) {
             System.out.println(no1PPT.getSrcDescription());
         }
+    }
+
+    @Test
+    public void test6() {
+        List<No1PPT> list = new ArrayList<>();
+        list.add(no1PptDao.getNo1PPTById(1));
+        list.add(no1PptDao.getNo1PPTById(2));
+        list.add(no1PptDao.getNo1PPTById(3));
+        list.add(no1PptDao.getNo1PPTById(4));
+        list.add(no1PptDao.getNo1PPTById(5));
+        list.add(no1PptDao.getNo1PPTById(6));
+        poiService.selectPPTSync(list, 5);
+//        for (No1PPT no1PPT : result) {
+////            System.out.println(no1PPT.getSrcDescription());
+//        }
     }
 }

@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 
 @Service
 public class PptxOperateServiceImpl implements PptxOperateService {
@@ -33,8 +34,7 @@ public class PptxOperateServiceImpl implements PptxOperateService {
             }
             Dimension pageSize = pptx.getPageSize();
             for (int i = 0; i < pptx.getSlides().size(); i++) {
-                //防止中文乱码-设置每一张字体族 都为 宋体      ++++++++++++++++++++++++++ 备用代码
-                /*
+                /*防止中文乱码-设置每一张字体族 都为 宋体      ++++++++++++++++++++++++++ 备用代码
                 for (XSLFShape shape : pptx.getSlides().get(i).getShapes()) {
                     if (shape instanceof XSLFTextShape) {
                         XSLFTextShape tsh = (XSLFTextShape) shape;
@@ -44,8 +44,7 @@ public class PptxOperateServiceImpl implements PptxOperateService {
                             }
                         }
                     }
-                }
-                */
+                }*/
                 BufferedImage img = new BufferedImage(pageSize.width, pageSize.height, BufferedImage.TYPE_INT_RGB);
                 Graphics2D graphics = img.createGraphics();
                 // clear the drawing area
@@ -66,5 +65,25 @@ public class PptxOperateServiceImpl implements PptxOperateService {
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
+    }
+
+    @Override
+    public boolean isPageMatchCondition(File pptxFile, int minPageNum) {
+        logger.info("------->  start!" +
+                "   pptFile = " + pptxFile.getAbsolutePath() +
+                "   minPageNum = " + minPageNum);
+        try (
+                InputStream pptxFileInputStream = new FileInputStream(pptxFile);
+                XMLSlideShow slideShow = new XMLSlideShow(pptxFileInputStream)
+        ) {
+            int slidesNum = slideShow.getSlides().size();
+            boolean result = slidesNum >= minPageNum;
+            logger.info("------->  end!  result = " + result);
+            return result;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!   返回 false");
+            logger.error(e.getMessage());
+        }
+        return false;
     }
 }

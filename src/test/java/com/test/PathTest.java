@@ -1,5 +1,6 @@
 package com.test;
 
+import com.parse.ppt.poi.common.PathUtil;
 import org.junit.Test;
 
 import java.io.File;
@@ -46,5 +47,11 @@ public class PathTest {
             }
         }
         return fileList;
+    }
+
+    @Test
+    public void test3() {
+        File file = PathUtil.getNo1PptFile("1");
+        System.out.println(file);
     }
 }

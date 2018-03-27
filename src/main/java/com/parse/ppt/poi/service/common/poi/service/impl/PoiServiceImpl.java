@@ -1,8 +1,11 @@
 package com.parse.ppt.poi.service.common.poi.service.impl;
 
+import com.parse.ppt.poi.common.AdWordAnalyseUtil;
 import com.parse.ppt.poi.common.PathUtil;
+import com.parse.ppt.poi.common.PptTag;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.service.common.ocr.OcrService;
 import com.parse.ppt.poi.service.common.poi.operate.hslf.PptOperateService;
 import com.parse.ppt.poi.service.common.poi.operate.xslf.PptxOperateService;
 import com.parse.ppt.poi.service.common.poi.service.PoiService;
@@ -12,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class PoiServiceImpl implements PoiService {
@@ -23,11 +23,13 @@ public class PoiServiceImpl implements PoiService {
 
     private final PptOperateService pptOperateService;
     private final PptxOperateService pptxOperateService;
+    private final OcrService ocrService;
 
     @Autowired
-    public PoiServiceImpl(PptOperateService pptOperateService, PptxOperateService pptxOperateService) {
+    public PoiServiceImpl(PptOperateService pptOperateService, PptxOperateService pptxOperateService, OcrService ocrService) {
         this.pptOperateService = pptOperateService;
         this.pptxOperateService = pptxOperateService;
+        this.ocrService = ocrService;
     }
 
     @Override
@@ -100,22 +102,149 @@ public class PoiServiceImpl implements PoiService {
     }
 
     @Override
-    public List<No1PPT> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum) {
+    public List<Map<No1PPT, int[]>> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum) {
         logger.info("------->  start!" +
                 "   no1PPTCollection = " + no1PPTCollection +
                 "   minPage = " + minPageNum);
         try {
-
-
+            List<Map<No1PPT, int[]>> resultList = new ArrayList<>();
+            for (No1PPT no1PPT : no1PPTCollection) {
+                String no1pptId = String.valueOf(no1PPT.getId());
+                File pptFile = PathUtil.getNo1PptFile(no1pptId);
+                logger.info(pptFile);
+                // 如果PPT文件不存在，跳过当前No1PPT对象
+                if (pptFile == null) {
+                    continue;
+                }
+                String pptFileName = pptFile.getName();
+                boolean isMatchCondition = false;
+                if (pptFileName.toLowerCase().contains(".ppt") && (!(pptFileName.toLowerCase().contains(".pptx")))) {
+                    isMatchCondition = pptOperateService.isPageMatchCondition(pptFile, minPageNum);
+                } else if (pptFileName.toLowerCase().contains(".pptx")) {
+                    isMatchCondition = pptxOperateService.isPageMatchCondition(pptFile, minPageNum);
+                }
+                // 如果PPT幻灯页太少，跳过当前No1PPT对象
+                if (!isMatchCondition) {
+                    continue;
+                }
+                String resultOfPpt2Img = ppt2imgs(no1pptId, PptTag.TYPE_NO1);
+                // 以防万一，还是判断一下文件存在性，如果文件不存在，跳过当前No1PPT对象
+                if (resultOfPpt2Img.equals(ReturnCode.RESOURCES_NOT_EXISTS)) {
+                    continue;
+                }
+                // 调用OCR接口识别PPT转图片后的图片中的文字，准备提出包含广告的广告页
+                if (resultOfPpt2Img.equals(ReturnCode.SUCCESS)) {
+                    String ppt2imgPath = PathUtil.getAbsoluteNo1PPT2imgPath(no1pptId);
+                    int imgsNum = Objects.requireNonNull(new File(ppt2imgPath).listFiles()).length;
+                    for (int imgIndex = imgsNum, adPage = 0; imgIndex >= 1; imgIndex--, adPage++) {
+                        // 倒序图像识别，节约OCR成本成本
+                        String imgPath = ppt2imgPath + imgIndex + ".png";
+                        List<String> ocrWordsList = null;
+                        ocrWordsList = ocrService.getWordsWithTencentOCR(imgPath);
+                        if (ocrWordsList == null) {
+                            logger.info("------->  Warn！当日腾讯OCR接口调用次数已达上限！下面调用百度OCR接口！");
+                            ocrWordsList = ocrService.getWordsWithBaiduOCR(imgPath);
+                        }
+                        if (ocrWordsList == null) {
+                            logger.info("------->  Warn！当日百度OCR接口调用次数已达上限！今日将不再使用OCR筛选！");
+                            continue;
+                        }
+                        // 当前页面的广告信息权重
+                        double weight = 0.0;
+                        for (String ocrWord : ocrWordsList) {
+                            Map<String, Double> adKeywordsMap = AdWordAnalyseUtil.adKeywordsMap;
+                            for (String word : adKeywordsMap.keySet()) {
+                                if (ocrWord.toLowerCase().contains(word.toLowerCase())) {
+                                    weight += adKeywordsMap.get(word);
+                                }
+                            }
+                        }
+                        logger.info("+++++++++ 当前页面 index = " + imgIndex + " ，权重 = " + weight);
+                        Map<No1PPT, int[]> infoMap = new HashMap<>();
+                        // 如果广告词汇权重 小于等于 10 ，则我们认为其合格
+                        if (weight <= 10.0) {
+                            int[] adPageIndexs = new int[adPage];
+                            int imgNum_Temp = imgsNum;
+                            for (int i = 0; i < adPage; i++) {
+                                adPageIndexs[i] = imgNum_Temp;
+                                imgNum_Temp--;
+                            }
+                            infoMap.put(no1PPT, adPageIndexs);
+                            resultList.add(infoMap);
+                            // 进入下一个PPT 的筛选
+                            break;
+                        }
+                    }
+                }
+            }
             // 存放转换后图片的文件夹
             logger.info("------->  end!" +
-                    "   imgsNum = " + "");
-            return null;
+                    "   resultList.size() = " + resultList.size() +
+                    "   resultList = " + resultList);
+            return resultList;
         } catch (Exception e) {
-            logger.error("------->  ERROR!  return -1 ");
+            logger.error("------->  ERROR!  return null");
             logger.error(e.getMessage());
         }
         return null;
     }
+
+    @Override
+    public List<Map<No1PPT, int[]>> selectPPTSync(Collection<No1PPT> no1PPTCollection, int minPageNum) {
+        logger.info("------->  start!" +
+                "   no1PPTCollection = " + no1PPTCollection +
+                "   minPage = " + minPageNum);
+        try {
+            int no1pptNum = no1PPTCollection.size();
+            int spilt = no1pptNum / 4;
+            if (spilt == 0) {
+                logger.info("------->  不必使用多线程，直接调用selectPPT()方法!");
+                return selectPPT(no1PPTCollection, minPageNum);
+            }
+            List<No1PPT> list1 = new ArrayList<>();
+            List<No1PPT> list2 = new ArrayList<>();
+            List<No1PPT> list3 = new ArrayList<>();
+            List<No1PPT> list4 = new ArrayList<>();
+            int index = 0;
+            List<Map<No1PPT, int[]>> resultList = new ArrayList<>();
+            for (No1PPT no1PPT : no1PPTCollection) {
+                if (index < spilt) {
+                    list1.add(no1PPT);
+                    index++;
+                } else if (index >= spilt && index < spilt * 2) {
+                    list2.add(no1PPT);
+                    index++;
+                } else if (index >= spilt * 2 && index < spilt * 3) {
+                    list3.add(no1PPT);
+                    index++;
+                } else {
+                    list4.add(no1PPT);
+                    index++;
+                }
+            }
+            Thread thread1 = new Thread(() -> resultList.addAll(selectPPT(list1, minPageNum)));
+            Thread thread2 = new Thread(() -> resultList.addAll(selectPPT(list2, minPageNum)));
+            Thread thread3 = new Thread(() -> resultList.addAll(selectPPT(list3, minPageNum)));
+            Thread thread4 = new Thread(() -> resultList.addAll(selectPPT(list4, minPageNum)));
+            thread1.start();
+            thread2.start();
+            thread3.start();
+            thread4.start();
+            // 阻塞主线程，执行完 子进程 thread1,thread2,thread3,thread4 后再继续执行后续逻辑
+            thread1.join();
+            thread2.join();
+            thread3.join();
+            thread4.join();
+            logger.info("------->  end!" +
+                    "   resultList.size() = " + resultList.size() +
+                    "   resultList = " + resultList);
+            return resultList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
 
 }

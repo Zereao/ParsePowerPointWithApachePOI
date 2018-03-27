@@ -12,7 +12,8 @@ public class PathUtil {
      * @return ${AbsoluteProjectPath}/
      */
     public static String getAbsoluteProjectPath() {
-        return PathUtil.class.getResource("/").getPath().replaceAll("^(/)|(target/ParsePowerPointWithApachePOI/WEB-INF/classes/)$", "");
+        String targetRegex = "^(/)|((target/ParsePowerPointWithApachePOI/WEB-INF/classes/)|(target/test-classes/))";
+        return PathUtil.class.getResource("/").getPath().replaceAll(targetRegex, "");
     }
 
     /**
@@ -84,8 +85,9 @@ public class PathUtil {
      */
     public static File getNo1PptFile(String no1pptId) {
         File[] files = new File(getAbsoluteNo1PptPath(no1pptId)).listFiles();
-        List<File> fileList = getPptFileList(files, new ArrayList<>());
-        if (fileList != null && fileList.size() > 0) {
+        List<File> fileList = new ArrayList<>();
+        getPptFileList(files, fileList);
+        if (fileList.size() > 0) {
             return fileList.get(0);
         }
         return null;
@@ -153,8 +155,9 @@ public class PathUtil {
             default:
                 return null;
         }
-        List<File> fileList = getPptFileList(files, new ArrayList<>());
-        if (fileList != null && fileList.size() > 0) {
+        List<File> fileList = new ArrayList<>();
+        getPptFileList(files, fileList);
+        if (fileList.size() > 0) {
             return fileList.get(0);
         }
         return null;
@@ -228,23 +231,24 @@ public class PathUtil {
     /**
      * 私有公用方法：递归得到 files 路径下的所有PPT/PPTX文件
      *
-     * @param files new File(pptPath).listFiles()
-     * @return 得到的第一个PPT/PPTX文件File对象
+     * @param files      new File(pptPath).listFiles()
+     * @param resultList 保存了结果的resultList
      */
-    private static List<File> getPptFileList(File[] files, List<File> fileList) {
+    private static void getPptFileList(File[] files, List<File> resultList) {
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
                     // 递归
-                    getPptFileList(file.listFiles(), fileList);
+                    getPptFileList(file.listFiles(), resultList);
                 } else if (file.isFile()) {
                     String fileName = file.getName();
                     if (fileName.toLowerCase().contains(".ppt") || fileName.toLowerCase().contains(".pptx")) {
-                        fileList.add(file);
+                        resultList.add(file);
                     }
                 }
             }
         }
-        return fileList;
     }
+
+
 }

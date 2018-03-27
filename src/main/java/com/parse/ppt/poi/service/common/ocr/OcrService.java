@@ -16,7 +16,7 @@ public interface OcrService {
      * <strong>fuck 垃圾百度</strong>
      *
      * @param imgPath 需要识别的图片的路径
-     * @return 识别结果，把提取出来的所有 words 项都存到List 中
+     * @return 识别结果，把提取出来的所有 words 项都存到List中,接口报错时返回null
      */
     List<String> getWordsWithBaiduOCR(String imgPath);
 
@@ -26,7 +26,7 @@ public interface OcrService {
      * <strong>【比垃圾百度要强大】</strong>
      *
      * @param imgPath 需要识别的图片的路径
-     * @return 识别结果, 把提取出来的所有 words 项都存到List 中
+     * @return 识别结果, 把提取出来的所有 words项都存到List中,接口报错时返回null
      */
     List<String> getWordsWithTencentOCR(String imgPath);
 }

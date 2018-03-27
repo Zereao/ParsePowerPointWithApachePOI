@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 把PPT/PPTX的每一张幻灯片都转化为图片的Service
@@ -33,11 +34,22 @@ public interface PoiService {
     int getImgsNum(String pptId, String pptTag);
 
     /**
-     * 从 No1PPT 集合 no1PPTCollection 中挑选出幻灯片张数 ≥ minPage 的 No1PPT对象
+     * 从 No1PPT 集合 no1PPTCollection 中挑选出幻灯片张数 ≥ minPage 的 No1PPT对象，
+     * 以及包含广告的页面index，将这些信息存储于一个Map中，最后将这个mapList返回
      *
      * @param no1PPTCollection No1PPTCollection
      * @param minPageNum       最小幻灯片张数
-     * @return 某一个PPT转换成图片的图片张数
+     * @return key-No1PPT对象，包含广告的页面的index数组，最后返回的是一个MapList
      */
-    List<No1PPT> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum);
+    List<Map<No1PPT, int[]>> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum);
+
+    /**
+     * 多线程方式调用 selectPPT(Collection, int)
+     *
+     * @param no1PPTCollection No1PPTCollection
+     * @param minPageNum       最小幻灯片张数
+     * @return key-No1PPT对象，包含广告的页面的index数组，最后返回的是一个MapList
+     * @see #selectPPT(Collection, int)
+     */
+    List<Map<No1PPT, int[]>> selectPPTSync(Collection<No1PPT> no1PPTCollection, int minPageNum);
 }
