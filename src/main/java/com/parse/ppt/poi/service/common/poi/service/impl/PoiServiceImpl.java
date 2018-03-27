@@ -111,9 +111,9 @@ public class PoiServiceImpl implements PoiService {
             for (No1PPT no1PPT : no1PPTCollection) {
                 String no1pptId = String.valueOf(no1PPT.getId());
                 File pptFile = PathUtil.getNo1PptFile(no1pptId);
-                logger.info(pptFile);
                 // 如果PPT文件不存在，跳过当前No1PPT对象
                 if (pptFile == null) {
+                    logger.info(no1PPT.getId() + " 对应的PPT文件不存在！");
                     continue;
                 }
                 String pptFileName = pptFile.getName();
@@ -125,11 +125,13 @@ public class PoiServiceImpl implements PoiService {
                 }
                 // 如果PPT幻灯页太少，跳过当前No1PPT对象
                 if (!isMatchCondition) {
+                    logger.info(no1PPT.getId() + " 对应的PPT文件幻灯页数 小于 " + minPageNum);
                     continue;
                 }
                 String resultOfPpt2Img = ppt2imgs(no1pptId, PptTag.TYPE_NO1);
                 // 以防万一，还是判断一下文件存在性，如果文件不存在，跳过当前No1PPT对象
                 if (resultOfPpt2Img.equals(ReturnCode.RESOURCES_NOT_EXISTS)) {
+                    logger.info("ppt2imgs方法返回的ReturnCode = " + ReturnCode.RESOURCES_NOT_EXISTS);
                     continue;
                 }
                 // 调用OCR接口识别PPT转图片后的图片中的文字，准备提出包含广告的广告页
@@ -147,7 +149,7 @@ public class PoiServiceImpl implements PoiService {
                         }
                         if (ocrWordsList == null) {
                             logger.info("------->  Warn！当日百度OCR接口调用次数已达上限！今日将不再使用OCR筛选！");
-                            continue;
+                            break;
                         }
                         // 当前页面的广告信息权重
                         double weight = 0.0;
@@ -164,7 +166,7 @@ public class PoiServiceImpl implements PoiService {
                         // 如果广告词汇权重 小于等于 10 ，则我们认为其合格
                         if (weight <= 10.0) {
                             int[] adPageIndexs = new int[adPage];
-                            int imgNum_Temp = imgsNum;
+                            int imgNum_Temp = imgsNum - 1;
                             for (int i = 0; i < adPage; i++) {
                                 adPageIndexs[i] = imgNum_Temp;
                                 imgNum_Temp--;
@@ -222,10 +224,29 @@ public class PoiServiceImpl implements PoiService {
                     index++;
                 }
             }
-            Thread thread1 = new Thread(() -> resultList.addAll(selectPPT(list1, minPageNum)));
-            Thread thread2 = new Thread(() -> resultList.addAll(selectPPT(list2, minPageNum)));
-            Thread thread3 = new Thread(() -> resultList.addAll(selectPPT(list3, minPageNum)));
-            Thread thread4 = new Thread(() -> resultList.addAll(selectPPT(list4, minPageNum)));
+            Thread thread1 = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    logger.info("####################################   1   start");
+                    resultList.addAll(selectPPT(list1, minPageNum));
+                    logger.info("####################################   1   end");
+                }
+            });
+            Thread thread2 = new Thread(() -> {
+                logger.info("####################################   2   start");
+                resultList.addAll(selectPPT(list2, minPageNum));
+                logger.info("####################################   2   end");
+            });
+            Thread thread3 = new Thread(() -> {
+                logger.info("####################################   3   start");
+                resultList.addAll(selectPPT(list3, minPageNum));
+                logger.info("####################################   3   end");
+            });
+            Thread thread4 = new Thread(() -> {
+                logger.info("####################################   4   start");
+                resultList.addAll(selectPPT(list4, minPageNum));
+                logger.info("####################################   4   end");
+            });
             thread1.start();
             thread2.start();
             thread3.start();
@@ -244,6 +265,61 @@ public class PoiServiceImpl implements PoiService {
             logger.error(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public String rebuildPPT(No1PPT no1PPT, int[] adPageIndexs) {
+        logger.info("------->  start!" +
+                "   no1PPT = " + no1PPT +
+                "   adPageIndexs = " + Arrays.toString(adPageIndexs));
+        try {
+            String pptFileName = no1PPT.getPptFileName();
+            if (pptFileName == null || "".equals(pptFileName)) {
+                String no1pptId = String.valueOf(no1PPT.getId());
+                File pptFile = PathUtil.getNo1PptFile(no1pptId);
+                assert pptFile != null;
+                pptFileName = pptFile.getName();
+            }
+            String result = null;
+            if (pptFileName.toLowerCase().contains(".ppt") && !pptFileName.toLowerCase().contains(".pptx")) {
+                result = pptOperateService.rebuildPPT(no1PPT, adPageIndexs);
+            } else if (pptFileName.toLowerCase().contains(".pptx")) {
+                result = pptxOperateService.rebuildPPTX(no1PPT, adPageIndexs);
+            }
+            logger.info("------->  end!" +
+                    "   result = " + result);
+            return result;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return FAILED");
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
+    }
+
+    @Override
+    public String rebuildPPT(List<Map<No1PPT, int[]>> infoList) {
+        logger.info("------->  start!" +
+                "   infoList = " + infoList);
+        try {
+            String result = null;
+            // 返回 Error 的个数
+            int index = 0;
+            for (Map<No1PPT, int[]> no1PPTMap : infoList) {
+                for (No1PPT no1PPT : no1PPTMap.keySet()) {
+                    result = rebuildPPT(no1PPT, no1PPTMap.get(no1PPT));
+                    if (result.equals(ReturnCode.FAILED)) {
+                        index++;
+                    }
+                }
+            }
+            logger.info("------->  end!" +
+                    "   错误个数 = " + index);
+            return ReturnCode.SUCCESS;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return FAILED");
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
     }
 
 

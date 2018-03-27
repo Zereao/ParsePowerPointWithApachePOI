@@ -1,5 +1,7 @@
 package com.parse.ppt.poi.service.common.poi.operate.xslf;
 
+import com.parse.ppt.poi.entity.No1PPT;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -24,4 +26,13 @@ public interface PptxOperateService {
      * false-PPTX页码数小于minPageNum
      */
     boolean isPageMatchCondition(File pptxFile, int minPageNum);
+
+    /**
+     * 重建PPTX，去掉NoPPT对象对应的PPTX文件中的广告页
+     *
+     * @param no1PPT       需要修改的No1PPT对象
+     * @param adPageIndexs 包含广告页面index的数组
+     * @return ReturnCode-返回码
+     */
+    String rebuildPPTX(No1PPT no1PPT, int[] adPageIndexs);
 }

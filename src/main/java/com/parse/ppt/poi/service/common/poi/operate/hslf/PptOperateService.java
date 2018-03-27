@@ -1,5 +1,7 @@
 package com.parse.ppt.poi.service.common.poi.operate.hslf;
 
+import com.parse.ppt.poi.entity.No1PPT;
+import org.apache.poi.hslf.usermodel.HSLFSlideShow;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -24,4 +26,15 @@ public interface PptOperateService {
      * false-PPT页码数小于minPageNum
      */
     boolean isPageMatchCondition(File pptFile, int minPageNum);
+
+    /**
+     * 重建PPT，去掉NoPPT对象对应的PPT文件中的广告页
+     *
+     * @param no1PPT       需要修改的No1PPT对象
+     * @param adPageIndexs 包含广告页面index的数组
+     * @return ReturnCode-返回码
+     */
+    String rebuildPPT(No1PPT no1PPT, int[] adPageIndexs);
+
+
 }

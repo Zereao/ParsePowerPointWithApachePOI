@@ -9,6 +9,7 @@ package com.parse.ppt.poi.entity;
 public class PoiPPT {
     private Integer id;
     private String pptDescription;
+    private String typeTag;
     private String pptImgAddress;
     private String pptDownloadUrl;
     private String pptFileName;
@@ -16,16 +17,15 @@ public class PoiPPT {
     public PoiPPT() {
     }
 
-    public PoiPPT(Integer id, String pptDescription, String pptImgAddress, String pptDownloadUrl) {
-        this.id = id;
+    public PoiPPT(String pptDescription, String typeTag) {
         this.pptDescription = pptDescription;
-        this.pptImgAddress = pptImgAddress;
-        this.pptDownloadUrl = pptDownloadUrl;
+        this.typeTag = typeTag;
     }
 
-    public PoiPPT(Integer id, String pptDescription, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
+    public PoiPPT(Integer id, String pptDescription, String typeTag, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
         this.id = id;
         this.pptDescription = pptDescription;
+        this.typeTag = typeTag;
         this.pptImgAddress = pptImgAddress;
         this.pptDownloadUrl = pptDownloadUrl;
         this.pptFileName = pptFileName;
@@ -45,6 +45,14 @@ public class PoiPPT {
 
     public void setPptDescription(String pptDescription) {
         this.pptDescription = pptDescription;
+    }
+
+    public String getTypeTag() {
+        return typeTag;
+    }
+
+    public void setTypeTag(String typeTag) {
+        this.typeTag = typeTag;
     }
 
     public String getPptImgAddress() {
@@ -76,6 +84,7 @@ public class PoiPPT {
         return "PoiPPT{" +
                 "id=" + id +
                 ", pptDescription='" + pptDescription + '\'' +
+                ", typeTag='" + typeTag + '\'' +
                 ", pptImgAddress='" + pptImgAddress + '\'' +
                 ", pptDownloadUrl='" + pptDownloadUrl + '\'' +
                 ", pptFileName='" + pptFileName + '\'' +

@@ -1,6 +1,9 @@
 package com.parse.ppt.poi.service.common.poi.operate.xslf.impl;
 
+import com.parse.ppt.poi.common.PathUtil;
+import com.parse.ppt.poi.common.PptTag;
 import com.parse.ppt.poi.common.ReturnCode;
+import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.common.poi.operate.xslf.PptxOperateService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,10 +13,9 @@ import org.springframework.stereotype.Service;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Service
 public class PptxOperateServiceImpl implements PptxOperateService {
@@ -85,5 +87,40 @@ public class PptxOperateServiceImpl implements PptxOperateService {
             logger.error(e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public String rebuildPPTX(No1PPT no1PPT, int[] adPageIndexs) {
+        logger.info("------->  start!" +
+                "   No1PPT no1PPT = " + no1PPT +
+                "   adPageIndexs = " + Arrays.toString(adPageIndexs));
+        OutputStream outputStream = null;
+        try (
+                InputStream pptFileInputStream = new FileInputStream(Objects.requireNonNull(PathUtil.getNo1PptFile(String.valueOf(no1PPT.getId()))));
+                XMLSlideShow slideShow = new XMLSlideShow(pptFileInputStream);
+        ) {
+            for (int adPageIndex : adPageIndexs) {
+                slideShow.removeSlide(adPageIndex);
+            }
+            String targetPath = PathUtil.getAbsolutePoiPptPathByTag(PptTag.TYPE_POI_REBUILD);
+            String pptxPath = targetPath + no1PPT.getSrcDescription() + ".pptx";
+            outputStream = new FileOutputStream(pptxPath);
+            slideShow.write(outputStream);
+            logger.info("------->  end!  result = " + ReturnCode.SUCCESS);
+            return ReturnCode.SUCCESS;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!   返回 FAILED");
+            logger.error(e.getMessage());
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                logger.error("------->  ERROR!   Finally Block Error");
+                logger.error(e.getMessage());
+            }
+        }
+        return ReturnCode.FAILED;
     }
 }

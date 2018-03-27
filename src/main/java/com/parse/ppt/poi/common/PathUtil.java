@@ -3,6 +3,7 @@ package com.parse.ppt.poi.common;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("WeakerAccess")
 public class PathUtil {
@@ -96,6 +97,13 @@ public class PathUtil {
     /* 获取PoiPPT-Rebuild处理路径的相关方法 */
 
     /**
+     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/
+     */
+    public static String getAbsolutePoiRebuildPptPath() {
+        return getAbsolutePptPath() + "PoiPPTS/Rebuild/";
+    }
+
+    /**
      * @param poiPptId poiPptId
      * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/${poiPptId}/
      */
@@ -112,6 +120,13 @@ public class PathUtil {
     }
 
     /* 获取PoiPPT-Generate处理路径的相关方法 */
+
+    /**
+     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Generate/
+     */
+    public static String getAbsolutePoiGeneratePptPath() {
+        return getAbsolutePptPath() + "PoiPPTS/Generate/";
+    }
 
     /**
      * @param poiPptId poiPptId
@@ -175,7 +190,7 @@ public class PathUtil {
      *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_GENERATE - "POI_GENERATE"
      * @return TYPE_NO1 - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/no1ppts/${pptID}/<br>
      * TYPE_POI_REBUILD - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/${pptID}/<br>
-     * TYPE_POI_GENERATE - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/generate/${pptID}/<br>
+     * TYPE_POI_GENERATE - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Generate/${pptID}/<br>
      * others - null
      */
     public static String getAbsolutePptPathByTag(String pptId, String pptTag) {
@@ -193,6 +208,47 @@ public class PathUtil {
             default:
                 targetPath = null;
                 break;
+        }
+        return targetPath;
+    }
+
+    /**
+     * 根据 pptId,pptTag 获取到PPT的路径，目前用于 Ppt2ImgService.ppt2img() 方法中
+     *
+     * @param pptTag TYPE_POI_REBUILD - "POI_REBUILD"<br>
+     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_GENERATE - "POI_GENERATE"
+     * @return TYPE_POI_REBUILD - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/${this.listFiles().length+1}/<br>
+     * TYPE_POI_GENERATE - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Generate/${this.listFiles().length+1}/<br>
+     * others - null
+     */
+    public static String getAbsolutePoiPptPathByTag(String pptTag) {
+        String targetPath = null;
+        switch (pptTag) {
+            case PptTag.TYPE_POI_REBUILD:
+                targetPath = getAbsolutePoiRebuildPptPath();
+                break;
+            case PptTag.TYPE_POI_GENERATE:
+                targetPath = getAbsolutePoiGeneratePptPath();
+                break;
+            default:
+                targetPath = null;
+                break;
+        }
+        if (targetPath != null) {
+            File file = new File(targetPath);
+            if (!file.exists()) {
+                boolean isMkdirs = file.mkdirs();
+            }
+            int folderNumIndex = 1;
+            File[] folders = file.listFiles();
+            if (folders != null) {
+                folderNumIndex = folders.length + 1;
+            }
+            targetPath = targetPath + folderNumIndex + "/";
+            file = new File(targetPath);
+            if (!file.exists()) {
+                boolean isMkdirs = file.mkdirs();
+            }
         }
         return targetPath;
     }

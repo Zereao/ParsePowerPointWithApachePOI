@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -91,23 +92,70 @@ public class SpringTest {
         keywordsList.add("方块");
 
         Set<No1PPT> no1PPTSet = no1PptService.getNo1PPTByKeyWordsRelevancy(keywordsList);
+        List<No1PPT> listOf20 = new ArrayList<>();
+        int index = 0;
         for (No1PPT no1PPT : no1PPTSet) {
-            System.out.println(no1PPT.getSrcDescription());
+            if (index < 20) {
+                listOf20.add(no1PPT);
+            }
+            index++;
+            if (index > 20) {
+                break;
+            }
         }
+
+
+        System.out.println("________________________________________________________________________________");
+        System.out.println(listOf20);
+        System.out.println("________________________________________________________________________________");
+
+        int no1pptNum = listOf20.size();
+        System.out.println("________________________________________________________________________________");
+
+        System.out.println("no1pptNum = " + no1pptNum);
+        List<No1PPT> list1 = new ArrayList<>();
+        List<No1PPT> list2 = new ArrayList<>();
+        List<No1PPT> list3 = new ArrayList<>();
+        List<No1PPT> list4 = new ArrayList<>();
+        int spilt = no1pptNum / 4;
+        int index1 = 0;
+        List<Map<No1PPT, int[]>> resultList = new ArrayList<>();
+        for (No1PPT no1PPT : listOf20) {
+            if (index < spilt) {
+                list1.add(no1PPT);
+                index++;
+            } else if (index >= spilt && index < spilt * 2) {
+                list2.add(no1PPT);
+                index++;
+            } else if (index >= spilt * 2 && index < spilt * 3) {
+                list3.add(no1PPT);
+                index++;
+            } else {
+                list4.add(no1PPT);
+                index++;
+            }
+        }
+
+        poiService.selectPPT(list1, 7);
+        System.out.println("________________________________________________________________________________");
+
+        poiService.selectPPT(list2, 7);
+        System.out.println("________________________________________________________________________________");
+
+        poiService.selectPPT(list3, 7);
+        System.out.println("________________________________________________________________________________");
+
+        poiService.selectPPT(list4, 7);
+
+//        List<Map<No1PPT, int[]>> resultList1 = poiService.selectPPTSync(listOf20, 7);
+//        String result = poiService.rebuildPPT(resultList);
+
     }
 
     @Test
     public void test6() {
-        List<No1PPT> list = new ArrayList<>();
-        list.add(no1PptDao.getNo1PPTById(1));
-        list.add(no1PptDao.getNo1PPTById(2));
-        list.add(no1PptDao.getNo1PPTById(3));
-        list.add(no1PptDao.getNo1PPTById(4));
-        list.add(no1PptDao.getNo1PPTById(5));
-        list.add(no1PptDao.getNo1PPTById(6));
-        poiService.selectPPTSync(list, 5);
-//        for (No1PPT no1PPT : result) {
-////            System.out.println(no1PPT.getSrcDescription());
-//        }
+        No1PPT no1PPT = no1PptDao.getNo1PPTById(1);
+        int[] a = new int[]{5, 11};
+        poiService.rebuildPPT(no1PPT, a);
     }
 }

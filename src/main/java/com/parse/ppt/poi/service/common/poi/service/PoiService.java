@@ -52,4 +52,21 @@ public interface PoiService {
      * @see #selectPPT(Collection, int)
      */
     List<Map<No1PPT, int[]>> selectPPTSync(Collection<No1PPT> no1PPTCollection, int minPageNum);
+
+    /**
+     * 重建PPT，去掉NoPPT对象对应的PPT文件中的广告页
+     *
+     * @param no1PPT       需要修改的No1PPT对象
+     * @param adPageIndexs 包含广告页面index的数组
+     * @return ReturnCode-返回码
+     */
+    String rebuildPPT(No1PPT no1PPT, int[] adPageIndexs);
+
+    /**
+     * 重建PPT，去掉List中所有NoPPT对象对应的PPT文件中的广告页
+     *
+     * @param infoList 包含 No1PPT-adPageIndexArray 键值对的List
+     * @return ReturnCode-返回码
+     */
+    String rebuildPPT(List<Map<No1PPT, int[]>> infoList);
 }
