@@ -156,7 +156,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
         // 已知数据库中存在1720条数据，这里只下载1700条
         try {
             logger.info("------->  start!");
-            List<No1PPT> no1PPTList1 = no1PptDao.getNo1PPT(0, 340);
+            List<No1PPT> no1PPTList1 = no1PptDao.getNo1PPT(320, 340);
             List<No1PPT> no1PPTList2 = no1PptDao.getNo1PPT(340, 340 * 2);
             List<No1PPT> no1PPTList3 = no1PptDao.getNo1PPT(340 * 2, 340 * 3);
             List<No1PPT> no1PPTList4 = no1PptDao.getNo1PPT(340 * 3, 340 * 4);
@@ -171,6 +171,11 @@ public class FileDownloadServiceImpl implements FileDownloadService {
             thread3.start();
             thread4.start();
             thread5.start();
+            thread1.join();
+            thread2.join();
+            thread3.join();
+            thread4.join();
+            thread5.join();
             logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
