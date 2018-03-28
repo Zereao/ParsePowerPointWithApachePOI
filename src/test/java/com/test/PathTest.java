@@ -4,6 +4,7 @@ import com.parse.ppt.poi.common.PathUtil;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +52,31 @@ public class PathTest {
 
     @Test
     public void test3() {
-        File file = PathUtil.getNo1PptFile("1");
-        System.out.println(file);
+        String rebuildPath = "E:/ParsePowerPointWithApachePOI/1111/456";
+        File deletePath = new File(rebuildPath);
+        if (deletePath.exists()) {
+            try {
+                deleteDir(deletePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void deleteDir(File dir) throws IOException {
+        if (dir.isFile())
+            throw new IOException("IOException -> BadInputException: not a directory.");
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                if (file.isFile()) {
+                    file.delete();
+                } else {
+                    deleteDir(file);
+                }
+            }
+        }
+        dir.delete();
     }
 }

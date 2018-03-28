@@ -69,4 +69,12 @@ public interface PoiService {
      * @return ReturnCode-返回码
      */
     String rebuildPPT(List<Map<No1PPT, int[]>> infoList);
+
+    /**
+     * 使用多线程重建PPT，去掉List中所有NoPPT对象对应的PPT文件中的广告页
+     *
+     * @param infoList 包含 No1PPT-adPageIndexArray 键值对的List
+     * @return ReturnCode-返回码
+     */
+    String rebuildPPTSync(List<Map<No1PPT, int[]>> infoList);
 }

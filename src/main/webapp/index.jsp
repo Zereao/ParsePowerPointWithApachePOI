@@ -142,7 +142,7 @@
         <li>
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="3">
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-cloud"></div>
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/padaut-bee"></div>
                     <div class="tm-img-gallery-container">
                         <div id="poiGallery" class="tm-img-gallery myContainer">
                             <div class="tm-img-gallery-info-container">
@@ -152,37 +152,19 @@
                                         <input id="myID_3_1" type="text" class="form-control myInputBoxStyle"
                                                placeholder="输入关键词，使用Apache POI技术实现PPT模板一键生成">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-secondary btn-lg" type="button">Go!</button>
+                                            <button class="btn btn-secondary btn-lg" type="button" onclick="onPoiSerach()">Go!</button>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <br>
 
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
-                            <div class="grid-item">
-                                <a href="webResources/mainPage/img/tm-img-08.jpg">
-                                    <img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"
-                                         class="img-fluid tm-img">
-                                </a>
-                            </div>
+                            <%--<div class="grid-item">--%>
+                                <%--<a href="webResources/mainPage/img/tm-img-08.jpg">--%>
+                                    <%--<img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"--%>
+                                         <%--class="img-fluid tm-img">--%>
+                                <%--</a>--%>
+                            <%--</div>--%>
 
 
                         </div>
@@ -220,7 +202,7 @@
         <li>
             <div class="cd-full-width">
                 <div class="container-fluid js-tm-page-content" data-page-no="5">
-                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/padaut-bee"></div>
+                    <div class="cd-bg-video-wrapper" data-video="webResources/mainPage/video/sunset-cloud"></div>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="tm-flex tm-3-col-container">

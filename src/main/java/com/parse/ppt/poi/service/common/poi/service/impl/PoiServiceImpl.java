@@ -224,29 +224,10 @@ public class PoiServiceImpl implements PoiService {
                     index++;
                 }
             }
-            Thread thread1 = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    logger.info("####################################   1   start");
-                    resultList.addAll(selectPPT(list1, minPageNum));
-                    logger.info("####################################   1   end");
-                }
-            });
-            Thread thread2 = new Thread(() -> {
-                logger.info("####################################   2   start");
-                resultList.addAll(selectPPT(list2, minPageNum));
-                logger.info("####################################   2   end");
-            });
-            Thread thread3 = new Thread(() -> {
-                logger.info("####################################   3   start");
-                resultList.addAll(selectPPT(list3, minPageNum));
-                logger.info("####################################   3   end");
-            });
-            Thread thread4 = new Thread(() -> {
-                logger.info("####################################   4   start");
-                resultList.addAll(selectPPT(list4, minPageNum));
-                logger.info("####################################   4   end");
-            });
+            Thread thread1 = new Thread(() -> resultList.addAll(selectPPT(list1, minPageNum)));
+            Thread thread2 = new Thread(() -> resultList.addAll(selectPPT(list2, minPageNum)));
+            Thread thread3 = new Thread(() -> resultList.addAll(selectPPT(list3, minPageNum)));
+            Thread thread4 = new Thread(() -> resultList.addAll(selectPPT(list4, minPageNum)));
             thread1.start();
             thread2.start();
             thread3.start();
@@ -273,6 +254,7 @@ public class PoiServiceImpl implements PoiService {
                 "   no1PPT = " + no1PPT +
                 "   adPageIndexs = " + Arrays.toString(adPageIndexs));
         try {
+            String rebuildPath = PathUtil.getAbsolutePoiRebuildPptPath();
             String pptFileName = no1PPT.getPptFileName();
             if (pptFileName == null || "".equals(pptFileName)) {
                 String no1pptId = String.valueOf(no1PPT.getId());
@@ -314,6 +296,71 @@ public class PoiServiceImpl implements PoiService {
             }
             logger.info("------->  end!" +
                     "   错误个数 = " + index);
+            return ReturnCode.SUCCESS;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return FAILED");
+            logger.error(e.getMessage());
+        }
+        return ReturnCode.FAILED;
+    }
+
+    @Override
+    public String rebuildPPTSync(List<Map<No1PPT, int[]>> infoList) {
+        logger.info("------->  start!" +
+                "   infoList = " + infoList);
+        try {
+            int no1pptNum = infoList.size();
+            int spilt = no1pptNum / 4;
+            if (spilt == 0) {
+                logger.info("------->  不必使用多线程，直接调用rebuildPPT()方法!");
+                return rebuildPPT(infoList);
+            }
+            List<Map<No1PPT, int[]>> list1 = new ArrayList<>();
+            List<Map<No1PPT, int[]>> list2 = new ArrayList<>();
+            List<Map<No1PPT, int[]>> list3 = new ArrayList<>();
+            List<Map<No1PPT, int[]>> list4 = new ArrayList<>();
+            int index = 0;
+            for (Map<No1PPT, int[]> no1PPTMap : infoList) {
+                if (index < spilt) {
+                    list1.add(no1PPTMap);
+                    index++;
+                } else if (index >= spilt && index < spilt * 2) {
+                    list2.add(no1PPTMap);
+                    index++;
+                } else if (index >= spilt * 2 && index < spilt * 3) {
+                    list3.add(no1PPTMap);
+                    index++;
+                } else if (index >= spilt * 3 && index < infoList.size()) {
+                    list4.add(no1PPTMap);
+                    index++;
+                }
+            }
+            Thread thread1 = new Thread(() -> {
+                String result = rebuildPPT(list1);
+                logger.info("####  List 1 end !    result = " + result);
+            });
+            Thread thread2 = new Thread(() -> {
+                String result = rebuildPPT(list2);
+                logger.info("####  List 2 end !    result = " + result);
+            });
+            Thread thread3 = new Thread(() -> {
+                String result = rebuildPPT(list3);
+                logger.info("####  List 3 end !    result = " + result);
+            });
+            Thread thread4 = new Thread(() -> {
+                String result = rebuildPPT(list4);
+                logger.info("####  List 4 end !    result = " + result);
+            });
+            thread1.start();
+            thread2.start();
+            thread3.start();
+            thread4.start();
+            // 阻塞主线程，执行完 子进程 thread1,thread2,thread3,thread4 后再继续执行后续逻辑
+            thread1.join();
+            thread2.join();
+            thread3.join();
+            thread4.join();
+            logger.info("------->  end!   return SUCCESSF");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
             logger.error("------->  ERROR!  return FAILED");

@@ -59,7 +59,7 @@ public interface No1PptService {
      * 根据多个 keyword关键词 按关联程度 模糊搜索符合条件的No1PPT对象
      *
      * @param keywordsList 包含关键词的List
-     * @return 包含No1PPT对象的Set - 保证去重
+     * @return 包含No1PPT对象的Set - 保证去重 | 内部存储使用 LinkedHashSet ，保证了有序
      */
     Set<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList);
 

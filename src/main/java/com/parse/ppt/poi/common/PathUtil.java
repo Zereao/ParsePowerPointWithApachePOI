@@ -285,6 +285,27 @@ public class PathUtil {
     }
 
     /**
+     * 递归删除 folder 目录以及其目录下所有的 文件、文件夹
+     *
+     * @param folder targetFolder
+     */
+    public static void deleteDir(File folder) {
+        boolean result = false;
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    result = file.delete();
+                } else {
+                    deleteDir(file);
+                }
+            }
+        }
+        result = folder.delete();
+    }
+
+
+    /**
      * 私有公用方法：递归得到 files 路径下的所有PPT/PPTX文件
      *
      * @param files      new File(pptPath).listFiles()
@@ -305,6 +326,5 @@ public class PathUtil {
             }
         }
     }
-
 
 }
