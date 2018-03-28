@@ -10,6 +10,7 @@ public class PoiPPT {
     private Integer id;
     private String pptDescription;
     private String typeTag;
+    private Integer no1pptId;
     private String pptImgAddress;
     private String pptDownloadUrl;
     private String pptFileName;
@@ -20,6 +21,12 @@ public class PoiPPT {
     public PoiPPT(String pptDescription, String typeTag) {
         this.pptDescription = pptDescription;
         this.typeTag = typeTag;
+    }
+
+    public PoiPPT(String pptDescription, String typeTag, Integer no1pptId) {
+        this.pptDescription = pptDescription;
+        this.typeTag = typeTag;
+        this.no1pptId = no1pptId;
     }
 
     public PoiPPT(Integer id, String pptDescription, String typeTag, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
@@ -55,6 +62,14 @@ public class PoiPPT {
         this.typeTag = typeTag;
     }
 
+    public Integer getNo1pptId() {
+        return no1pptId;
+    }
+
+    public void setNo1pptId(Integer no1pptId) {
+        this.no1pptId = no1pptId;
+    }
+
     public String getPptImgAddress() {
         return pptImgAddress;
     }
@@ -85,6 +100,7 @@ public class PoiPPT {
                 "id=" + id +
                 ", pptDescription='" + pptDescription + '\'' +
                 ", typeTag='" + typeTag + '\'' +
+                ", no1pptId=" + no1pptId +
                 ", pptImgAddress='" + pptImgAddress + '\'' +
                 ", pptDownloadUrl='" + pptDownloadUrl + '\'' +
                 ", pptFileName='" + pptFileName + '\'' +

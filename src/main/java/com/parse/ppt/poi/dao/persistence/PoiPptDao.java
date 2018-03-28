@@ -31,7 +31,7 @@ public interface PoiPptDao {
     List<PoiPPT> getPoiPPT(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
 
     /**
-     * 根据pptID 获取到一个PoiPPT对象
+     * 根据poiPptId 获取到一个PoiPPT对象
      *
      * @param poiPptId PoiPPT的ID
      * @return PoiPPT对象
@@ -46,9 +46,24 @@ public interface PoiPptDao {
     PoiPPT getPoiPPTById(@Param("poiPptId") int poiPptId);
 
     /**
+     * 根据no1pptID 获取到一个PoiPPT对象
+     *
+     * @param no1pptId PoiPPT的no1pptId
+     * @return PoiPPT对象
+     */
+    @Select(value = "<script>"
+            + "    SELECT *"
+            + "      FROM poi_ppt"
+            + "     WHERE 1=1 "
+            + "	    AND no_1_ppt_id = #{no1pptId, jdbcType=INTEGER}"
+            + "</script>")
+    @ResultMap("com.parse.ppt.poi.dao.persistence.PoiPptDao.BaseResultMap")
+    PoiPPT getPoiPPTByno1pptId(@Param("no1pptId") int no1pptId);
+
+    /**
      * 增加PoiPPT对象
      *
-     * @param poiPPT 爬取到的 ppt 的信息对象
+     * @param poiPPT PoiPPT对象
      */
     void addPoiPPT(PoiPPT poiPPT);
 
