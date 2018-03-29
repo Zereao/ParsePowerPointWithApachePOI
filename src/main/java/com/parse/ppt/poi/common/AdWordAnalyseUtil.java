@@ -40,15 +40,20 @@ public class AdWordAnalyseUtil {
         adKeywordsMap.put("微信", 2.0);
         adKeywordsMap.put("扫描", 2.0);
         adKeywordsMap.put("关注微", 2.5);
+        adKeywordsMap.put("公众号", 2.5);
         adKeywordsMap.put("关注微信", 3.5);
         adKeywordsMap.put("后台回复", 3.5);
         adKeywordsMap.put("关注微信公", 4.0);
+        adKeywordsMap.put("关注公众号", 4.0);
         adKeywordsMap.put("关注微信公众号", 5.0);
         adKeywordsMap.put("二维码", 2.5);
         adKeywordsMap.put("完整版", 2.5);
+        adKeywordsMap.put("完整模版", 3.0);
+        adKeywordsMap.put("获取完整", 3.0);
         adKeywordsMap.put("扫描二维码", 4.0);
         adKeywordsMap.put("本模板总共", 4.0);
         adKeywordsMap.put("获取完整版", 4.0);
+        adKeywordsMap.put("获取完整模版", 4.5);
         adKeywordsMap.put("微信扫描二维", 4.5);
         adKeywordsMap.put("微信扫描二维码", 5.0);
     }

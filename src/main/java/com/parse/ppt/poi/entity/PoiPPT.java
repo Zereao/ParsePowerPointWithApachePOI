@@ -29,10 +29,20 @@ public class PoiPPT {
         this.no1pptId = no1pptId;
     }
 
-    public PoiPPT(Integer id, String pptDescription, String typeTag, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
+    public PoiPPT(String pptDescription, String typeTag, Integer no1pptId, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
+        this.pptDescription = pptDescription;
+        this.typeTag = typeTag;
+        this.no1pptId = no1pptId;
+        this.pptImgAddress = pptImgAddress;
+        this.pptDownloadUrl = pptDownloadUrl;
+        this.pptFileName = pptFileName;
+    }
+
+    public PoiPPT(Integer id, String pptDescription, String typeTag, Integer no1pptId, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
         this.id = id;
         this.pptDescription = pptDescription;
         this.typeTag = typeTag;
+        this.no1pptId = no1pptId;
         this.pptImgAddress = pptImgAddress;
         this.pptDownloadUrl = pptDownloadUrl;
         this.pptFileName = pptFileName;

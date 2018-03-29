@@ -1,7 +1,9 @@
 package com.test;
 
 import com.parse.ppt.poi.dao.persistence.No1PptDao;
+import com.parse.ppt.poi.dao.persistence.PoiPptDao;
 import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.entity.PoiPPT;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import com.parse.ppt.poi.service.common.ocr.OcrService;
 import com.parse.ppt.poi.service.common.poi.service.PoiService;
@@ -48,6 +50,8 @@ public class SpringTest {
     private OcrService ocrService;
     @Autowired
     private PoiService poiService;
+    @Autowired
+    private PoiPptDao poiPptDao;
 
     private String result = null;
 
@@ -109,5 +113,14 @@ public class SpringTest {
         No1PPT no1PPT = no1PptDao.getNo1PPTById(1);
         int[] a = new int[]{5, 11};
         poiService.rebuildPPT(no1PPT, a);
+    }
+
+    @Test
+    public void test7() {
+        PoiPPT poiPPT2 = new PoiPPT("001", "1", 45);
+//        poiPptDao.addPoiPPT(poiPPT2);
+        System.out.println(poiPptDao.getPoiPPTByNo1pptId(45));
+        System.out.println("+++++++++++++++++++++++++++++++++");
+        System.out.println(poiPptDao.getPoiPPTById(1));
     }
 }

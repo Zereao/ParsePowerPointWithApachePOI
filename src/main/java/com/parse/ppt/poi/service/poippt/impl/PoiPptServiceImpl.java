@@ -33,12 +33,14 @@ public class PoiPptServiceImpl implements PoiPptService {
         logger.info("------->  start!" +
                 "   keywords = " + keywords);
         try {
-            // 按照 半角/全角逗号拆分
+            // 按照 半角/全角逗号、空格 拆分
             String[] strArray_1 = keywords.split(",");
             String[] strArray_2 = keywords.split("，");
+            String[] strArray_3 = keywords.split(" ");
             List<String> keywordList = new ArrayList<>();
             keywordList.addAll(Arrays.asList(strArray_1));
             keywordList.addAll(Arrays.asList(strArray_2));
+            keywordList.addAll(Arrays.asList(strArray_3));
             logger.info("------->  end ! keywordList = " + keywordList);
             return keywordList;
         } catch (Exception e) {
@@ -71,12 +73,6 @@ public class PoiPptServiceImpl implements PoiPptService {
             session.setAttribute("index", 16);
             // 挑选符合条件的No1PPT————幻灯片张数大于 7 的，同时通过OCR获取到图片的 广告页面信息
             List<Map<No1PPT, int[]>> resultNo1PPTList = poiService.selectPPTSync(sessionList, 7);
-            // 如果 生成目录 存在，则删除
-            String targetPath = PathUtil.getAbsolutePoiRebuildPptPath();
-            File deleteFile = new File(targetPath);
-            if (deleteFile.exists() && deleteFile.isDirectory()) {
-                PathUtil.deleteDir(deleteFile);
-            }
             String result = poiService.rebuildPPTSync(resultNo1PPTList);
             logger.info(result);
         } catch (Exception e) {

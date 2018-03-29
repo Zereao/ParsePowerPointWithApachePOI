@@ -3,11 +3,14 @@ package com.parse.ppt.poi.service.common.poi.operate.xslf.impl;
 import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.PptTag;
 import com.parse.ppt.poi.common.ReturnCode;
+import com.parse.ppt.poi.dao.persistence.PoiPptDao;
 import com.parse.ppt.poi.entity.No1PPT;
+import com.parse.ppt.poi.entity.PoiPPT;
 import com.parse.ppt.poi.service.common.poi.operate.xslf.PptxOperateService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.xslf.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -20,6 +23,13 @@ import java.util.Objects;
 @Service
 public class PptxOperateServiceImpl implements PptxOperateService {
     private Logger logger = LogManager.getLogger(this.getClass());
+
+    private final PoiPptDao poiPptDao;
+
+    @Autowired
+    public PptxOperateServiceImpl(PoiPptDao poiPptDao) {
+        this.poiPptDao = poiPptDao;
+    }
 
     @Override
     public String pptx2img(File pptxFile, String targetPath) {
@@ -99,6 +109,13 @@ public class PptxOperateServiceImpl implements PptxOperateService {
                 InputStream pptFileInputStream = new FileInputStream(Objects.requireNonNull(PathUtil.getNo1PptFile(String.valueOf(no1PPT.getId()))));
                 XMLSlideShow slideShow = new XMLSlideShow(pptFileInputStream);
         ) {
+            if (adPageIndexs == null || adPageIndexs.length == 0) {
+                logger.info("------->   end!  本地数据库中已经存在该PoiPPT，可以直接读取！ result = " + ReturnCode.RESOURCES_ALREADY_EXISTS);
+                return ReturnCode.RESOURCES_ALREADY_EXISTS;
+            } else if (adPageIndexs.length == 1 && adPageIndexs[0] == -1) {
+                logger.info("------->   end!  未经OCR识别的PPT，得到的直接是No1PPT对象！  result = " + ReturnCode.UN_OCR);
+                return ReturnCode.UN_OCR;
+            }
             for (int adPageIndex : adPageIndexs) {
                 slideShow.removeSlide(adPageIndex);
             }
@@ -106,6 +123,8 @@ public class PptxOperateServiceImpl implements PptxOperateService {
             String pptxPath = targetPath + no1PPT.getSrcDescription() + ".pptx";
             outputStream = new FileOutputStream(pptxPath);
             slideShow.write(outputStream);
+            PoiPPT pptx = new PoiPPT(no1PPT.getSrcDescription(), PptTag.TYPE_POI_REBUILD, no1PPT.getId());
+            poiPptDao.addPoiPPT(pptx);
             logger.info("------->  end!  result = " + ReturnCode.SUCCESS);
             return ReturnCode.SUCCESS;
         } catch (Exception e) {

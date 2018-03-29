@@ -1,9 +1,8 @@
 package com.parse.ppt.poi.dao.persistence;
 
 import com.parse.ppt.poi.entity.PoiPPT;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,8 +26,17 @@ public interface PoiPptDao {
             + "     WHERE 1=1 "
             + "	    LIMIT #{pageIndex, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER} "
             + "</script>")
-    @ResultMap("com.parse.ppt.poi.dao.persistence.PoiPptDao.BaseResultMap")
+    @Results({
+            @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "description", property = "pptDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "type_tag", property = "typeTag", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "no1_1_ppt_id", property = "no1pptId", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "img_address", property = "pptImgAddress", javaType = String.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "download_url", property = "pptDownloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     List<PoiPPT> getPoiPPT(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+
+    /*  property  属性，映射的是对应实体类中的属性   */
 
     /**
      * 根据poiPptId 获取到一个PoiPPT对象
@@ -42,7 +50,14 @@ public interface PoiPptDao {
             + "     WHERE 1=1 "
             + "	    AND id = #{poiPptId, jdbcType=INTEGER}"
             + "</script>")
-    @ResultMap("com.parse.ppt.poi.dao.persistence.PoiPptDao.BaseResultMap")
+    @Results({
+            @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "description", property = "pptDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "type_tag", property = "typeTag", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "no1_1_ppt_id", property = "no1pptId", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "img_address", property = "pptImgAddress", javaType = String.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "download_url", property = "pptDownloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     PoiPPT getPoiPPTById(@Param("poiPptId") int poiPptId);
 
     /**
@@ -57,22 +72,26 @@ public interface PoiPptDao {
             + "     WHERE 1=1 "
             + "	    AND no_1_ppt_id = #{no1pptId, jdbcType=INTEGER}"
             + "</script>")
-    @ResultMap("com.parse.ppt.poi.dao.persistence.PoiPptDao.BaseResultMap")
-    PoiPPT getPoiPPTByno1pptId(@Param("no1pptId") int no1pptId);
+    @Results({
+            @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "description", property = "pptDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "type_tag", property = "typeTag", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "no1_1_ppt_id", property = "no1pptId", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "img_address", property = "pptImgAddress", javaType = String.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "download_url", property = "pptDownloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+    PoiPPT getPoiPPTByNo1pptId(@Param("no1pptId") int no1pptId);
 
     /**
      * 增加PoiPPT对象
      *
      * @param poiPPT PoiPPT对象
      */
+    @Insert("insert into poi_ppt (description, type_tag, no_1_ppt_id)" +
+            "values ( #{pptDescription,jdbcType=VARCHAR}, " +
+            " #{typeTag,jdbcType=VARCHAR}," +
+            " #{no1pptId,jdbcType=INTEGER})")
     void addPoiPPT(PoiPPT poiPPT);
-
-    /**
-     * 更新PoiPPT的信息   +++ mapper 中未实现
-     *
-     * @param poiPPT PoiPPT
-     */
-    void updatePoiPPT(PoiPPT poiPPT);
 
     /**
      * 更新PoiPPT的信息——修改压缩包中的PPT文件的文件名
@@ -80,6 +99,15 @@ public interface PoiPptDao {
      * @param poiPptId       PoiPPT的ID
      * @param poiPptFileName 压缩包中的PPT文件的文件名
      */
+    @Update(value = "<script>" +
+            "update poi_ppt " +
+            "   <set>" +
+            "      <if test=\"poiPptFileName != null\">" +
+            "          ppt_file_name = #{poiPptFileName,jdbcType=VARCHAR}," +
+            "      </if>" +
+            "   </set>" +
+            "      where id = #{poiPptId,jdbcType=INTEGER}" +
+            "</script>")
     void updatePoiPptFileName(@Param("poiPptId") int poiPptId,
                               @Param("poiPptFileName") String poiPptFileName);
 }

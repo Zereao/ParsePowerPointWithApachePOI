@@ -39,7 +39,10 @@ public interface PoiService {
      *
      * @param no1PPTCollection No1PPTCollection
      * @param minPageNum       最小幻灯片张数
-     * @return key-No1PPT对象，包含广告的页面的index数组，最后返回的是一个MapList
+     * @return key-No1PPT对象，包含广告的页面的index数组，最后返回的是一个MapList<br>
+     * no1ppt-int[]  ： 准备生成该PoiPPT对象<br>
+     * no1ppt-null  ： 数据库中已经存在对应PoiPPT对象<br>
+     * no1ppt-{-1}  ：  未经OCR识别，直接返回No1PPT对象
      */
     List<Map<No1PPT, int[]>> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum);
 

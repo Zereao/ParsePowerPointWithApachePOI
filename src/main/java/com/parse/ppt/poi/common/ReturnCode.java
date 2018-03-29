@@ -45,4 +45,14 @@ public class ReturnCode {
      * 所请求的资源不存在
      */
     public static final String RESOURCES_NOT_EXISTS = "RESOURCES_NOT_EXISTS";
+
+    /**
+     * 目的资源已经存在
+     */
+    public static final String RESOURCES_ALREADY_EXISTS = "RESOURCES_ALREADY_EXISTS";
+
+    /**
+     * 未经OCR识别
+     */
+    public static final String UN_OCR = "UN_OCR";
 }
