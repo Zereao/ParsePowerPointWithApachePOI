@@ -3,7 +3,6 @@ package com.parse.ppt.poi.common;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @SuppressWarnings("WeakerAccess")
 public class PathUtil {
