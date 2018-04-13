@@ -2,6 +2,9 @@ package com.parse.ppt.poi.service.common.unzip;
 
 import org.springframework.stereotype.Service;
 
+/**
+ * 未知原因，从压缩包中解压出的PPT/PPTX文件会丢失头部，打不开，出现错误
+ */
 @Deprecated
 @Service
 public interface UnzipService {

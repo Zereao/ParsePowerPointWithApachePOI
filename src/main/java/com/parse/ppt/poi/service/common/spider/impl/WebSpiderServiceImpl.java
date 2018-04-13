@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.service.common.spider.impl;
 
+import com.parse.ppt.poi.dao.persistence.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.service.no1ppt.No1PptService;
 import com.parse.ppt.poi.service.common.spider.WebSpiderService;
@@ -25,11 +26,11 @@ import java.util.regex.Pattern;
 public class WebSpiderServiceImpl implements WebSpiderService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
-    private final No1PptService no1PptService;
+    private final No1PptDao no1PptDao;
 
     @Autowired
-    public WebSpiderServiceImpl(No1PptService no1PptService) {
-        this.no1PptService = no1PptService;
+    public WebSpiderServiceImpl(No1PptDao no1PptDao) {
+        this.no1PptDao = no1PptDao;
     }
 
     @Override
@@ -46,7 +47,6 @@ public class WebSpiderServiceImpl implements WebSpiderService {
             Elements ulElements = fatherDivElements.select("ul[class^=tplist]");
             Elements liElements = ulElements.select("li");
             //  这里这个result 无实用意义
-            String result = null;
             for (Element eachElement : liElements) {
                 // 取<li>标签的子标签<a>下面的<img>标签的内容
                 Elements imgSrc = eachElement.select("a").select("img");
@@ -63,10 +63,10 @@ public class WebSpiderServiceImpl implements WebSpiderService {
                 String downloadPageUrl = "http://www.1ppt.com" + urlArray[1].trim().replace("href=\"", "").replace("\"", "");
                 String downloadUrl = getDownloadUrl(downloadPageUrl);
                 No1PPT no1PPT = new No1PPT(srcDescription, srcImgUrl, downloadPageUrl, downloadUrl);
-                result = no1PptService.addNo1PPT(no1PPT);
+                no1PptDao.addNo1PPT(no1PPT);
                 resultMapList.add(no1PPT);
             }
-            logger.info("------->  end!  result = " + result);
+            logger.info("------->  end!  result = SUCCESS");
             return resultMapList;
         } catch (Exception e) {
             logger.error("------->  ERROR !");
