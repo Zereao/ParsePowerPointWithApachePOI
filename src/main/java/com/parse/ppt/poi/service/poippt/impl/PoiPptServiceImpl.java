@@ -51,7 +51,7 @@ public class PoiPptServiceImpl implements PoiPptService {
     }
 
     @Override
-    public PoiPPT getPoiPptByKeyword(String keywords, HttpSession session) {
+    public List<PoiPPT> getPoiPptByKeyword(String keywords, HttpSession session) {
         logger.info("------->  start!" +
                 "   keywords = " + keywords);
         try {
@@ -74,7 +74,6 @@ public class PoiPptServiceImpl implements PoiPptService {
             // 挑选符合条件的No1PPT————幻灯片张数大于 7 的，同时通过OCR获取到图片的 广告页面信息
             List<Map<No1PPT, int[]>> resultNo1PPTList = poiService.selectPPTSync(sessionList, 7);
             String result = poiService.rebuildPPTSync(resultNo1PPTList);
-            logger.info(result);
         } catch (Exception e) {
             logger.error("------->  ERROR!  return null");
             logger.error(e.getMessage());

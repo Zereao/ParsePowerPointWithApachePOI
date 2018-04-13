@@ -24,7 +24,7 @@ public interface PoiPptService {
      * @param session  HttpSession对象
      * @return 对应的PoiPPT对象
      */
-    PoiPPT getPoiPptByKeyword(String keywords, HttpSession session);
+    List<PoiPPT> getPoiPptByKeyword(String keywords, HttpSession session);
 
 
 }

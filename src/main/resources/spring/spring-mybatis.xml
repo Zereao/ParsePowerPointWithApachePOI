@@ -29,7 +29,7 @@
         <!-- 自动扫描 xxMapper.xml 配置文件 -->
         <property name="mapperLocations">
             <array>
-                <value>classpath:com/parse/ppt/poi/mapper/*.xml</value>
+                <value>classpath:com/parse/ppt/poi/dao/mapper/*.xml</value>
             </array>
         </property>
     </bean>

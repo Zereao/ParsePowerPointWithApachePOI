@@ -1,9 +1,9 @@
-package com.parse.ppt.poi.service.common.initialization.impl;
+package com.parse.ppt.poi.service.initialization.impl;
 
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.common.cache.RedisCacheService;
 import com.parse.ppt.poi.service.common.cookie.CookieService;
-import com.parse.ppt.poi.service.common.initialization.OnPageLoadService;
+import com.parse.ppt.poi.service.initialization.OnPageLoadService;
 import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
