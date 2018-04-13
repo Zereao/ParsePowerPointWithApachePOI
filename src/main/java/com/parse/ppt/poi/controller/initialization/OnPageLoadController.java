@@ -1,6 +1,6 @@
 package com.parse.ppt.poi.controller.initialization;
 
-import com.parse.ppt.poi.service.common.initialization.OnPageLoadService;
+import com.parse.ppt.poi.service.initialization.OnPageLoadService;
 import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
