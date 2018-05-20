@@ -289,13 +289,6 @@
     </ul>
 
     <footer class="tm-footer">
-        <%--<div class="tm-social-icons-container text-xs-center">--%>
-        <%--<a href="#" class="tm-social-link"><i class="fa fa-facebook"></i></a>--%>
-        <%--<a href="#" class="tm-social-link"><i class="fa fa-google-plus"></i></a>--%>
-        <%--<a href="#" class="tm-social-link"><i class="fa fa-twitter"></i></a>--%>
-        <%--<a href="#" class="tm-social-link"><i class="fa fa-behance"></i></a>--%>
-        <%--<a href="#" class="tm-social-link"><i class="fa fa-linkedin"></i></a>--%>
-        <%--</div>--%>
         <div class="text-xs-center">
             <p class="tm-copyright-text text-xs-center">Copyright &copy; 2017-2018
                 <a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub"> 白露</a>

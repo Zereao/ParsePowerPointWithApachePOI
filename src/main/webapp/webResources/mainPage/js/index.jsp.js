@@ -225,7 +225,7 @@ function getNo1PPT() {
                 var timer;
                 theIdSelector.hover(function () {
                     timer = setTimeout(function () {
-                        ppt2imgDisplay(pptId);
+                        no1ppt2imgDisplay(pptId);
                     }, 3000);
                 }, function () {
                     //这里去clear
@@ -241,7 +241,7 @@ function getNo1PPT() {
     });
 }
 
-function ppt2imgDisplay(thePptId) {
+function no1ppt2imgDisplay(thePptId) {
     var jsonData = {
         pptId: thePptId
     };
@@ -278,57 +278,8 @@ function ppt2imgDisplay(thePptId) {
 }
 
 // POI处理部分
-// 一个全局JS变量，用来表示下载页已经下载的页数。JS变量，一刷新，就相当于重新赋值，然后归零
-var poiPageIndex = 0;
-var poiTask;
 
-// function getPoiPPT() {
-//     var jsonData = {
-//         poiIndex: poiPageIndex
-//     };
-//     $.ajax({
-//         type: "get",
-//         url: "/no1ppt/loadNo1PPT",
-//         produces: "text/html;charset=UTF-8",
-//         data: jsonData,
-//         async: false,
-//         error: function () {
-//             alert("获取POI-PPT失败！");
-//         },
-//         success: function (data) {
-//             poiPageIndex += 40;
-//             data.forEach(function (currentValue, index, data) {
-//                 var pptId = currentValue.id;
-//                 var description = currentValue.description;
-//                 var imgUrl = "/ZeroFilesOutput/NO1PPTS/" + pptId + "/" + pptId + ".png";
-//                 var pptName = currentValue.pptName;
-//                 //          myID_第二页_pptId
-//                 var theId = "myID_2_" + pptId;
-//                 var htmlText = '<div id="' + theId + '" class="grid-item" title="' + description + '">' +
-//                     ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + pptName + '">' +
-//                     '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img" style="height: 200px">' +
-//                     ' </a>' +
-//                     ' </div>';
-//                 $("#pptGallery").append(htmlText);
-//                 var theIdSelector = $("#" + theId);
-//                 var timer;
-//                 theIdSelector.hover(function () {
-//                     timer = setTimeout(function () {
-//                         ppt2imgDisplay(pptId);
-//                     }, 3000);
-//                 }, function () {
-//                     //这里去clear
-//                     clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
-//                 });
-//                 theIdSelector.mouseleave(function () {
-//                     clearInterval(no1pptTask);
-//                     var theImgId = theId + "_1";
-//                     $("#" + theImgId).attr("src", imgUrl);
-//                 });
-//             });
-//         }
-//     });
-// }
+var poiTask;
 
 function onPoiSerach() {
     var jsonData = {
@@ -343,71 +294,73 @@ function onPoiSerach() {
             alert("Error-3-1:搜索失败！");
         },
         success: function (data) {
-            // poiPageIndex += 40;
-            // data.forEach(function (currentValue, index, data) {
-            //     var pptId = currentValue.id;
-            //     var description = currentValue.description;
-            //     var imgUrl = "/ZeroFilesOutput/NO1PPTS/" + pptId + "/" + pptId + ".png";
-            //     var pptName = currentValue.pptName;
-            //     //          myID_第二页_pptId
-            //     var theId = "myID_2_" + pptId;
-            //     var htmlText = '<div id="' + theId + '" class="grid-item" title="' + description + '">' +
-            //         ' <a href="/no1ppt/downloadNo1PPT?id=' + pptId + '" target="_blank" download="' + pptName + '">' +
-            //         '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img" style="height: 200px">' +
-            //         ' </a>' +
-            //         ' </div>';
-            //     $("#pptGallery").append(htmlText);
-            //     var theIdSelector = $("#" + theId);
-            //     var timer;
-            //     theIdSelector.hover(function () {
-            //         timer = setTimeout(function () {
-            //             ppt2imgDisplay(pptId);
-            //         }, 3000);
-            //     }, function () {
-            //         //这里去clear
-            //         clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
-            //     });
-            //     theIdSelector.mouseleave(function () {
-            //         clearInterval(no1pptTask);
-            //         var theImgId = theId + "_1";
-            //         $("#" + theImgId).attr("src", imgUrl);
-            //     });
-            // });
+            // noinspection JSUnusedLocalSymbols
+            data.forEach(function (currentValue, index, data) {
+                var pptId = currentValue.id;
+                var description = currentValue.description;
+                var imgUrl = "/ZeroFilesOutput/ppts/no1ppts/" + pptId + "/" + pptId + ".png";
+                var pptName = currentValue.pptName;
+                //          myID_第二页_pptId
+                var theId = "myID_3_" + pptId;
+                var htmlText = '<div id="' + theId + '" class="grid-item" title="' + description + '">' +
+                    ' <a href="/poi/downloadPoiPPT?id=' + pptId + '" target="_blank" download="' + pptName + '">' +
+                    '   <img id="' + theId + '_1' + '" src="' + imgUrl + '" alt="Image" class="img-fluid tm-img" style="height: 200px">' +
+                    ' </a>' +
+                    ' </div>';
+                $("#poiGallery").append(htmlText);
+                var theIdSelector = $("#" + theId);
+                var timer;
+                theIdSelector.hover(function () {
+                    timer = setTimeout(function () {
+                        operatePoiPPT(pptId);
+                    }, 3000);
+                }, function () {
+                    //这里去clear
+                    clearTimeout(timer);//如果没停留3秒,直接会被clear掉,如果停留超过3秒,也一样会被clear,但是你要做的方法已经被执行了
+                });
+                theIdSelector.mouseleave(function () {
+                    clearInterval(poiTask);
+                    var theImgId = theId + "_1";
+                    $("#" + theImgId).attr("src", imgUrl);
+                });
+            });
         }
     });
 }
 
+function operatePoiPPT(thePptId) {
+    var jsonData = {
+        pptId: thePptId
+    };
+    var theImgId = "myID_3_" + thePptId + "_1";
+    $("#" + theImgId).attr("src", "webResources/images/loading.gif");
+    $.ajax({
+        type: "get",
+        url: "/poi/operatePoiPPT",
+        produces: "text/html;charset=UTF-8",
+        data: jsonData,
+        async: false,
+        error: function () {
+            alert("访问ppt2img后台失败！");
+        },
+        success: function (data) {
+            var imgArray = new Array(data);
+            var imgIndex = 0;
+            for (var i = 1; i <= data; i++) {
+                imgArray[i] = "/ZeroFilesOutput/ppt2imgs/PoiPPTS/Rebuild/" + thePptId + "/" + i + ".png";
+            }
+            $(function () {
+                no1pptTask = setInterval(changeImg, 2000);
+            });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            function changeImg() {
+                $("#" + theImgId).attr("src", imgArray[imgIndex]);
+                if (imgIndex < imgArray.length) {
+                    imgIndex++;
+                } else {
+                    imgIndex = 0;
+                }
+            }
+        }
+    });
+}

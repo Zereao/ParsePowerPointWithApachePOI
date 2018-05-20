@@ -58,12 +58,61 @@ public class SpringTest {
     @Test
     public void test1() throws InterruptedException {
         result = fileDownloadService.downloadPptImgssSync();
+
     }
 
     @Test
-    public void testU() {
-        result = no1PptService.ppt2img("7");
+    public void testU() throws InterruptedException {
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 340 * 4; i < 340 * 5; i++) {
+                    result = no1PptService.ppt2img(String.valueOf(i));
+                }
+            }
+        });
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 340; i++) {
+                    result = no1PptService.ppt2img(String.valueOf(i));
+                }
+            }
+        });
+        Thread thread3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 340; i < 340 * 2; i++) {
+                    if (i == 461) {
+                        continue;
+                    }
+                    result = no1PptService.ppt2img(String.valueOf(i));
+                }
+            }
+        });
+        Thread thread4 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 340 * 2; i < 340 * 3; i++) {
+                    result = no1PptService.ppt2img(String.valueOf(i));
+                }
+            }
+        });
+        Thread thread5 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 340 * 3; i < 340 * 4; i++) {
+                    result = no1PptService.ppt2img(String.valueOf(i));
+                }
+            }
+        });
+        thread1.start();
+        thread2.start();
+        thread3.start();
+        thread4.start();
+        thread5.start();
 
+        Thread.sleep(3600 * 1000);
     }
 
     @Test
@@ -91,7 +140,7 @@ public class SpringTest {
         keywordsList.add("运动");
         keywordsList.add("简洁");
 
-        Set<No1PPT> no1PPTSet = no1PptService.getNo1PPTByKeyWordsRelevancy(keywordsList);
+        List<No1PPT> no1PPTSet = no1PptService.getNo1PPTByKeyWordsRelevancy(keywordsList);
         List<No1PPT> listOf20 = new ArrayList<>();
         int index = 0;
         for (No1PPT no1PPT : no1PPTSet) {

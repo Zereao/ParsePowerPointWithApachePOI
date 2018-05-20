@@ -93,12 +93,6 @@ public class FileDownloadServiceImpl implements FileDownloadService {
             thread3.start();
             thread4.start();
             thread5.start();
-            // 主线程阻塞
-            thread1.join();
-            thread2.join();
-            thread3.join();
-            thread4.join();
-            thread5.join();
             logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
@@ -179,12 +173,6 @@ public class FileDownloadServiceImpl implements FileDownloadService {
             thread3.start();
             thread4.start();
             thread5.start();
-            // 主线程阻塞
-            thread1.join();
-            thread2.join();
-            thread3.join();
-            thread4.join();
-            thread5.join();
             logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {

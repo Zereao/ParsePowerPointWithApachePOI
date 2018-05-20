@@ -1,6 +1,7 @@
 package com.parse.ppt.poi.controller.poippt;
 
 import com.parse.ppt.poi.service.poippt.PoiPptService;
+import net.sf.json.JSONArray;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,24 @@ public class PoiPptController {
 
     @RequestMapping("/search")
     @ResponseBody
-    public String loadNo1PPT(@RequestParam String keywords,
-                             HttpSession session) {
+    public JSONArray getSearchResult(@RequestParam String keywords,
+                                     HttpSession session) {
         logger.info("------->  start!" +
                 "   keywords = " + keywords);
-        poiPptService.getPoiPptByKeyword(keywords, session);
-        logger.info("------->  end! ");
-        return null;
+        JSONArray jsonArray = poiPptService.getSearchResult(keywords, session);
+        logger.info("------->  end!" +
+                "   jsonArray = " + jsonArray);
+        return jsonArray;
+    }
+
+    @RequestMapping("/operatePoiPPT")
+    @ResponseBody
+    public int operatePoiPPT(@RequestParam("pptId") String no1pptId) {
+        logger.info("------->  start!" +
+                "   pptId = " + no1pptId);
+        int imgNum = poiPptService.OperatePPT(no1pptId);
+        logger.info("------->  end!" +
+                "   imgNum = " + imgNum);
+        return imgNum;
     }
 }

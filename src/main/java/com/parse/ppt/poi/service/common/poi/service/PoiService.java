@@ -34,6 +34,38 @@ public interface PoiService {
     int getImgsNum(String pptId, String pptTag);
 
     /**
+     * 从 No1PPT 集合 no1PPTCollection 中挑选出幻灯片张数 ≥ minPage 的 No1PPT对象，最多取 elemNum = 80，最多取80个元素
+     *
+     * @param no1PPTCollection No1PPTCollection
+     * @param minPageNum       最小幻灯片张数
+     * @param elemNum          返回List中最多元素个数
+     * @return 符合条件的No1PptList
+     */
+    List<No1PPT> selectPPTByPageNum(Collection<No1PPT> no1PPTCollection, int minPageNum, int elemNum);
+
+    /**
+     * 从 No1PPT 集合 no1PPTCollection 中挑选出幻灯片张数 ≥ minPage 的 No1PPT对象
+     *
+     * @param no1PPTCollection No1PPTCollection
+     * @param minPageNum       最小幻灯片张数
+     * @return 符合条件的No1PptList
+     */
+    List<No1PPT> selectPPTByPageNum(Collection<No1PPT> no1PPTCollection, int minPageNum);
+
+    /**
+     * 从 No1PPT 集合 no1PPTCollection 中挑选出幻灯片张数 ≥ minPage 的 No1PPT对象，
+     * 以及包含广告的页面index，将这些信息存储于一个Map中，最后将这个mapList返回
+     *
+     * @param no1PPT     需要处理的No1PPT对象
+     * @param minPageNum 最小幻灯片张数
+     * @return key-No1PPT对象，包含广告的页面的index数组，最后返回的是一个Map<br>
+     * no1ppt-int[]  ： 准备生成该PoiPPT对象<br>
+     * no1ppt-null  ： 数据库中已经存在对应PoiPPT对象<br>
+     * no1ppt-{-1}  ：  未经OCR识别，直接返回No1PPT对象
+     */
+    Map<No1PPT, int[]> selectPPT(No1PPT no1PPT, int minPageNum);
+
+    /**
      * 从 No1PPT 集合 no1PPTCollection 中挑选出幻灯片张数 ≥ minPage 的 No1PPT对象，
      * 以及包含广告的页面index，将这些信息存储于一个Map中，最后将这个mapList返回
      *

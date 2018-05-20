@@ -15,7 +15,7 @@
         <!-- MyBatis-Spring -->
         <mybatis-spring.version>1.3.1</mybatis-spring.version>
         <!-- MySQL Connector -->
-        <mysql-connector.version>6.0.6</mysql-connector.version>
+        <mysql-connector.version>8.0.11</mysql-connector.version>
         <!-- apache commons-dbcp2 -->
         <commons-dbcp2.version>2.2.0</commons-dbcp2.version>
         <!-- apache POI -->

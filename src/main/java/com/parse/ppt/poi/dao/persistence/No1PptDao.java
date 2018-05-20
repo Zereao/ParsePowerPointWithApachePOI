@@ -17,6 +17,19 @@ import java.util.List;
 @Repository
 public interface No1PptDao {
     /**
+     * 查出数据库中所有的PPT对象
+     *
+     * @return No1PPT对象List
+     */
+    @Select(value = "<script>"
+            + "    SELECT *"
+            + "      FROM no1ppt"
+            + "     WHERE 1=1 "
+            + "</script>")
+    @ResultMap("com.parse.ppt.poi.dao.persistence.No1PptDao.BaseResultMap")
+    List<No1PPT> getAllNo1Ppts();
+
+    /**
      * 根据pptID 获取到一个No1PPT对象
      *
      * @param no1pptId No1PPT的ID
@@ -24,7 +37,7 @@ public interface No1PptDao {
      */
     @Select(value = "<script>"
             + "    SELECT *"
-            + "      FROM no_1_ppt"
+            + "      FROM no1ppt"
             + "     WHERE 1=1 "
             + "	    AND id = #{no1pptId, jdbcType=INTEGER}"
             + "</script>")
@@ -40,7 +53,7 @@ public interface No1PptDao {
      */
     @Select(value = "<script>"
             + "    SELECT *"
-            + "      FROM no_1_ppt"
+            + "      FROM no1ppt"
             + "     WHERE 1=1 "
             + "	    LIMIT #{pageIndex, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER} "
             + "</script>")
@@ -56,7 +69,7 @@ public interface No1PptDao {
      */
     @Select(value = "<script>"
             + "    SELECT *"
-            + "      FROM no_1_ppt"
+            + "      FROM no1ppt"
             + "     WHERE 1=1 "
             + "	    AND description like \"%${keyword}%\""
             + "</script>")
@@ -71,7 +84,7 @@ public interface No1PptDao {
      */
     @Select(value = "<script>"
             + "    SELECT *"
-            + "      FROM no_1_ppt"
+            + "      FROM no1ppt"
             + "     WHERE 1=0 "
             + "     <foreach collection=\"keywordsList\" item=\"keyword\" index=\"index\" open=\"\" close=\"\" separator=\"\"> "
             + "          or description like \"%${keyword}%\""
@@ -88,7 +101,7 @@ public interface No1PptDao {
      */
     @Select(value = "<script>"
             + "    SELECT *"
-            + "      FROM no_1_ppt"
+            + "      FROM no1ppt"
             + "     WHERE 1=1 "
             + "     <foreach collection=\"keywordsList\" item=\"keyword\" index=\"index\" open=\"\" close=\"\" separator=\"\"> "
             + "          and description like \"%${keyword}%\""

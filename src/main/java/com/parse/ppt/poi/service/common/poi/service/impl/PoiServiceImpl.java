@@ -106,6 +106,113 @@ public class PoiServiceImpl implements PoiService {
     }
 
     @Override
+    public List<No1PPT> selectPPTByPageNum(Collection<No1PPT> no1PPTCollection, int minPageNum, int elemNum) {
+        logger.info("------->  start!" +
+                "   no1PPTCollection = " + no1PPTCollection +
+                "   minPage = " + minPageNum +
+                "   elemNum = " + elemNum);
+        try {
+            List<No1PPT> resultList = new ArrayList<>();
+            int tag = 0;
+            for (No1PPT no1PPT : no1PPTCollection) {
+                if (tag == elemNum) {
+                    break;
+                }
+                String no1pptId = String.valueOf(no1PPT.getId());
+                File pptFile = PathUtil.getNo1PptFile(no1pptId);
+                // 如果PPT文件不存在，跳过当前No1PPT对象 ———————— 应该不会执行到这一步
+                if (pptFile == null) {
+                    logger.info(no1PPT.getId() + " 对应的PPT文件不存在！");
+                    continue;
+                }
+                String pptFileName = pptFile.getName();
+                boolean isMatchCondition = false;
+                if (pptFileName.toLowerCase().contains(".ppt") && (!(pptFileName.toLowerCase().contains(".pptx")))) {
+                    isMatchCondition = pptOperateService.isPageMatchCondition(pptFile, minPageNum);
+                } else if (pptFileName.toLowerCase().contains(".pptx")) {
+                    isMatchCondition = pptxOperateService.isPageMatchCondition(pptFile, minPageNum);
+                }
+                // 如果PPT幻灯页太少，跳过当前No1PPT对象
+                if (isMatchCondition) {
+                    logger.info(no1PPT.getId() + " 对应的PPT文件幻灯页数 小于 " + minPageNum);
+                    continue;
+                }
+                resultList.add(no1PPT);
+                tag++;
+            }
+            logger.info("------->  end!" +
+                    "   resultList = " + resultList);
+            return resultList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<No1PPT> selectPPTByPageNum(Collection<No1PPT> no1PPTCollection, int minPageNum) {
+        logger.info("------->  start!" +
+                "   no1PPTCollection = " + no1PPTCollection +
+                "   minPage = " + minPageNum);
+        try {
+            List<No1PPT> resultList = new ArrayList<>();
+            for (No1PPT no1PPT : no1PPTCollection) {
+                String no1pptId = String.valueOf(no1PPT.getId());
+                File pptFile = PathUtil.getNo1PptFile(no1pptId);
+                // 如果PPT文件不存在，跳过当前No1PPT对象 ———————— 应该不会执行到这一步
+                if (pptFile == null) {
+                    logger.info(no1PPT.getId() + " 对应的PPT文件不存在！");
+                    continue;
+                }
+                String pptFileName = pptFile.getName();
+                boolean isMatchCondition = false;
+                if (pptFileName.toLowerCase().contains(".ppt") && (!(pptFileName.toLowerCase().contains(".pptx")))) {
+                    isMatchCondition = pptOperateService.isPageMatchCondition(pptFile, minPageNum);
+                } else if (pptFileName.toLowerCase().contains(".pptx")) {
+                    isMatchCondition = pptxOperateService.isPageMatchCondition(pptFile, minPageNum);
+                }
+                // 如果PPT幻灯页太少，跳过当前No1PPT对象
+                if (isMatchCondition) {
+                    logger.info(no1PPT.getId() + " 对应的PPT文件幻灯页数 小于 " + minPageNum);
+                    continue;
+                }
+                resultList.add(no1PPT);
+            }
+            logger.info("------->  end!" +
+                    "   resultList = " + resultList);
+            return resultList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public Map<No1PPT, int[]> selectPPT(No1PPT no1PPT, int minPageNum) {
+        logger.info("------->  start!" +
+                "   no1PPT = " + no1PPT +
+                "   minPage = " + minPageNum);
+        try {
+            List<No1PPT> aNo1PPTList = new ArrayList<>();
+            aNo1PPTList.add(no1PPT);
+            List<Map<No1PPT, int[]>> resultMapList = selectPPT(aNo1PPTList, minPageNum);
+            Map<No1PPT, int[]> resultMap = null;
+            if (!(resultMapList == null || resultMapList.size() != 1)) {
+                resultMap = resultMapList.get(0);
+            }
+            logger.info("------->  end!" +
+                    "   resultMap = " + resultMap);
+            return resultMap;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  return null");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public List<Map<No1PPT, int[]>> selectPPT(Collection<No1PPT> no1PPTCollection, int minPageNum) {
         logger.info("------->  start!" +
                 "   no1PPTCollection = " + no1PPTCollection +
@@ -125,24 +232,7 @@ public class PoiServiceImpl implements PoiService {
                     continue;
                 }
                 String no1pptId = String.valueOf(no1PPT.getId());
-                File pptFile = PathUtil.getNo1PptFile(no1pptId);
-                // 如果PPT文件不存在，跳过当前No1PPT对象
-                if (pptFile == null) {
-                    logger.info(no1PPT.getId() + " 对应的PPT文件不存在！");
-                    continue;
-                }
-                String pptFileName = pptFile.getName();
-                boolean isMatchCondition = false;
-                if (pptFileName.toLowerCase().contains(".ppt") && (!(pptFileName.toLowerCase().contains(".pptx")))) {
-                    isMatchCondition = pptOperateService.isPageMatchCondition(pptFile, minPageNum);
-                } else if (pptFileName.toLowerCase().contains(".pptx")) {
-                    isMatchCondition = pptxOperateService.isPageMatchCondition(pptFile, minPageNum);
-                }
-                // 如果PPT幻灯页太少，跳过当前No1PPT对象
-                if (isMatchCondition) {
-                    logger.info(no1PPT.getId() + " 对应的PPT文件幻灯页数 小于 " + minPageNum);
-                    continue;
-                }
+
                 String resultOfPpt2Img = ppt2imgs(no1pptId, PptTag.TYPE_NO1);
                 // 以防万一，还是判断一下文件存在性，如果文件不存在，跳过当前No1PPT对象
                 if (resultOfPpt2Img.equals(ReturnCode.RESOURCES_NOT_EXISTS)) {
@@ -153,21 +243,26 @@ public class PoiServiceImpl implements PoiService {
                 if (resultOfPpt2Img.equals(ReturnCode.SUCCESS)) {
                     String ppt2imgPath = PathUtil.getAbsoluteNo1PPT2imgPath(no1pptId);
                     int imgsNum = Objects.requireNonNull(new File(ppt2imgPath).listFiles()).length;
+                    // 对一个PPT的每一页进行循环识别
                     for (int imgIndex = imgsNum, adPage = 0; imgIndex >= 1; imgIndex--, adPage++) {
-                        // 如果 腾讯和百度的Ocr使用次数 没有同时用完
+                        // 如果 腾讯和百度的Ocr使用次数     --没有同时用完
                         if (!(isBaiduOcrOver && isTencentOcrOver)) {
                             // 倒序图像识别，节约OCR成本成本
                             String imgPath = ppt2imgPath + imgIndex + ".png";
                             List<String> ocrWordsList = null;
+                            // 如果腾讯 没有用完，优先使用腾讯
                             if (!isTencentOcrOver) {
                                 ocrWordsList = ocrService.getWordsWithTencentOCR(imgPath);
                             }
-                            if (ocrWordsList == null && !isBaiduOcrOver) {
+                            if ((ocrWordsList == null || ocrWordsList.size() == 0) && !isBaiduOcrOver) {
+                                // 腾讯用完
                                 isTencentOcrOver = true;
                                 logger.info("------->  Warn！当日腾讯OCR接口调用次数已达上限！下面调用百度OCR接口！");
+                                // 返回null，则腾讯的次数用完。若百度没用完，则使用百度Ocr接口
                                 ocrWordsList = ocrService.getWordsWithBaiduOCR(imgPath);
                             }
-                            if (ocrWordsList == null) {
+                            if (ocrWordsList == null || ocrWordsList.size() == 0) {
+                                // 百度也用光
                                 isBaiduOcrOver = true;
                                 logger.info("------->  Warn！当日百度OCR接口调用次数已达上限！今日将不再使用OCR筛选！");
                                 break;
@@ -262,11 +357,6 @@ public class PoiServiceImpl implements PoiService {
             thread2.start();
             thread3.start();
             thread4.start();
-            // 阻塞主线程，执行完 子进程 thread1,thread2,thread3,thread4 后再继续执行后续逻辑
-            thread1.join();
-            thread2.join();
-            thread3.join();
-            thread4.join();
             logger.info("------->  end!" +
                     "   resultList.size() = " + resultList.size() +
                     "   resultList = " + resultList);
@@ -384,11 +474,6 @@ public class PoiServiceImpl implements PoiService {
             thread2.start();
             thread3.start();
             thread4.start();
-            // 阻塞主线程，执行完 子进程 thread1,thread2,thread3,thread4 后再继续执行后续逻辑
-            thread1.join();
-            thread2.join();
-            thread3.join();
-            thread4.join();
             logger.info("------->  end!   return SUCCESSF");
             return ReturnCode.SUCCESS;
         } catch (Exception e) {

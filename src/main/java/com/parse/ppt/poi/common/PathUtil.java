@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused", "UnusedAssignment"})
 public class PathUtil {
     /**
      * 公用方法，获取到当前项目的根目录

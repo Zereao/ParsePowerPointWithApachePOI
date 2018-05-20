@@ -1,7 +1,5 @@
 package com.parse.ppt.poi.entity;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 /**
  * 使用爬虫技术从 从 第1PPT http://www.1ppt.com/ 网站上直接获取到的现成的PPT的信息
  *

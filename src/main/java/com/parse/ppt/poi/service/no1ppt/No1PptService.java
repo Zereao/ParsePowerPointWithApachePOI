@@ -15,6 +15,13 @@ import java.util.Set;
 @Service
 public interface No1PptService {
     /**
+     * 查出数据库中所有的No1PPT对象
+     *
+     * @return 对应的No1PPT对象List
+     */
+    List<No1PPT> getAllNo1Ppts();
+
+    /**
      * 根据No1PPT的ID查询 No1PPT 的信息
      *
      * @param no1PptId No1PPT对象的ID
@@ -59,9 +66,9 @@ public interface No1PptService {
      * 根据多个 keyword关键词 按关联程度 模糊搜索符合条件的No1PPT对象
      *
      * @param keywordsList 包含关键词的List
-     * @return 包含No1PPT对象的Set - 保证去重 | 内部存储使用 LinkedHashSet ，保证了有序
+     * @return 包含No1PPT对象的List - 内部使用了LinkedHashSet存储数据 保证去重 | 保证了有序
      */
-    Set<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList);
+    List<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList);
 
     /**
      * 精确搜索同时包含keywordsList中所有关键词的No1PPT
@@ -99,7 +106,7 @@ public interface No1PptService {
     String downloadNo1PPT(String no1PptID, HttpServletRequest request, HttpServletResponse response);
 
     /**
-     * 把No1PPT - PPT文件转换为PNG格式的图片，并且将其存储于 pptFile 所在的路径下的 PPT2IMG 路径下
+     * 把No1PPT - PPT文件转换为PNG格式的图片，并且将其存储于 /ZeroFilesOutput/ppt2imgs/no1ppt2imgs 路径下
      *
      * @param no1PptID NO1PPT的ID，对应的PPT文件可以是.PPT格式的，也可以是.PPTX格式的
      * @return ReturnCode-返回码
@@ -109,7 +116,7 @@ public interface No1PptService {
     /**
      * 获取某一个PPT转换成图片的图片张数
      *
-     * @param no1PptId No1PPTd的ID
+     * @param no1PptId No1PPT的ID
      * @return 某一个PPT转换成图片的图片张数
      */
     int getImgsNum(String no1PptId);

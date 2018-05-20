@@ -39,6 +39,20 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
+    public List<No1PPT> getAllNo1Ppts() {
+        try {
+            logger.info("------->  start!");
+            List<No1PPT> no1PPTList = no1PptDao.getAllNo1Ppts();
+            logger.info("------->  end ! no1PPTList = " + no1PPTList);
+            return no1PPTList;
+        } catch (Exception e) {
+            logger.error("------->  ERROR!  返回 null ");
+            logger.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public No1PPT getNo1PptById(String no1PptId) {
         try {
             logger.info("------->  start!  pptId = " + no1PptId);
@@ -69,7 +83,8 @@ public class No1PptServiceImpl implements No1PptService {
                 // 根据pptId获取到本地仓库  ZeroFilesOutput 目录下对应的PPT文件
                 File pptFile = PathUtil.getNo1PptFile(pptId);
                 if (pptFile == null) {
-                    logger.error("------->  ERROR!  本地仓库目录【" + PathUtil.getAbsoluteNo1PptPath(pptId) + "】路径下不存在PPT/PPTX文件！   return null");
+                    logger.error("------->  ERROR!  本地仓库目录【" + PathUtil.getAbsoluteNo1PptPath(pptId) + "】路径下不存在PPT/PPTX文件！   add VALUE = \"\"");
+                    json.put("pptName", "");
                 } else {
                     json.put("pptName", pptFile.getName());
                 }
@@ -118,7 +133,7 @@ public class No1PptServiceImpl implements No1PptService {
     }
 
     @Override
-    public Set<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList) {
+    public List<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList) {
         try {
             logger.info("------->  start!   keywordsList = " + keywordsList);
             Set<No1PPT> resultSet = new LinkedHashSet<>();
@@ -132,8 +147,9 @@ public class No1PptServiceImpl implements No1PptService {
                 List<No1PPT> resultList = no1PptDao.getNo1PPTByKeyWordsExact(stringList);
                 resultSet.addAll(resultList);
             }
+            List<No1PPT> resultList = new ArrayList<>(resultSet);
             logger.info("------->  end !    resultList = " + resultSet);
-            return resultSet;
+            return resultList;
         } catch (Exception e) {
             logger.error("------->  ERROR!  返回 null");
             logger.error(e.getMessage());
