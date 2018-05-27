@@ -1,15 +1,16 @@
 package com.parse.ppt.poi.common;
 
 /**
- * @author Jupiter
  * 公共返回码 类
+ *
+ * @author Jupiter
+ * @version 2018/03/09 22:39
  */
 public class ReturnCode {
     /**
      * 该段代码执行成功，返回
      */
     public static final String SUCCESS = "SUCCESS";
-
 
     /**
      * 该段逻辑执行出现错误，返回
@@ -51,8 +52,4 @@ public class ReturnCode {
      */
     public static final String RESOURCES_ALREADY_EXISTS = "RESOURCES_ALREADY_EXISTS";
 
-    /**
-     * 未经OCR识别
-     */
-    public static final String UN_OCR = "UN_OCR";
 }

@@ -15,39 +15,6 @@ public class PoiPPT {
     private String pptDownloadUrl;
     private String pptFileName;
 
-    public PoiPPT() {
-    }
-
-    public PoiPPT(String pptDescription, String typeTag) {
-        this.pptDescription = pptDescription;
-        this.typeTag = typeTag;
-    }
-
-    public PoiPPT(String pptDescription, String typeTag, Integer no1pptId) {
-        this.pptDescription = pptDescription;
-        this.typeTag = typeTag;
-        this.no1pptId = no1pptId;
-    }
-
-    public PoiPPT(String pptDescription, String typeTag, Integer no1pptId, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
-        this.pptDescription = pptDescription;
-        this.typeTag = typeTag;
-        this.no1pptId = no1pptId;
-        this.pptImgAddress = pptImgAddress;
-        this.pptDownloadUrl = pptDownloadUrl;
-        this.pptFileName = pptFileName;
-    }
-
-    public PoiPPT(Integer id, String pptDescription, String typeTag, Integer no1pptId, String pptImgAddress, String pptDownloadUrl, String pptFileName) {
-        this.id = id;
-        this.pptDescription = pptDescription;
-        this.typeTag = typeTag;
-        this.no1pptId = no1pptId;
-        this.pptImgAddress = pptImgAddress;
-        this.pptDownloadUrl = pptDownloadUrl;
-        this.pptFileName = pptFileName;
-    }
-
     public Integer getId() {
         return id;
     }

@@ -1,7 +1,7 @@
 package com.test;
 
 import com.parse.ppt.poi.common.PathUtil;
-import com.parse.ppt.poi.service.common.encrypt.impl.EncryptServiceImpl;
+import com.parse.ppt.poi.service.common.EncryptServiceImpl;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.junit.Test;

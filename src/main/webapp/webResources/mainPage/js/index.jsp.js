@@ -50,21 +50,19 @@ function adjustHeightOfPage(pageNo) {
  * 以下为自己写
  */
 
-// 页面初始化
-var userLoginStatus;
-
-function onPageLoad() {
-    getInitializeInfo();
+// index.jsp页面初始化
+function onMainPageLoad() {
     getUserLoginStatus();
+    getInitializeInfo();
     // 监听 id 为 login 的控件的鼠标左右键点击事件
     $('#login').mousedown(function (e) {
         if (e.which === 1) {
             // alert('这是左键单击事件');
-            if (userLoginStatus === "false") {
+            if (userLoginStatus === 0) {
                 window.location.href = "pages/login.jsp";
             }
         } else if (e.which === 3) {
-            if (userLoginStatus === "true") {
+            if (userLoginStatus === 1) {
                 userLogout();
             }
         }
@@ -80,29 +78,10 @@ function onPageLoad() {
     });
 }
 
-function getUserLoginStatus() {
-    $.ajax({
-        type: "get",
-        url: "/login/getUserLoginStatus",
-        produces: "text/html;charset=UTF-8",
-        async: false,
-        error: function () {
-            alert("获取用户登陆状态出错！");
-        },
-        success: function (data) {
-            if (data !== "FAILED") {
-                userLoginStatus = data;
-            } else {
-                alert("获取用户登陆状态-后端返回FAILED!-请刷新重试！")
-            }
-        }
-    });
-}
-
 function getInitializeInfo() {
     $.ajax({
         type: "post",
-        url: "/onMainPageLoad/getMainPageLoadInfo",
+        url: "/initialize/getInitializeInfo",
         produces: "text/html;charset=UTF-8",
         async: false,
         error: function () {

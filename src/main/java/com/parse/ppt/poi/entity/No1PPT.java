@@ -8,38 +8,11 @@ package com.parse.ppt.poi.entity;
  */
 public class No1PPT {
     private Integer id;
-    private String srcDescription;
-    private String srcImgUrl;
+    private String description;
+    private String imgUrl;
     private String downloadPageUrl;
     private String downloadUrl;
-    private String pptFileName;
-
-    public No1PPT() {
-    }
-
-    public No1PPT(String srcDescription, String srcImgUrl, String downloadPageUrl, String downloadUrl) {
-        this.srcDescription = srcDescription;
-        this.srcImgUrl = srcImgUrl;
-        this.downloadPageUrl = downloadPageUrl;
-        this.downloadUrl = downloadUrl;
-    }
-
-    public No1PPT(Integer id, String srcDescription, String srcImgUrl, String downloadPageUrl, String downloadUrl) {
-        this.id = id;
-        this.srcDescription = srcDescription;
-        this.srcImgUrl = srcImgUrl;
-        this.downloadPageUrl = downloadPageUrl;
-        this.downloadUrl = downloadUrl;
-    }
-
-    public No1PPT(Integer id, String srcDescription, String srcImgUrl, String downloadPageUrl, String downloadUrl, String pptFileName) {
-        this.id = id;
-        this.srcDescription = srcDescription;
-        this.srcImgUrl = srcImgUrl;
-        this.downloadPageUrl = downloadPageUrl;
-        this.downloadUrl = downloadUrl;
-        this.pptFileName = pptFileName;
-    }
+    private String fileName;
 
     public Integer getId() {
         return id;
@@ -49,20 +22,20 @@ public class No1PPT {
         this.id = id;
     }
 
-    public String getSrcDescription() {
-        return srcDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSrcDescription(String srcDescription) {
-        this.srcDescription = srcDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getSrcImgUrl() {
-        return srcImgUrl;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setSrcImgUrl(String srcImgUrl) {
-        this.srcImgUrl = srcImgUrl;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getDownloadPageUrl() {
@@ -81,23 +54,23 @@ public class No1PPT {
         this.downloadUrl = downloadUrl;
     }
 
-    public String getPptFileName() {
-        return pptFileName;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setPptFileName(String pptFileName) {
-        this.pptFileName = pptFileName;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
     public String toString() {
         return "No1PPT{" +
                 "id=" + id +
-                ", srcDescription='" + srcDescription + '\'' +
-                ", srcImgUrl='" + srcImgUrl + '\'' +
+                ", description='" + description + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
                 ", downloadPageUrl='" + downloadPageUrl + '\'' +
                 ", downloadUrl='" + downloadUrl + '\'' +
-                ", pptFileName='" + pptFileName + '\'' +
+                ", fileName='" + fileName + '\'' +
                 '}';
     }
 }

@@ -1,9 +1,8 @@
 package com.test;
 
-import com.parse.ppt.poi.dao.persistence.No1PptDao;
+import com.parse.ppt.poi.dao.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
-import com.parse.ppt.poi.service.common.spider.WebSpiderService;
-import org.apache.poi.ss.formula.functions.T;
+import com.parse.ppt.poi.service.common.SpiderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import java.util.List;
 public class No1PPTSpriderTestDemo {
 
     @Autowired
-    private WebSpiderService webSpiderService;
+    private SpiderService spiderService;
     @Autowired
     private No1PptDao no1PptDao;
 
@@ -33,22 +32,22 @@ public class No1PPTSpriderTestDemo {
     public void testU() throws InterruptedException {
         Thread thread1 = new Thread(() -> {
             for (int i = 1; i < 22; i++) {
-                List<No1PPT> resultMapList = webSpiderService.pptFileSpider(String.valueOf(i));
+                List<No1PPT> resultMapList = spiderService.pptFileSpider(String.valueOf(i));
             }
         });
         Thread thread2 = new Thread(() -> {
             for (int i = 22; i < 44; i++) {
-                List<No1PPT> resultMapList = webSpiderService.pptFileSpider(String.valueOf(i));
+                List<No1PPT> resultMapList = spiderService.pptFileSpider(String.valueOf(i));
             }
         });
         Thread thread3 = new Thread(() -> {
             for (int i = 44; i < 66; i++) {
-                List<No1PPT> resultMapList = webSpiderService.pptFileSpider(String.valueOf(i));
+                List<No1PPT> resultMapList = spiderService.pptFileSpider(String.valueOf(i));
             }
         });
         Thread thread4 = new Thread(() -> {
             for (int i = 66; i < 89; i++) {
-                List<No1PPT> resultMapList = webSpiderService.pptFileSpider(String.valueOf(i));
+                List<No1PPT> resultMapList = spiderService.pptFileSpider(String.valueOf(i));
             }
         });
         thread1.start();

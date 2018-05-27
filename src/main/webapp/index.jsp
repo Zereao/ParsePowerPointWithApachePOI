@@ -24,6 +24,7 @@
     <script src="webResources/mainPage/js/jquery.magnific-popup.min.js"></script>
 
     <%-- 导入分离出的JavaScript --%>
+    <script src="webResources/js/common.op.js"></script>
     <script src="webResources/mainPage/js/index.jsp.js"></script>
 
     <link rel="stylesheet" href="webResources/mainPage/font-awesome-4.5.0/css/font-awesome.min.css">
@@ -52,7 +53,7 @@
     </style>
 
 </head>
-<body onload="onPageLoad()">
+<body onload="onMainPageLoad()">
 
 <%-- 导航栏 --%>
 <div class="cd-hero">
@@ -152,7 +153,8 @@
                                         <input id="myID_3_1" type="text" class="form-control myInputBoxStyle"
                                                placeholder="输入关键词，使用Apache POI技术实现PPT模板一键生成">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-secondary btn-lg" type="button" onclick="onPoiSerach()">Go!</button>
+                                            <button class="btn btn-secondary btn-lg" type="button"
+                                                    onclick="onPoiSerach()">Go!</button>
                                         </span>
                                     </div>
                                 </div>
@@ -160,10 +162,10 @@
                             <br>
 
                             <%--<div class="grid-item">--%>
-                                <%--<a href="webResources/mainPage/img/tm-img-08.jpg">--%>
-                                    <%--<img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"--%>
-                                         <%--class="img-fluid tm-img">--%>
-                                <%--</a>--%>
+                            <%--<a href="webResources/mainPage/img/tm-img-08.jpg">--%>
+                            <%--<img src="webResources/mainPage/img/tm-img-08-tn.jpg" alt="Image"--%>
+                            <%--class="img-fluid tm-img">--%>
+                            <%--</a>--%>
                             <%--</div>--%>
 
 

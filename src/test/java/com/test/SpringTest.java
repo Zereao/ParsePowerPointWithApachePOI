@@ -1,16 +1,16 @@
 package com.test;
 
-import com.parse.ppt.poi.dao.persistence.No1PptDao;
-import com.parse.ppt.poi.dao.persistence.PoiPptDao;
+import com.parse.ppt.poi.dao.No1PptDao;
+import com.parse.ppt.poi.dao.PoiPptDao;
 import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.entity.PoiPPT;
-import com.parse.ppt.poi.service.common.cache.RedisCacheService;
+import com.parse.ppt.poi.service.common.RedisCacheService;
 import com.parse.ppt.poi.service.common.ocr.OcrService;
-import com.parse.ppt.poi.service.common.poi.service.PoiService;
-import com.parse.ppt.poi.service.no1ppt.No1PptService;
-import com.parse.ppt.poi.service.common.spider.WebSpiderService;
-import com.parse.ppt.poi.service.common.download.FileDownloadService;
-import com.parse.ppt.poi.service.common.poi.operate.xslf.PptxOperateService;
+import com.parse.ppt.poi.service.common.PoiService;
+import com.parse.ppt.poi.service.No1PptService;
+import com.parse.ppt.poi.service.common.SpiderService;
+import com.parse.ppt.poi.service.common.FileDownloadService;
+import com.parse.ppt.poi.service.common.PptxOperateService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author Jupiter
@@ -35,7 +34,7 @@ import java.util.Set;
 public class SpringTest {
 
     @Autowired
-    private WebSpiderService webSpiderService;
+    private SpiderService spiderService;
     @Autowired
     private No1PptService no1PptService;
     @Autowired

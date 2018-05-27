@@ -8,20 +8,7 @@ public class UserDownloadHistory {
     private int id;
     private String email;
     private int pptId;
-
-    public UserDownloadHistory() {
-    }
-
-    public UserDownloadHistory(String email, int pptId) {
-        this.email = email;
-        this.pptId = pptId;
-    }
-
-    public UserDownloadHistory(int id, String email, int pptId) {
-        this.id = id;
-        this.email = email;
-        this.pptId = pptId;
-    }
+    private String pptType;
 
     public int getId() {
         return id;
@@ -47,12 +34,21 @@ public class UserDownloadHistory {
         this.pptId = pptId;
     }
 
+    public String getPptType() {
+        return pptType;
+    }
+
+    public void setPptType(String pptType) {
+        this.pptType = pptType;
+    }
+
     @Override
     public String toString() {
         return "UserDownloadHistory{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", pptId=" + pptId +
+                ", pptType='" + pptType + '\'' +
                 '}';
     }
 }

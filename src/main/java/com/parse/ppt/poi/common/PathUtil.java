@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"WeakerAccess", "unused", "UnusedAssignment"})
+@SuppressWarnings("WeakerAccess")
 public class PathUtil {
     /**
      * 公用方法，获取到当前项目的根目录
@@ -143,145 +143,37 @@ public class PathUtil {
         return getAbsolutePpt2ImgPath() + "/PoiPPTS/Generate/" + poiPptId + "/";
     }
 
-    /**
-     * 根据 pptId,pptTag 获取到 pptId 对应的 File 对象
-     *
-     * @param pptId  pptID
-     * @param pptTag TYPE_NO1 - "NO1"<br>
-     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_REBUILD - "POI_REBUILD"<br>
-     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_GENERATE - "POI_GENERATE"
-     * @return TYPE_NO1 - ${AbsoluteProjectPath}/ZeroFilesOutput/NO1PPTS/${pptID}/<br>
-     * TYPE_POI_REBUILD - ${AbsoluteProjectPath}/ZeroFilesOutput/POIPPTS/REBUILD/${pptID}/<br>
-     * TYPE_POI_GENERATE - ${AbsoluteProjectPath}/ZeroFilesOutput/POIPPTS/GENERATE/${pptID}/
-     */
-    public static File getPptFileByTag(String pptId, String pptTag) {
-        File[] files = null;
-        switch (pptTag) {
-            case PptTag.TYPE_NO1:
-                files = new File(getAbsoluteNo1PptPath(pptId)).listFiles();
-                break;
-            case PptTag.TYPE_POI_REBUILD:
-                files = new File(getAbsolutePoiRebuildPptPath(pptId)).listFiles();
-                break;
-            case PptTag.TYPE_POI_GENERATE:
-                files = new File(getAbsolutePoiGeneratePptPath(pptId)).listFiles();
-                break;
-            default:
-                return null;
-        }
-        List<File> fileList = new ArrayList<>();
-        getPptFileList(files, fileList);
-        if (fileList.size() > 0) {
-            return fileList.get(0);
-        }
-        return null;
-    }
-
-
-    /* 通用方法 */
-
-    /**
-     * 根据 pptId,pptTag 获取到PPT的路径，目前用于 Ppt2ImgService.ppt2img() 方法中
-     *
-     * @param pptId  pptID
-     * @param pptTag TYPE_NO1 - "NO1"<br>
-     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_REBUILD - "POI_REBUILD"<br>
-     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_GENERATE - "POI_GENERATE"
-     * @return TYPE_NO1 - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/no1ppts/${pptID}/<br>
-     * TYPE_POI_REBUILD - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/${pptID}/<br>
-     * TYPE_POI_GENERATE - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Generate/${pptID}/<br>
-     * others - null
-     */
-    public static String getAbsolutePptPathByTag(String pptId, String pptTag) {
-        String targetPath = null;
-        switch (pptTag) {
-            case PptTag.TYPE_NO1:
-                targetPath = getAbsoluteNo1PptPath(pptId);
-                break;
-            case PptTag.TYPE_POI_REBUILD:
-                targetPath = getAbsolutePoiRebuildPptPath(pptId);
-                break;
-            case PptTag.TYPE_POI_GENERATE:
-                targetPath = getAbsolutePoiGeneratePptPath(pptId);
-                break;
-            default:
-                targetPath = null;
-                break;
-        }
-        return targetPath;
-    }
-
-    /**
-     * 根据 pptId,pptTag 获取到PPT的路径，目前用于 Ppt2ImgService.ppt2img() 方法中
-     *
-     * @param pptTag TYPE_POI_REBUILD - "POI_REBUILD"<br>
-     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_GENERATE - "POI_GENERATE"
-     * @return TYPE_POI_REBUILD - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/${this.listFiles().length+1}/<br>
-     * TYPE_POI_GENERATE - ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Generate/${this.listFiles().length+1}/<br>
-     * others - null
-     */
-    public static String getAbsolutePoiPptPathByTag(String pptTag) {
-        String targetPath = null;
-        switch (pptTag) {
-            case PptTag.TYPE_POI_REBUILD:
-                targetPath = getAbsolutePoiRebuildPptPath();
-                break;
-            case PptTag.TYPE_POI_GENERATE:
-                targetPath = getAbsolutePoiGeneratePptPath();
-                break;
-            default:
-                targetPath = null;
-                break;
-        }
-        if (targetPath != null) {
-            File file = new File(targetPath);
-            if (!file.exists()) {
-                boolean isMkdirs = file.mkdirs();
-            }
-            int folderNumIndex = 1;
-            File[] folders = file.listFiles();
-            if (folders != null) {
-                folderNumIndex = folders.length + 1;
-            }
-            targetPath = targetPath + folderNumIndex + "/";
-            file = new File(targetPath);
-            if (!file.exists()) {
-                boolean isMkdirs = file.mkdirs();
-            }
-        }
-        return targetPath;
-    }
-
-    /**
-     * 根据 pptId,pptTag 获取到PPT转换为图片后图片的存储路径，目前用于 Ppt2ImgService.ppt2img() 方法中
-     *
-     * @param pptId  pptID
-     * @param pptTag TYPE_NO1 - "NO1"<br>
-     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_REBUILD - "POI_REBUILD"<br>
-     *               &emsp;&emsp;&emsp;&emsp;TYPE_POI_GENERATE - "POI_GENERATE"
-     * @return TYPE_NO1 - ${AbsoluteProjectPath}/ZeroFilesOutput/ppt2imgs/no1ppt2imgs/${pptID}/<br>
-     * TYPE_POI_REBUILD - ${AbsoluteProjectPath}/ZeroFilesOutput/ppt2imgs/PoiPPTS/Rebuild/${pptID}/<br>
-     * TYPE_POI_GENERATE - ${AbsoluteProjectPath}/ZeroFilesOutput/ppt2imgs/PoiPPTS/Generate/${pptID}/<br>
-     * other - null
-     */
-    public static String getAbsolutePpt2ImgPathByTag(String pptId, String pptTag) {
-        String targetPath = null;
-        switch (pptTag) {
-            case PptTag.TYPE_NO1:
-                targetPath = getAbsoluteNo1PPT2imgPath(pptId);
-                break;
-            case PptTag.TYPE_POI_REBUILD:
-                targetPath = getAbsolutePoiRebuildPPT2imgPath(pptId);
-                break;
-            case PptTag.TYPE_POI_GENERATE:
-                targetPath = getAbsolutePoiGeneratePPT2imgPath(pptId);
-                break;
-            default:
-                targetPath = null;
-                break;
-        }
-        return targetPath;
-    }
+//    public static String getAbsolutePoiPptPathByTag(String pptTag) {
+//        String targetPath = null;
+//        switch (pptTag) {
+//            case PptTag.TYPE_POI_REBUILD:
+//                targetPath = getAbsolutePoiRebuildPptPath();
+//                break;
+//            case PptTag.TYPE_POI_GENERATE:
+//                targetPath = getAbsolutePoiGeneratePptPath();
+//                break;
+//            default:
+//                targetPath = null;
+//                break;
+//        }
+//        if (targetPath != null) {
+//            File file = new File(targetPath);
+//            if (!file.exists()) {
+//                boolean isMkdirs = file.mkdirs();
+//            }
+//            int folderNumIndex = 1;
+//            File[] folders = file.listFiles();
+//            if (folders != null) {
+//                folderNumIndex = folders.length + 1;
+//            }
+//            targetPath = targetPath + folderNumIndex + "/";
+//            file = new File(targetPath);
+//            if (!file.exists()) {
+//                boolean isMkdirs = file.mkdirs();
+//            }
+//        }
+//        return targetPath;
+//    }
 
     /**
      * 递归删除 folder 目录以及其目录下所有的 文件、文件夹

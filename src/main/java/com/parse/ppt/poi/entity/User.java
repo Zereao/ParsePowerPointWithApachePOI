@@ -12,43 +12,6 @@ public class User {
     private String mainPageEssayTitle;
     private String mainPageEssayContent;
 
-    public User() {
-    }
-
-    public User(String username, String email, String phoneNum, String password) {
-        this.username = username;
-        this.email = email;
-        this.phoneNum = phoneNum;
-        this.password = password;
-    }
-
-    public User(String username, String email, String phoneNum, String password, String mainPageEssayTitle, String mainPageEssayContent) {
-        this.username = username;
-        this.email = email;
-        this.phoneNum = phoneNum;
-        this.password = password;
-        this.mainPageEssayTitle = mainPageEssayTitle;
-        this.mainPageEssayContent = mainPageEssayContent;
-    }
-
-    public User(Integer id, String username, String email, String phoneNum, String password) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.phoneNum = phoneNum;
-        this.password = password;
-    }
-
-    public User(Integer id, String username, String email, String phoneNum, String password, String mainPageEssayTitle, String mainPageEssayContent) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.phoneNum = phoneNum;
-        this.password = password;
-        this.mainPageEssayTitle = mainPageEssayTitle;
-        this.mainPageEssayContent = mainPageEssayContent;
-    }
-
     public Integer getId() {
         return id;
     }

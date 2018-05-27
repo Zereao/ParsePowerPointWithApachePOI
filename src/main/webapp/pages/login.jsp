@@ -159,7 +159,8 @@
                 type: "post",
                 url: "/login/userLogin",
                 produces: "text/html;charset=UTF-8",
-                data: userInfo,
+                contentType: "application/json",
+                data: JSON.stringify(userInfo),
                 error: function (request) {
                     alert("网络连接错误！");
                     // window.location.href = "error.jsp";
@@ -220,7 +221,8 @@
                 type: "post",
                 url: "/login/userRegister",
                 produces: "text/html;charset=UTF-8",
-                data: regUserInfo,
+                contentType: "application/json",
+                data: JSON.stringify(regUserInfo),
                 error: function (request) {
                     alert("向后端传递数据出现未知错误！");
                     window.location.href = "error.jsp";
