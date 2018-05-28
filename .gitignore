@@ -9,3 +9,4 @@ ocr_config.properties
 target/
 *.iml
 *.log
+**/temp/
