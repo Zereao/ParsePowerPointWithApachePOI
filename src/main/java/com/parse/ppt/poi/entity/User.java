@@ -2,12 +2,13 @@ package com.parse.ppt.poi.entity;
 
 /**
  * @author Jupiter
+ * @version 2018/03/25 0:02
  */
 public class User {
     private Integer id;
     private String username;
     private String email;
-    private String phoneNum;
+    private String mobile;
     private String password;
     private String mainPageEssayTitle;
     private String mainPageEssayContent;
@@ -36,12 +37,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getPassword() {
@@ -74,7 +75,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", phoneNum='" + phoneNum + '\'' +
+                ", mobile='" + mobile + '\'' +
                 ", password='" + password + '\'' +
                 ", mainPageEssayTitle='" + mainPageEssayTitle + '\'' +
                 ", mainPageEssayContent='" + mainPageEssayContent + '\'' +

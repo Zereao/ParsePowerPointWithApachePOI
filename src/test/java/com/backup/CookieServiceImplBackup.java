@@ -35,7 +35,7 @@
 //        try {
 //            String username = user.getUsername();
 //            String email = user.getEmail();
-//            String phoneNum = user.getPhoneNum();
+//            String phoneNum = user.getMobile();
 //            String password = user.getPassword();
 //            Cookie usernameCookie = new Cookie("username", username);
 //            Cookie emailCookie = new Cookie("email", email);

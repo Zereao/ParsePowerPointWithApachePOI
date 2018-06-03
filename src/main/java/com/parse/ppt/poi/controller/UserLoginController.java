@@ -1,5 +1,6 @@
 package com.parse.ppt.poi.controller;
 
+import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.entity.LoginInfoDTO;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.service.UserLoginService;
@@ -40,9 +41,13 @@ public class UserLoginController {
     @RequestMapping("/getUserLoginStatus")
     @ResponseBody
     public int getUserLoginStatus(HttpSession session) {
-        logger.info("------->  start!");
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start!");
+        }
         int result = session.getAttribute("user") == null ? 0 : 1;
-        logger.info("------->  end!  result = {}", result);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  end!  result = {}", result);
+        }
         return result;
     }
 
@@ -50,41 +55,53 @@ public class UserLoginController {
     @ResponseBody
     public String userLogin(@RequestBody LoginInfoDTO loginInfoDTO,
                             HttpServletRequest request, HttpServletResponse response) {
-        logger.info("------->  start!   LoginInfo = {}", loginInfoDTO);
-        String result = userLoginService.userLogin(account, encryptedPassword, rememberTag, request, response);
-        logger.info("------->  end! " +
-                "  result = " + result);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start!   LoginInfo = {}", loginInfoDTO);
+        }
+        String result = userLoginService.userLogin(loginInfoDTO, request, response);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  end!   result = {}", result);
+        }
         return result;
     }
 
     @RequestMapping("/userRegister")
     @ResponseBody
-    public String userRegister(@RequestBody User user,
-                               HttpSession session) {
-        logger.info("------->  start!   user = {}", user);
+    public String userRegister(@RequestBody User user, HttpSession session) {
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start!   user = {}", user);
+        }
         String result = userLoginService.registerUser(user, session);
-        logger.info("------->  end!   result = {}", result);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  end!   result = {}", result);
+        }
         return result;
     }
 
     @RequestMapping("/userLogout")
     @ResponseBody
-    public String userLogout(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("------->  start! ");
-        String result = userLoginService.userLogout(request, response);
-        logger.info("------->  end! " +
-                " result = " + result);
-        return result;
+    public String userLogout(HttpSession session) {
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start! ");
+        }
+        session.removeAttribute("user");
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  end!");
+        }
+        return ReturnCode.SUCCESS;
     }
 
     @RequestMapping("/getPublicKey")
     @ResponseBody
     public String getPublicKey(HttpSession session) {
         String sessionId = session.getId();
-        logger.info("------->  start! " +
-                "   session ID = " + sessionId);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start!   session ID = {}", sessionId);
+        }
         String result = userLoginService.getPublicKey(sessionId);
-        logger.info("------->  end!  publicKey = " + result);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  end!  publicKey = {}", result);
+        }
         return result;
     }
 }

@@ -8,8 +8,8 @@ import com.parse.ppt.poi.entity.PoiPPT;
 import com.parse.ppt.poi.service.common.PoiService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 @Service
 public class PoiPptServiceImpl implements PoiPptService {
-    private Logger logger = LogManager.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final PoiService poiService;
     private final No1PptService no1PptService;
@@ -34,56 +34,83 @@ public class PoiPptServiceImpl implements PoiPptService {
         this.poiPptDao = poiPptDao;
     }
 
+    /**
+     * 根据多个 keyword关键词 按关联程度 模糊搜索符合条件的No1PPT对象
+     *
+     * @param keywordsList 包含关键词的List
+     * @return 包含No1PPT对象的List - 内部使用了LinkedHashSet存储数据 保证去重 | 保证了有序
+     */
+    public List<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList) {
+//        try {
+//            logger.info("------->  start!   keywordsList = " + keywordsList);
+//            Set<No1PPT> resultSet = new LinkedHashSet<>();
+//            List<List<String>> keywordCombinationList = new ArrayList<>();
+//            for (int i = 1; i <= keywordsList.size(); i++) {
+//                combination(keywordsList, new ArrayList<>(), i, keywordCombinationList);
+//            }
+//            // 反转 keywordCombinationList ，使关联度越高的 关键词组List 越靠前
+//            Collections.reverse(keywordCombinationList);
+//            for (List<String> stringList : keywordCombinationList) {
+//                List<No1PPT> resultList = no1PptDao.getNo1PPTByKeyWordsExact(stringList);
+//                resultSet.addAll(resultList);
+//            }
+//            List<No1PPT> resultList = new ArrayList<>(resultSet);
+//            logger.info("------->  end !    resultList = " + resultSet);
+//            return resultList;
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR!  返回 null");
+//            logger.error(e.getMessage());
+//        }
+        return null;
+    }
 
     @Override
     public List<No1PPT> getNo1PptByKeyword(String keywords, HttpSession session) {
-        logger.info("------->  start!" +
-                "   keywords = " + keywords);
-        try {
-            List<String> keywordList = spiltKeywords(keywords);
-            // 根据关键词关联度搜索本地仓库中的No1PPT，存于LinkedHashSet中，保证有序、去重
-            List<No1PPT> no1PPTList = no1PptService.getNo1PPTByKeyWordsRelevancy(keywordList);
-            logger.info("------->  end!" +
-                    "   result = " + no1PPTList);
-            return no1PPTList;
-        } catch (Exception e) {
-            logger.error("------->  ERROR!  return null");
-            logger.error(e.getMessage());
-        }
+        logger.info("------->  start!   keywords = {}", keywords);
+//        try {
+//            List<String> keywordList = spiltKeywords(keywords);
+//            // 根据关键词关联度搜索本地仓库中的No1PPT，存于LinkedHashSet中，保证有序、去重
+//            List<No1PPT> no1PPTList = no1PptService.getNo1PPTByKeyWordsRelevancy(keywordList);
+//            logger.info("------->  end!   result = {}", no1PPTList);
+//            return no1PPTList;
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR!  return null");
+//            logger.error(e.getMessage());
+//        }
         return null;
     }
 
     @Override
     public JSONArray getPoiPPTofMax80(List<No1PPT> no1PPTList) {
         logger.info("------->  start!   no1PPTList = " + no1PPTList);
-        try {
-            // 得到最多 80条 数据，其中所有的PPT 页面都大于7页
-            List<No1PPT> resultList = poiService.selectPPTByPageNum(no1PPTList, 7, 80);
-            JSONArray jsonArray = new JSONArray();
-            int i = 0;
-            for (No1PPT no1PPT : resultList) {
-                String id = String.valueOf(no1PPT.getId());
-                JSONObject json = new JSONObject();
-                json.put("id", id);
-                json.put("description", no1PPT.getSrcDescription());
-                json.put("imgUrl", no1PPT.getSrcImgUrl());
-                // 根据pptId获取到本地仓库  ZeroFilesOutput 目录下对应的PPT文件
-                File pptFile = PathUtil.getNo1PptFile(id);
-                if (pptFile == null) {
-                    logger.error("------->  ERROR!  本地仓库目录【" + PathUtil.getAbsoluteNo1PptPath(id) + "】路径下不存在PPT/PPTX文件！   return null");
-                    json.put("pptName", "");
-                } else {
-                    json.put("pptName", pptFile.getName());
-                }
-                jsonArray.add(json);
-            }
-            logger.info("------->  end!" +
-                    "   JSONArray = " + jsonArray);
-            return jsonArray;
-        } catch (Exception e) {
-            logger.error("------->  ERROR!  return null");
-            logger.error(e.getMessage());
-        }
+//        try {
+//            // 得到最多 80条 数据，其中所有的PPT 页面都大于7页
+//            List<No1PPT> resultList = poiService.selectPPTByPageNum(no1PPTList, 7, 80);
+//            JSONArray jsonArray = new JSONArray();
+//            int i = 0;
+//            for (No1PPT no1PPT : resultList) {
+//                String id = String.valueOf(no1PPT.getId());
+//                JSONObject json = new JSONObject();
+//                json.put("id", id);
+//                json.put("description", no1PPT.getSrcDescription());
+//                json.put("imgUrl", no1PPT.getSrcImgUrl());
+//                // 根据pptId获取到本地仓库  ZeroFilesOutput 目录下对应的PPT文件
+//                File pptFile = PathUtil.getNo1PptFile(id);
+//                if (pptFile == null) {
+//                    logger.error("------->  ERROR!  本地仓库目录【" + PathUtil.getAbsoluteNo1PptPath(id) + "】路径下不存在PPT/PPTX文件！   return null");
+//                    json.put("pptName", "");
+//                } else {
+//                    json.put("pptName", pptFile.getName());
+//                }
+//                jsonArray.add(json);
+//            }
+//            logger.info("------->  end!" +
+//                    "   JSONArray = " + jsonArray);
+//            return jsonArray;
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR!  return null");
+//            logger.error(e.getMessage());
+//        }
         return null;
     }
 
@@ -91,24 +118,24 @@ public class PoiPptServiceImpl implements PoiPptService {
     public String operateForPoiPpt(String no1pptId) {
         logger.info("------->  start!" +
                 "   no1pptId = " + no1pptId);
-        try {
-            No1PPT ppt = no1PptService.getNo1PptById(no1pptId);
-            Map<No1PPT, int[]> resultMap = poiService.selectPPT(ppt, 7);
-            String result = null;
-            if (resultMap != null && resultMap.size() == 1) {
-                for (No1PPT no1PPT : resultMap.keySet()) {
-                    result = poiService.rebuildPPT(no1PPT, resultMap.get(no1PPT));
-                }
-            } else {
-                result = ReturnCode.FAILED;
-            }
-            logger.info("------->  end!" +
-                    "   result = " + result);
-            return result;
-        } catch (Exception e) {
-            logger.error("------->  ERROR!  return FAILED");
-            logger.error(e.getMessage());
-        }
+//        try {
+//            No1PPT ppt = no1PptService.getNo1PptById(no1pptId);
+//            Map<No1PPT, int[]> resultMap = poiService.selectPPT(ppt, 7);
+//            String result = null;
+//            if (resultMap != null && resultMap.size() == 1) {
+//                for (No1PPT no1PPT : resultMap.keySet()) {
+//                    result = poiService.rebuildPPT(no1PPT, resultMap.get(no1PPT));
+//                }
+//            } else {
+//                result = ReturnCode.FAILED;
+//            }
+//            logger.info("------->  end!" +
+//                    "   result = " + result);
+//            return result;
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR!  return FAILED");
+//            logger.error(e.getMessage());
+//        }
         return ReturnCode.FAILED;
     }
 
@@ -170,30 +197,30 @@ public class PoiPptServiceImpl implements PoiPptService {
     public String ppt2img(String poipptId) {
         logger.info("------->  start!" +
                 "  poipptId = " + poipptId);
-        try {
-            String result = poiService.ppt2imgs(poipptId, PptTag.TYPE_POI_REBUILD);
-            logger.info("------->  end!" +
-                    "   result = " + result);
-            return result;
-        } catch (Exception e) {
-            logger.error("------->  ERROR! result = " + ReturnCode.FAILED);
-            logger.error(e.getMessage());
-        }
+//        try {
+//            String result = poiService.ppt2imgs(poipptId, PptTag.TYPE_POI_REBUILD);
+//            logger.info("------->  end!" +
+//                    "   result = " + result);
+//            return result;
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR! result = " + ReturnCode.FAILED);
+//            logger.error(e.getMessage());
+//        }
         return ReturnCode.FAILED;
     }
 
     @Override
     public int getImgsNum(String poipptID) {
-        try {
-            logger.info("------->  start!" +
-                    "   pptId = " + poipptID);
-            int result = poiService.getImgsNum(poipptID, PptTag.TYPE_POI_REBUILD);
-            logger.info("------->  end ! result = " + result);
-            return result;
-        } catch (Exception e) {
-            logger.error("------->  ERROR!  返回 -1 ");
-            logger.error(e.getMessage());
-        }
+//        try {
+//            logger.info("------->  start!" +
+//                    "   pptId = " + poipptID);
+//            int result = poiService.getImgsNum(poipptID, PptTag.TYPE_POI_REBUILD);
+//            logger.info("------->  end ! result = " + result);
+//            return result;
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR!  返回 -1 ");
+//            logger.error(e.getMessage());
+//        }
         return -1;
     }
 
@@ -236,15 +263,15 @@ public class PoiPptServiceImpl implements PoiPptService {
     @Scheduled(cron = "0 0 2 * * ?")
     public void opForPoiPpt() {
         logger.info("------->  定时任务---处理本地仓库中所有PPT start!");
-        try {
-            List<No1PPT> no1PPTList = no1PptService.getAllNo1Ppts();
-            List<Map<No1PPT, int[]>> resultNo1PPTList = poiService.selectPPTSync(no1PPTList, 7);
-            String result = poiService.rebuildPPTSync(resultNo1PPTList);
-            logger.info("------->  定时任务---处理本地仓库中所有PPT end!   result = " + result);
-        } catch (Exception e) {
-            logger.error("------->  ERROR!");
-            logger.error(e.getMessage());
-        }
+//        try {
+//            List<No1PPT> no1PPTList = no1PptService.getAllNo1Ppts();
+//            List<Map<No1PPT, int[]>> resultNo1PPTList = poiService.selectPPTSync(no1PPTList, 7);
+//            String result = poiService.rebuildPPTSync(resultNo1PPTList);
+//            logger.info("------->  定时任务---处理本地仓库中所有PPT end!   result = " + result);
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR!");
+//            logger.error(e.getMessage());
+//        }
     }
 
     /**

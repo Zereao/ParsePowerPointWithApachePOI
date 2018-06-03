@@ -1,17 +1,18 @@
 package com.parse.ppt.poi.dao;
 
-import com.parse.ppt.poi.entity.No1PPT;
 import com.parse.ppt.poi.entity.UserDownloadHistory;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author Jupiter
- * @date 2018/03/08/18:13
+ * @version 2018/03/08/18:13
  */
 @Repository
 public interface UserDownloadHistoryDao {
@@ -27,8 +28,12 @@ public interface UserDownloadHistoryDao {
             + "     WHERE 1=1 "
             + "	    LIMIT #{pageIndex, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER} "
             + "</script>")
-    @ResultMap("com.parse.ppt.poi.dao.UserDownloadHistoryDao.BaseResultMap")
-    List<No1PPT> getHistoryByEmail(String email);
+    @Results({
+            @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
+            @Result(column = "email", property = "email", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "ppt_id", property = "pptId", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "ppt_type", property = "pptType", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+    List<UserDownloadHistory> getHistoryByEmail(String email);
 
     /**
      * 增加用户的No1PPT的下载历史

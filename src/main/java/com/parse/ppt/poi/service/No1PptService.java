@@ -11,23 +11,10 @@ import java.util.Set;
 
 /**
  * @author Jupiter
+ * @version 2018/05/29 14:38
  */
 @Service
 public interface No1PptService {
-    /**
-     * 查出数据库中所有的No1PPT对象
-     *
-     * @return 对应的No1PPT对象List
-     */
-    List<No1PPT> getAllNo1Ppts();
-
-    /**
-     * 根据No1PPT的ID查询 No1PPT 的信息
-     *
-     * @param no1PptId No1PPT对象的ID
-     * @return 对应的No1PPT对象
-     */
-    No1PPT getNo1PptById(String no1PptId);
 
     /**
      * 数据库分页查询 No1PPT 的信息
@@ -46,54 +33,6 @@ public interface No1PptService {
      */
     JSONArray getNo1PptWithSize40(int pageIndex);
 
-    /**
-     * 根据 keyword 关键词模糊搜索符合条件的No1PPT对象
-     *
-     * @param keyword 关键词，用来模糊搜索符合条件的关键字
-     * @return 包含No1PPT对象的List
-     */
-    List<No1PPT> getNo1PPTByKeyWordFuzzy(String keyword);
-
-    /**
-     * 根据多个 keyword 关键词模糊搜索符合条件的No1PPT对象
-     *
-     * @param keywordsList 包含关键词的List
-     * @return 包含No1PPT对象的List
-     */
-    List<No1PPT> getNo1PPTByKeyWordsFuzzy(List<String> keywordsList);
-
-    /**
-     * 根据多个 keyword关键词 按关联程度 模糊搜索符合条件的No1PPT对象
-     *
-     * @param keywordsList 包含关键词的List
-     * @return 包含No1PPT对象的List - 内部使用了LinkedHashSet存储数据 保证去重 | 保证了有序
-     */
-    List<No1PPT> getNo1PPTByKeyWordsRelevancy(List<String> keywordsList);
-
-    /**
-     * 精确搜索同时包含keywordsList中所有关键词的No1PPT
-     *
-     * @param keywordsList 包含关键词的List
-     * @return 同时包含keywordsList中所有关键词的No1PPTList
-     */
-    List<No1PPT> getNo1PPTByKeyWordsExact(List<String> keywordsList);
-
-    /**
-     * 增加 ppt 的信息对象
-     *
-     * @param ppt 爬取到的 ppt 的信息对象
-     * @return 返回码
-     */
-    String addNo1PPT(No1PPT ppt);
-
-    /**
-     * 更新No1PPT的信息——修改压缩包中的PPT文件的文件名
-     *
-     * @param no1PptId    No1PPT的ID
-     * @param pptFileName 压缩包中的PPT文件的文件名
-     * @return ReturnCode - 返回码
-     */
-    String updateNo1PPTFileName(String no1PptId, String pptFileName);
 
     /**
      * 根据前端传递过来的 no1PptID，获取到PPT的相关信息

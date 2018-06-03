@@ -52,14 +52,13 @@ function adjustHeightOfPage(pageNo) {
 
 // index.jsp页面初始化
 function onMainPageLoad() {
-    getUserLoginStatus();
-    getInitializeInfo();
+    var userLoginStatus = getInitializeInfo();
     // 监听 id 为 login 的控件的鼠标左右键点击事件
     $('#login').mousedown(function (e) {
         if (e.which === 1) {
             // alert('这是左键单击事件');
             if (userLoginStatus === 0) {
-                window.location.href = "pages/login.jsp";
+                window.location.href = "../../pages/login.jsp";
             }
         } else if (e.which === 3) {
             if (userLoginStatus === 1) {
@@ -79,8 +78,9 @@ function onMainPageLoad() {
 }
 
 function getInitializeInfo() {
+    var userLoginStatus = 0;
     $.ajax({
-        type: "post",
+        type: "get",
         url: "/initialize/getInitializeInfo",
         produces: "text/html;charset=UTF-8",
         async: false,
@@ -88,6 +88,7 @@ function getInitializeInfo() {
             alert("获取主页初始化信息出现未知错误！");
         },
         success: function (data) {
+            userLoginStatus = data.userLoginStatus;
             var loginControlSelector = $("#login");
             var id_1_Selector = $("#myID_0_1");
             loginControlSelector.attr("title", data.welcomeTitle);
@@ -105,6 +106,7 @@ function getInitializeInfo() {
             myID_1_2_Selector.html(tabInstead + data.essayContent);
         }
     });
+    return userLoginStatus;
 }
 
 var isFirstClick_no1ppt = 0;

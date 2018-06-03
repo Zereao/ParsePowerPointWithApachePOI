@@ -31,7 +31,7 @@
 
     <!-- dao 所在的包名，Spring 会自动查找其下的类/接口 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.parse.ppt.poi.dao.persistence"/>
+        <property name="basePackage" value="com.parse.ppt.poi.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 

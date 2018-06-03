@@ -13,4 +13,13 @@
                                             classpath:properties/mail_config.properties,
                                             classpath:properties/redis_config.properties"/>
 
+    <!-- 与上面的配置等价，下面的更容易理解 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property
+                name="locations"> <!-- PropertyPlaceholderConfigurer类中有个locations属性，接收的是一个数组，即我们可以在下面配好多个properties文件 -->
+            <array>
+                <value>classpath:test-properties/db_config.properties</value>
+            </array>
+        </property>
+    </bean>
 </beans>

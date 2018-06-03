@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Jupiter
- * @date 2018/03/05/13:55
+ * @version 2018/03/05/13:55
  */
 @Service
 public class SpiderServiceImpl implements SpiderService {
@@ -38,28 +38,29 @@ public class SpiderServiceImpl implements SpiderService {
             List<No1PPT> resultMapList = new ArrayList<>();
             String url = "http://www.1ppt.com/moban/ppt_moban_" + pageIndex.trim() + ".html";
             Document doc = Jsoup.connect(url).get();
-            // <div class="w center mt4"> ... </div>  取得这个 <div> 中间的所有元素
             Elements fatherDivElements = doc.getElementsByClass("w center mt4");
-            // 记住下面这种写法
             Elements ulElements = fatherDivElements.select("ul[class^=tplist]");
             Elements liElements = ulElements.select("li");
-            //  这里这个result 无实用意义
             for (Element eachElement : liElements) {
-                // 取<li>标签的子标签<a>下面的<img>标签的内容
                 Elements imgSrc = eachElement.select("a").select("img");
                 String imgSrcInfo = imgSrc.toString();
                 String[] infoArray = imgSrcInfo.split(" ");
                 // 资源缩略图链接
-                String srcImgUrl = infoArray[1].trim().replace("src=\"", "").replace("\"", "");
+                String imgUrl = infoArray[1].trim().replace("src=\"", "").replace("\"", "");
                 // 资源介绍
-                String srcDescription = infoArray[2].trim().replace("alt=\"", "").replace("\">", "");
+                String description = infoArray[2].trim().replace("alt=\"", "").replace("\">", "");
                 // 取<li>标签下的子标签<h2>下面的<a>标签的内容
                 Elements downloadPage = eachElement.select("h2").select("a");
                 String[] urlArray = downloadPage.toString().split(" ");
-                // 操作字符串得到该PPT下载页面的链接
                 String downloadPageUrl = "http://www.1ppt.com" + urlArray[1].trim().replace("href=\"", "").replace("\"", "");
                 String downloadUrl = getDownloadUrl(downloadPageUrl);
+                // 组装No1PPT的信息
                 No1PPT no1PPT = new No1PPT();
+                no1PPT.setDescription(description);
+                no1PPT.setDownloadPageUrl(downloadPageUrl);
+                no1PPT.setDownloadUrl(downloadUrl);
+                no1PPT.setImgUrl(imgUrl);
+
                 no1PptDao.addNo1PPT(no1PPT);
                 resultMapList.add(no1PPT);
             }
@@ -74,9 +75,7 @@ public class SpiderServiceImpl implements SpiderService {
 
     @Override
     public List<String> BaiduPicSpider(int pageIndex, String keyWord) {
-        logger.info("------->  start! " +
-                "   pageIndex = " + pageIndex +
-                "   keyWord = " + keyWord);
+        logger.info("------->  start!   pageIndex = {}   keyWord = {}", pageIndex, keyWord);
         try {
             String userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36";
             String baseUrl = "https://image.baidu.com/search/index?ct=&z=&tn=baiduimage&ipn=r&word=";
@@ -98,8 +97,7 @@ public class SpiderServiceImpl implements SpiderService {
                     resultList.add(imgUrl);
                 }
             }
-            logger.info("------->  end!" +
-                    "   resultList = " + resultList);
+            logger.info("------->  end!   resultList = {}", resultList);
             return resultList;
         } catch (Exception e) {
             logger.error("------->  ERROR!");

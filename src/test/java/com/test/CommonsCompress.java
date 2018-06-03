@@ -3,7 +3,6 @@ package com.test;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.*;
@@ -45,11 +44,11 @@ public class CommonsCompress {
             final File[] files = pathFile.listFiles();
             if (files != null && files.length == 1 && files[0].isDirectory()) {
                 // 说明只有一个文件夹
-                FileUtils.copyDirectory(files[0], pathFile);
+//                FileUtils.copyDirectory(files[0], pathFile);
                 //免得删除错误， 删除的文件必须在/data/demand/目录下。
                 boolean isValid = files[0].getPath().contains("/data/www/");
                 if (isValid) {
-                    FileUtils.forceDelete(files[0]);
+//                    FileUtils.forceDelete(files[0]);
                 }
             }
             System.out.println("******************解压完毕********************");

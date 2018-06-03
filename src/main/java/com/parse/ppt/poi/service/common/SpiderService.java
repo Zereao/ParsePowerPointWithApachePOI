@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author Jupiter
- * @date 2018/03/05/13:54
+ * @version 2018/03/05/13:54
  */
 @Service
 public interface SpiderService {

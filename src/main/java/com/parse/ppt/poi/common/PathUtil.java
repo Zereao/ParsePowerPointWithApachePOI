@@ -1,179 +1,203 @@
 package com.parse.ppt.poi.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 自己定义的 路径工具类，通过出入的参数，得到对应的绝对路径
+ *
+ * @author Jupiter
+ * @version 2018/03/07 23:30
+ */
 @SuppressWarnings("WeakerAccess")
 public class PathUtil {
+    /*
+     * 目录结构：
+     *
+     * FilesHub-
+     *         -PPT-
+     *             -No1PPT
+     *             -PoiPPT
+     *         -Img-
+     *             -No1PPT2Img
+     *             -PoiPPT2Img
+     *             -BaiDuImg
+     *         -ZipedPPT
+     *         -Other
+     * */
+
+    private static final Logger logger = LoggerFactory.getLogger(PathUtil.class);
+
+    /**
+     * 公用方法，如果路径对应的一个或多个文件夹不存在，则创建它们
+     *
+     * @param path 目标路径
+     */
+    public static void mkDirsIfNotExists(String path) {
+        File file = new File(path);
+        boolean isExists = file.exists();
+        boolean isMkDirs = false;
+        if (!isExists) {
+            isMkDirs = file.mkdirs();
+        }
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   file.exists() = {}，  file.mkdirs() = {}", isExists, isMkDirs);
+        }
+    }
+
     /**
      * 公用方法，获取到当前项目的根目录
      *
-     * @return ${AbsoluteProjectPath}/
+     * @return ${ProjectPath}/
      */
-    public static String getAbsoluteProjectPath() {
+    public static String getProjectPath() {
         String targetRegex = "^(/)|((target/ParsePowerPointWithApachePOI/WEB-INF/classes/)|(target/test-classes/))";
         return PathUtil.class.getResource("/").getPath().replaceAll(targetRegex, "");
     }
 
     /**
-     * 公用方法，获取到当前项目的本地资源根目录
+     * 公用方法，获取到当前项目的本地资源仓库根目录
      *
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/
+     * @return ${ProjectPath}/FilesHub/
      */
-    public static String getAbsoluteLocalResourcesPath() {
-        return getAbsoluteProjectPath() + "/ZeroFilesOutput/";
+    public static String getFilesHubPath() {
+        return getProjectPath() + "/FilesHub/";
     }
 
     /**
      * 公用方法，获取到当前项目的本地PPT资源目录
      *
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/
+     * @return ${ProjectPath}/FilesHub/PPT/
      */
-    public static String getAbsolutePptPath() {
-        return getAbsoluteLocalResourcesPath() + "ppts/";
+    public static String getPptPath() {
+        return getFilesHubPath() + "PPT/";
     }
 
     /**
      * 公用方法，获取到当前项目的本地PPT转图片后的图片目录
      *
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppt2imgs/
+     * @return ${ProjectPath}/FilesHub/Img/
      */
-    public static String getAbsolutePpt2ImgPath() {
-        return getAbsoluteLocalResourcesPath() + "ppt2imgs/";
+    public static String getImgPath() {
+        return getFilesHubPath() + "Img/";
     }
 
-    /* 百度图片路径 */
-
     /**
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/baiduImgs/
+     * @return ${ProjectPath}/FilesHub/PPT/No1PPT/
      */
-    public static String getAbsoluteBaiduImgPath() {
-        return getAbsoluteLocalResourcesPath() + "baiduImgs/";
+    public static String getNo1PptBasePath() {
+        return getPptPath() + "No1PPT/";
     }
 
-    /* 获取No1PPT处理路径的相关方法 */
-
     /**
-     * @param no1pptId no1pptId
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/no1ppts/${no1pptId}/
+     * @return ${ProjectPath}/FilesHub/PPT/PoiPPT/
      */
-    public static String getAbsoluteNo1PptPath(String no1pptId) {
-        return getAbsolutePptPath() + "no1ppts/" + no1pptId + "/";
+    public static String getPoiPptBasePath() {
+        return getPptPath() + "PoiPPT/";
     }
 
     /**
      * @param no1pptId no1pptId
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppt2imgs/no1ppt2imgs/${no1pptId}/
+     * @return ${ProjectPath}/FilesHub/PPT/No1PPT/${no1pptId}/
      */
-    public static String getAbsoluteNo1PPT2imgPath(String no1pptId) {
-        return getAbsolutePpt2ImgPath() + "no1ppt2imgs/" + no1pptId + "/";
+    public static String getNo1PptPath(String no1pptId) {
+        String targetPath = getNo1PptBasePath() + no1pptId + "/";
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   targetPath = {}", targetPath);
+        }
+        mkDirsIfNotExists(targetPath);
+        return targetPath;
     }
 
     /**
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/zipedNo1ppts/
+     * @param no1pptId PoiPPT对象对应的no1pptId
+     * @return ${ProjectPath}/FilesHub/PPT/PoiPPT/${no1pptId}/
      */
-    public static String getAbsoluteZipedNo1PptPath() {
-        return getAbsolutePptPath() + "zipedNo1ppts/";
+    public static String getPoiPptPath(String no1pptId) {
+        String targetPath = getPoiPptBasePath() + no1pptId + "/";
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   targetPath = {}", targetPath);
+        }
+        mkDirsIfNotExists(targetPath);
+        return targetPath;
+    }
+
+
+    /**
+     * @param no1pptId no1pptId
+     * @return ${ProjectPath}/FilesHub/PPT2Img/No1PPT2Img/${no1pptId}/
+     */
+    public static String getNo1Ppt2ImgPath(String no1pptId) {
+        String targetPath = getImgPath() + "No1PPT2Img/" + no1pptId + "/";
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   targetPath = {}", targetPath);
+        }
+        mkDirsIfNotExists(targetPath);
+        return targetPath;
     }
 
     /**
-     * 根据 pptId获取到对应目录下的第一个 ppt/pptx 文件，如果文件不存在则返回Null
+     * 根据 no1pptId获取到对应目录下的第一个No1PPT对应的ppt/pptx 文件，如果文件不存在则返回Null
      *
      * @param no1pptId no1pptId
-     * @return ppt的File对象
+     * @return ppt的File对象<br>如果文件不存在，则返回null
      */
     public static File getNo1PptFile(String no1pptId) {
-        File[] files = new File(getAbsoluteNo1PptPath(no1pptId)).listFiles();
+        File[] files = new File(getNo1PptPath(no1pptId)).listFiles();
         List<File> fileList = new ArrayList<>();
         getPptFileList(files, fileList);
         if (fileList.size() > 0) {
-            return fileList.get(0);
+            File file = fileList.get(0);
+            if (logger.isDebugEnabled()) {
+                logger.info("------->   targetFile = {}", file.getAbsolutePath());
+            }
+            return file;
+        }
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   targetFile = [null]");
         }
         return null;
     }
 
-    /* 获取PoiPPT-Rebuild处理路径的相关方法 */
-
     /**
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/
+     * @param no1pptId PoiPPT对象对应的no1pptId
+     * @return ${ProjectPath}/FilesHub/ppt2imgs/PoiPPT/${no1pptId}/
      */
-    public static String getAbsolutePoiRebuildPptPath() {
-        return getAbsolutePptPath() + "PoiPPTS/Rebuild/";
+    public static String getPoiPpt2imgPath(String no1pptId) {
+        String targetPath = getImgPath() + "/PoiPPT/" + no1pptId + "/";
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   targetPath = {}", targetPath);
+        }
+        mkDirsIfNotExists(targetPath);
+        return targetPath;
     }
 
     /**
-     * @param poiPptId poiPptId
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Rebuild/${poiPptId}/
+     * 根据 no1pptId获取到对应目录下的第一个PoiPPT对应的ppt/pptx 文件，如果文件不存在则返回Null
+     *
+     * @param no1pptId PoiPPT对应的no1pptId
+     * @return ppt的File对象<br>如果文件不存在，则返回null
      */
-    public static String getAbsolutePoiRebuildPptPath(String poiPptId) {
-        return getAbsolutePptPath() + "PoiPPTS/Rebuild/" + poiPptId + "/";
+    public static File getPoiPptFile(String no1pptId) {
+        File[] files = new File(getPoiPptPath(no1pptId)).listFiles();
+        List<File> fileList = new ArrayList<>();
+        getPptFileList(files, fileList);
+        if (fileList.size() > 0) {
+            File file = fileList.get(0);
+            if (logger.isDebugEnabled()) {
+                logger.info("------->   targetFile = {}", file.getAbsolutePath());
+            }
+            return file;
+        }
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   targetFile = [null]");
+        }
+        return null;
     }
-
-    /**
-     * @param poiPptId poiPptId
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppt2imgs/PoiPPTS/Rebuild/${poiPptId}/
-     */
-    public static String getAbsolutePoiRebuildPPT2imgPath(String poiPptId) {
-        return getAbsolutePpt2ImgPath() + "/PoiPPTS/Rebuild/" + poiPptId + "/";
-    }
-
-    /* 获取PoiPPT-Generate处理路径的相关方法 */
-
-    /**
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Generate/
-     */
-    public static String getAbsolutePoiGeneratePptPath() {
-        return getAbsolutePptPath() + "PoiPPTS/Generate/";
-    }
-
-    /**
-     * @param poiPptId poiPptId
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppts/PoiPPTS/Generate/${poiPptId}/
-     */
-    public static String getAbsolutePoiGeneratePptPath(String poiPptId) {
-        return getAbsolutePptPath() + "PoiPPTS/Generate/" + poiPptId + "/";
-    }
-
-    /**
-     * @param poiPptId poiPptId
-     * @return ${AbsoluteProjectPath}/ZeroFilesOutput/ppt2imgs/PoiPPTS/Generate/${poiPptId}/
-     */
-    public static String getAbsolutePoiGeneratePPT2imgPath(String poiPptId) {
-        return getAbsolutePpt2ImgPath() + "/PoiPPTS/Generate/" + poiPptId + "/";
-    }
-
-//    public static String getAbsolutePoiPptPathByTag(String pptTag) {
-//        String targetPath = null;
-//        switch (pptTag) {
-//            case PptTag.TYPE_POI_REBUILD:
-//                targetPath = getAbsolutePoiRebuildPptPath();
-//                break;
-//            case PptTag.TYPE_POI_GENERATE:
-//                targetPath = getAbsolutePoiGeneratePptPath();
-//                break;
-//            default:
-//                targetPath = null;
-//                break;
-//        }
-//        if (targetPath != null) {
-//            File file = new File(targetPath);
-//            if (!file.exists()) {
-//                boolean isMkdirs = file.mkdirs();
-//            }
-//            int folderNumIndex = 1;
-//            File[] folders = file.listFiles();
-//            if (folders != null) {
-//                folderNumIndex = folders.length + 1;
-//            }
-//            targetPath = targetPath + folderNumIndex + "/";
-//            file = new File(targetPath);
-//            if (!file.exists()) {
-//                boolean isMkdirs = file.mkdirs();
-//            }
-//        }
-//        return targetPath;
-//    }
 
     /**
      * 递归删除 folder 目录以及其目录下所有的 文件、文件夹
@@ -218,4 +242,29 @@ public class PathUtil {
         }
     }
 
+//  下面的方法暂时备用
+
+    /* PPT 压缩包存储路径 */
+
+    /**
+     * @return ${ProjectPath}/FilesHub/ZipedPPT/
+     */
+    public static String getZipedPPTPath() {
+        String targetPath = getFilesHubPath() + "/ZipedPPT/";
+        if (logger.isDebugEnabled()) {
+            logger.info("------->   targetPath = {}", targetPath);
+        }
+        mkDirsIfNotExists(targetPath);
+        return targetPath;
+    }
+
+
+    /* 百度图片路径 */
+
+    /**
+     * @return ${ProjectPath}/FilesHub/Img/BaiDuImg
+     */
+    public static String getBaiduImgPath() {
+        return getImgPath() + "BaiDuImg/";
+    }
 }

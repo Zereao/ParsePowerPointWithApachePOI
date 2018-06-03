@@ -4,8 +4,8 @@ import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
 import com.parse.ppt.poi.dao.No1PptDao;
 import com.parse.ppt.poi.entity.No1PPT;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,12 @@ import java.util.List;
 
 /**
  * @author Jupiter
- * @date 2018/03/08/16:45
+ * @version 2018/03/08/16:45
  */
-@Service
+//@Service
+@Deprecated
 public class FileDownloadServiceImpl implements FileDownloadService {
-    private Logger logger = LogManager.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36";
 
@@ -34,12 +35,10 @@ public class FileDownloadServiceImpl implements FileDownloadService {
 
     @Override
     public String downloadZipedNo1PPT(No1PPT no1PPT) {
-        logger.info("------->  start!" +
-                "   no1PPT = " + no1PPT);
+        logger.info("------->  start!   no1PPT = {}", no1PPT);
         try {
-            downloadNo1PPT(no1PPT);
-            logger.info("------->  end!" +
-                    "   result = " + ReturnCode.SUCCESS);
+            zipedPPTDownloader(no1PPT);
+            logger.info("------->  end!   result = {}", ReturnCode.SUCCESS);
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
             logger.error("------->  ERROR!  return FAILED");
@@ -52,10 +51,9 @@ public class FileDownloadServiceImpl implements FileDownloadService {
     public String downloadZipedNo1ppts(List<No1PPT> no1PPTList) {
         //        已知数据库中存在1720条数据
         try {
-            logger.info("------->  start!" +
-                    "   no1PPTList = " + no1PPTList);
+            logger.info("------->  start!   no1PPTList = {}", no1PPTList);
             for (No1PPT no1PPT : no1PPTList) {
-                downloadNo1PPT(no1PPT);
+                zipedPPTDownloader(no1PPT);
             }
             logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;
@@ -64,12 +62,6 @@ public class FileDownloadServiceImpl implements FileDownloadService {
             logger.error(e.getMessage());
         }
         return ReturnCode.FAILED;
-    }
-
-    @Override
-    public String downloadZipedNo1pptsSync(List<No1PPT> no1PPTList) {
-
-        return null;
     }
 
     @Override
@@ -107,9 +99,8 @@ public class FileDownloadServiceImpl implements FileDownloadService {
                 "   no1PPT = " + no1PPT);
         try {
             int pptId = no1PPT.getId();
-            String imgUrl = no1PPT.getSrcImgUrl();
-            // count_name 作为文件名的数量标记，文件名最终为  1.jpg 2.png 3.jpg 4.gif 等
-            final String pptPath = PathUtil.getAbsoluteNo1PptPath(String.valueOf(pptId)) + pptId + ".png";
+            String imgUrl = no1PPT.getImgUrl();
+            final String pptPath = PathUtil.getNo1PptPath(String.valueOf(pptId)) + pptId + ".png";
             boolean isDownloadSuccess = imgDownloader(imgUrl, pptPath);
             logger.info("------->  end!  result = " + isDownloadSuccess);
             if (isDownloadSuccess) {
@@ -130,9 +121,9 @@ public class FileDownloadServiceImpl implements FileDownloadService {
         try {
             for (No1PPT no1PPT : no1PPTList) {
                 int pptId = no1PPT.getId();
-                String imgUrl = no1PPT.getSrcImgUrl();
+                String imgUrl = no1PPT.getImgUrl();
                 // count_name 作为文件名的数量标记，文件名最终为  1.jpg 2.png 3.jpg 4.gif 等
-                final String pptPath = PathUtil.getAbsoluteNo1PptPath(String.valueOf(pptId)) + pptId + ".png";
+                final String pptPath = PathUtil.getNo1PptPath(String.valueOf(pptId)) + pptId + ".png";
                 boolean isDownloadSuccess = imgDownloader(imgUrl, pptPath);
                 if (!isDownloadSuccess) {
                     logger.error("------->  ERROR!  no1PPT = " + no1PPT);
@@ -188,7 +179,7 @@ public class FileDownloadServiceImpl implements FileDownloadService {
         try {
             // count_name 作为文件名的数量标记，文件名最终为  1.jpg 2.png 3.jpg 4.gif 等
             int count_name = 1;
-            final String BASE_PATH = PathUtil.getAbsoluteBaiduImgPath();
+            final String BASE_PATH = PathUtil.getBaiduImgPath();
             File tempFile = new File(BASE_PATH);
             if (!tempFile.exists()) {
                 boolean isCreate = tempFile.mkdir();
@@ -229,28 +220,24 @@ public class FileDownloadServiceImpl implements FileDownloadService {
      *
      * @param no1PPT 文件保存路径
      */
-    private void downloadNo1PPT(No1PPT no1PPT) {
-        logger.info("------->  start!" +
-                "   no1PPT = " + no1PPT);
+    private void zipedPPTDownloader(No1PPT no1PPT) {
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start!   no1PPT = {}", no1PPT);
+        }
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
             int pptId = no1PPT.getId();
-            String pptPath = PathUtil.getAbsoluteZipedNo1PptPath();
-            // 如果路径文件夹不存在，则创建
-            File file = new File(pptPath);
-            if (!file.exists()) {
-                boolean isMkDirs = file.mkdirs();
-            }
+            String zipedPPTPath = PathUtil.getZipedPPTPath();
             String downloadUrl = no1PPT.getDownloadUrl().trim();
             String downloadPageUrl = no1PPT.getDownloadPageUrl();
-            String pptExt = downloadUrl.substring(downloadUrl.length() - 4);
+            String pptExt = downloadUrl.substring(downloadUrl.lastIndexOf("."));
             HttpURLConnection conn = (HttpURLConnection) new URL(downloadUrl).openConnection();
             conn.setRequestProperty("User-Agent", USER_AGENT);
             conn.setRequestProperty("referer", downloadPageUrl);
             inputStream = conn.getInputStream();
-            // 创建输出流  最后的文件名  例子：  E:\ParsePowerPointWithApachePOI\ZeroFilesOutput\NO1PPTS\1\1.rar
-            outputStream = new FileOutputStream(pptPath + pptId + pptExt);
+            // 创建输出流  最后的文件名  例子：  E:/ParsePowerPointWithApachePOI/FilesHub/ZipedPPT/1.rar
+            outputStream = new FileOutputStream(zipedPPTPath + pptId + pptExt);
             // 创建缓冲区
             byte[] buffer = new byte[1024];
             int len = 0;
@@ -259,19 +246,21 @@ public class FileDownloadServiceImpl implements FileDownloadService {
                 // 输出缓冲区内容到浏览器，实现文件下载
                 outputStream.write(buffer, 0, len);
             }
-            logger.info("------->  end ! SUCCESS");
+            if (logger.isDebugEnabled()) {
+                logger.info("------->  end!   result = {}", ReturnCode.SUCCESS);
+            }
         } catch (Exception e) {
             logger.error("------->  ERROR!");
             logger.error(e.getMessage());
         } finally {
             try {
-                // 关闭文件流
-                if (inputStream != null) {
-                    inputStream.close();
-                }
                 // 关闭输出流
                 if (outputStream != null) {
                     outputStream.close();
+                }
+                // 关闭文件流
+                if (inputStream != null) {
+                    inputStream.close();
                 }
             } catch (IOException e) {
                 logger.error("------->  finally block ERROR!");
@@ -284,21 +273,16 @@ public class FileDownloadServiceImpl implements FileDownloadService {
      * 私有的图片下载方法
      *
      * @param imgUrl          图片的下载地址
-     * @param fileNameAndPath 包含文件名的文件路径    例如： E:\ParsePowerPointWithApachePOI\ZeroFilesOutput\PPT2IMG\1\1.png
+     * @param fileNameAndPath 包含文件名的文件路径    例如： E:/ParsePowerPointWithApachePOI/FilesHub/PPT2Img/1/1.png
      * @return 返回值，是否下载成功
      */
     private boolean imgDownloader(String imgUrl, String fileNameAndPath) {
-        logger.info("------->  start!" +
-                "   imgUrl = " + imgUrl +
-                "   fileNameAndPath = " + fileNameAndPath);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start!   imgUrl = {}   fileNameAndPath = {}", imgUrl, fileNameAndPath);
+        }
         BufferedInputStream bufferedInputStream = null;
         BufferedOutputStream bufferedOutputStream = null;
         try {
-            // 如果文件所在父级目录文件夹不存在，则创建
-            File file = new File(fileNameAndPath).getParentFile();
-            if (!file.exists()) {
-                boolean isMkDirs = file.mkdirs();
-            }
             // 文件路径
             URL url = new URL(imgUrl);
             URLConnection urlConnection = url.openConnection();
@@ -313,12 +297,14 @@ public class FileDownloadServiceImpl implements FileDownloadService {
             bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(fileNameAndPath));
             byte[] temp = new byte[819200];
             //  BufferedInputStream.read()  返回读取的比特数长度；如果返回-1，表示文件结束
-            int count = 0;
-            while ((count = bufferedInputStream.read(temp)) != -1) {
-                bufferedOutputStream.write(temp, 0, count);
+            int len = 0;
+            while ((len = bufferedInputStream.read(temp)) != -1) {
+                bufferedOutputStream.write(temp, 0, len);
                 bufferedOutputStream.flush();
             }
-            logger.info("------->  end!   SUCCESS");
+            if (logger.isDebugEnabled()) {
+                logger.info("------->  end!   SUCCESS");
+            }
             return true;
         } catch (Exception e) {
             logger.error("------->  ERROR!  返回 false ");
@@ -341,21 +327,20 @@ public class FileDownloadServiceImpl implements FileDownloadService {
 
 
     /**
-     * 私有的百度图片下载方法
+     * 私有的百度图片下载方法，实现逻辑就是 调用imgDownloader()方法，下载图片，如果图片下载错误，则删掉错误图片。
      *
      * @param imgUrl          图片的下载地址
      * @param fileNameAndPath 包含文件名的文件路径    例如： E:\ParsePowerPointWithApachePOI\ZeroFilesOutput\PPT2IMG\1\1.png
      * @return 返回值，是否下载成功
      */
     private boolean baiduImgDownloader(String imgUrl, String fileNameAndPath) {
-        logger.info("------->  start!" +
-                "   imgUrl = " + imgUrl +
-                "   fileNameAndPath = " + fileNameAndPath);
+        if (logger.isDebugEnabled()) {
+            logger.info("------->  start!    imgUrl = {}   fileNameAndPath = {}", imgUrl, fileNameAndPath);
+        }
         try {
             boolean downloadSuccess = imgDownloader(imgUrl, fileNameAndPath);
             if (!downloadSuccess) {
-                logger.warn("------->  ERROR!  即将删除掉错误图片文件!" +
-                        "   fileNameAndPath = " + fileNameAndPath);
+                logger.warn("------->  ERROR!  即将删除掉错误图片文件!     filePath = {}", fileNameAndPath);
                 File errorFile = new File(fileNameAndPath);
                 boolean isDeleted = false;
                 if (errorFile.exists()) {

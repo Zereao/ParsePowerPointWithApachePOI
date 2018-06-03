@@ -21,17 +21,23 @@ public interface No1PptDao {
      * @return No1PPT对象List
      */
     @Select(value = "<script>"
-            + "    SELECT *"
+            + "    SELECT id, description, img_url, download_page_url, "
+            + "           download_url, file_name, page_num, file_path, "
+            + "           thumbnail_path, file_ext "
             + "      FROM no1_ppt"
             + "     WHERE 1=1 "
             + "</script>")
     @Results({
             @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
-            @Result(column = "description", property = "srcDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "img_url", property = "srcImgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "img_url", property = "imgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(column = "download_page_url", property = "downloadPageUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
-            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_name", property = "fileName", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "page_num", property = "pageNum", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "file_path", property = "filePath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "thumbnail_path", property = "thumbnailPath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_ext", property = "fileExt", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     List<No1PPT> getAllNo1Ppts();
 
     /**
@@ -41,18 +47,24 @@ public interface No1PptDao {
      * @return No1PPT对象
      */
     @Select(value = "<script>"
-            + "    SELECT *"
+            + "    SELECT id, description, img_url, download_page_url, "
+            + "           download_url, file_name, page_num, file_path, "
+            + "           thumbnail_path, file_ext "
             + "      FROM no1_ppt"
             + "     WHERE 1=1 "
             + "	    AND id = #{no1pptId, jdbcType=INTEGER}"
             + "</script>")
     @Results({
             @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
-            @Result(column = "description", property = "srcDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "img_url", property = "srcImgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "img_url", property = "imgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(column = "download_page_url", property = "downloadPageUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
-            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_name", property = "fileName", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "page_num", property = "pageNum", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "file_path", property = "filePath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "thumbnail_path", property = "thumbnailPath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_ext", property = "fileExt", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     No1PPT getNo1PPTById(@Param("no1pptId") int no1pptId);
 
     /**
@@ -63,18 +75,24 @@ public interface No1PptDao {
      * @return 包含No1PPT对象的List
      */
     @Select(value = "<script>"
-            + "    SELECT *"
+            + "    SELECT id, description, img_url, download_page_url, "
+            + "           download_url, file_name, page_num, file_path, "
+            + "           thumbnail_path, file_ext "
             + "      FROM no1_ppt"
             + "     WHERE 1=1 "
             + "	    LIMIT #{pageIndex, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER} "
             + "</script>")
     @Results({
             @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
-            @Result(column = "description", property = "srcDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "img_url", property = "srcImgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "img_url", property = "imgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(column = "download_page_url", property = "downloadPageUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
-            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_name", property = "fileName", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "page_num", property = "pageNum", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "file_path", property = "filePath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "thumbnail_path", property = "thumbnailPath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_ext", property = "fileExt", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     List<No1PPT> getNo1PPT(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
 
     /**
@@ -85,18 +103,24 @@ public interface No1PptDao {
      * @return 包含No1PPT对象的List
      */
     @Select(value = "<script>"
-            + "    SELECT *"
+            + "    SELECT id, description, img_url, download_page_url, "
+            + "           download_url, file_name, page_num, file_path, "
+            + "           thumbnail_path, file_ext "
             + "      FROM no1_ppt"
             + "     WHERE 1=1 "
             + "	    AND description like \"%${keyword}%\""
             + "</script>")
     @Results({
             @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
-            @Result(column = "description", property = "srcDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "img_url", property = "srcImgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "img_url", property = "imgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(column = "download_page_url", property = "downloadPageUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
-            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_name", property = "fileName", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "page_num", property = "pageNum", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "file_path", property = "filePath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "thumbnail_path", property = "thumbnailPath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_ext", property = "fileExt", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     List<No1PPT> getNo1PPTByKeyWordFuzzy(@Param("keyword") String keyword);
 
     /**
@@ -106,7 +130,9 @@ public interface No1PptDao {
      * @return 包含No1PPT对象的List
      */
     @Select(value = "<script>"
-            + "    SELECT *"
+            + "    SELECT id, description, img_url, download_page_url, "
+            + "           download_url, file_name, page_num, file_path, "
+            + "           thumbnail_path, file_ext "
             + "      FROM no1_ppt"
             + "     WHERE 1=0 "
             + "     <foreach collection=\"keywordsList\" item=\"keyword\" index=\"index\" open=\"\" close=\"\" separator=\"\"> "
@@ -115,11 +141,15 @@ public interface No1PptDao {
             + "</script>")
     @Results({
             @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
-            @Result(column = "description", property = "srcDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "img_url", property = "srcImgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "img_url", property = "imgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(column = "download_page_url", property = "downloadPageUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
-            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_name", property = "fileName", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "page_num", property = "pageNum", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "file_path", property = "filePath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "thumbnail_path", property = "thumbnailPath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_ext", property = "fileExt", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     List<No1PPT> getNo1PPTByKeyWordsFuzzy(@Param("keywordsList") List<String> keywordsList);
 
     /**
@@ -129,7 +159,9 @@ public interface No1PptDao {
      * @return 同时包含keywordsList中所有关键词的No1PPTList
      */
     @Select(value = "<script>"
-            + "    SELECT *"
+            + "    SELECT id, description, img_url, download_page_url, "
+            + "           download_url, file_name, page_num, file_path, "
+            + "           thumbnail_path, file_ext "
             + "      FROM no1_ppt"
             + "     WHERE 1=1 "
             + "     <foreach collection=\"keywordsList\" item=\"keyword\" index=\"index\" open=\"\" close=\"\" separator=\"\"> "
@@ -138,11 +170,15 @@ public interface No1PptDao {
             + "</script>")
     @Results({
             @Result(column = "id", property = "id", javaType = Integer.class, jdbcType = JdbcType.INTEGER, id = true),
-            @Result(column = "description", property = "srcDescription", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "img_url", property = "srcImgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "description", property = "description", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "img_url", property = "imgUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(column = "download_page_url", property = "downloadPageUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.INTEGER),
-            @Result(column = "ppt_file_name", property = "pptFileName", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+            @Result(column = "download_url", property = "downloadUrl", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_name", property = "fileName", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "page_num", property = "pageNum", javaType = Integer.class, jdbcType = JdbcType.INTEGER),
+            @Result(column = "file_path", property = "filePath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "thumbnail_path", property = "thumbnailPath", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(column = "file_ext", property = "fileExt", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
     List<No1PPT> getNo1PPTByKeyWordsExact(@Param("keywordsList") List<String> keywordsList);
 
     /**
@@ -150,32 +186,33 @@ public interface No1PptDao {
      *
      * @param ppt 爬取到的 ppt 的信息对象
      */
-    @Insert(value = "<script>" +
-            "   INSERT INTO no1_ppt (description, img_url, download_page_url, download_url, ppt_file_name)" +
-            "        VALUES (#{srcDescription,jdbcType=VARCHAR}," +
-            "                #{srcImgUrl,jdbcType=VARCHAR}," +
-            "                #{downloadPageUrl,jdbcType=VARCHAR}," +
-            "                #{downloadUrl,jdbcType=VARCHAR})" +
-            "                #{pptFileName,jdbcType=VARCHAR})" +
-            "</script>")
+    @Insert(value = "<script>"
+            + "    INSERT INTO no1_ppt (description, img_url, download_page_url, download_url, file_name, "
+            + "                         page_num, file_path, thumbnail_path, file_ext)"
+            + "         VALUES (#{description, jdbcType=VARCHAR}, #{imgUrl, jdbcType=VARCHAR},"
+            + "                 #{downloadPageUrl, jdbcType=VARCHAR}, #{downloadUrl, jdbcType=VARCHAR},"
+            + "                 #{fileName, jdbcType=VARCHAR}, #{pageNum, jdbcType=INTEGER},"
+            + "                 #{filePath, jdbcType=VARCHAR}, #{thumbnailPath, jdbcType=VARCHAR},"
+            + "                 #{fileExt, jdbcType=VARCHAR})"
+            + "</script>")
     void addNo1PPT(No1PPT ppt);
 
     /**
      * 更新No1PPT的信息——修改压缩包中的No1PPT文件的文件名
      *
-     * @param no1pptId         No1PPT的ID
-     * @param no1pptIdFileName 压缩包中的No1PPT文件的文件名
+     * @param no1pptId No1PPT的ID
+     * @param fileName No1PPT文件的文件名
      */
     @Update(value = "<script>" +
             "   UPDATE no1_ppt" +
             "       <set>" +
-            "           <if test=\"no1pptIdFileName != null\">" +
-            "               ppt_file_name = #{no1pptIdFileName,jdbcType=VARCHAR}," +
+            "           <if test=\"fileName != null\">" +
+            "               file_name = #{fileName, jdbcType=VARCHAR}," +
             "           </if>" +
             "       </set>" +
-            "   WHERE id = #{no1pptId,jdbcType=INTEGER}" +
+            "   WHERE id = #{no1pptId, jdbcType=INTEGER}" +
             "</script>")
     void updateNo1PPTFileName(@Param("no1pptId") int no1pptId,
-                              @Param("no1pptIdFileName") String no1pptIdFileName);
+                              @Param("fileName") String fileName);
 
 }

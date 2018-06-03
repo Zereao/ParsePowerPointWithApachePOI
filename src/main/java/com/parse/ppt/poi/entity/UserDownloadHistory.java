@@ -2,7 +2,7 @@ package com.parse.ppt.poi.entity;
 
 /**
  * @author Jupiter
- * @date 2018/03/08/18:14
+ * @version 2018/03/08/18:14
  */
 public class UserDownloadHistory {
     private int id;

@@ -3,23 +3,16 @@ package com.test;
 import com.parse.ppt.poi.dao.No1PptDao;
 import com.parse.ppt.poi.dao.PoiPptDao;
 import com.parse.ppt.poi.entity.No1PPT;
-import com.parse.ppt.poi.entity.PoiPPT;
-import com.parse.ppt.poi.service.common.RedisCacheService;
-import com.parse.ppt.poi.service.common.ocr.OcrService;
-import com.parse.ppt.poi.service.common.PoiService;
 import com.parse.ppt.poi.service.No1PptService;
-import com.parse.ppt.poi.service.common.SpiderService;
 import com.parse.ppt.poi.service.common.FileDownloadService;
+import com.parse.ppt.poi.service.common.PoiService;
 import com.parse.ppt.poi.service.common.PptxOperateService;
+import com.parse.ppt.poi.service.common.SpiderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jupiter
@@ -38,15 +31,11 @@ public class SpringTest {
     @Autowired
     private No1PptService no1PptService;
     @Autowired
-    private RedisCacheService redisCacheService;
-    @Autowired
     private FileDownloadService fileDownloadService;
     @Autowired
     private PptxOperateService pptxOperateService;
     @Autowired
     private No1PptDao no1PptDao;
-    @Autowired
-    private OcrService ocrService;
     @Autowired
     private PoiService poiService;
     @Autowired
@@ -114,47 +103,8 @@ public class SpringTest {
         Thread.sleep(3600 * 1000);
     }
 
-    @Test
-    public void test3() {
-        String imgPath = "ZeroFilesOutput/baiduImgs/14.png";
-        System.out.println("+++++++++++++++++++++++++++++++++++");
-        List<String> result = null;
-//        result = ocrService.getWordsWithBaiduOCR(imgPath);
-        result = ocrService.getWordsWithTencentOCR(imgPath);
-        System.out.println(result);
-    }
 
-    @Test
-    public void test4() {
-        List<No1PPT> result = no1PptDao.getNo1PPTByKeyWordFuzzy("红色");
-        for (No1PPT no1PPT : result) {
-            System.out.println(no1PPT.getSrcDescription());
-        }
-    }
 
-    @Test
-    public void test5() {
-        List<String> keywordsList = new ArrayList<>();
-        keywordsList.add("红色");
-        keywordsList.add("运动");
-        keywordsList.add("简洁");
-
-        List<No1PPT> no1PPTSet = no1PptService.getNo1PPTByKeyWordsRelevancy(keywordsList);
-        List<No1PPT> listOf20 = new ArrayList<>();
-        int index = 0;
-        for (No1PPT no1PPT : no1PPTSet) {
-            if (index < 16) {
-                listOf20.add(no1PPT);
-            }
-            index++;
-            if (index > 20) {
-                break;
-            }
-        }
-        List<Map<No1PPT, int[]>> resultList = poiService.selectPPTSync(listOf20, 7);
-        String result = poiService.rebuildPPT(resultList);
-
-    }
 
     @Test
     public void test6() {
@@ -163,12 +113,4 @@ public class SpringTest {
         poiService.rebuildPPT(no1PPT, a);
     }
 
-    @Test
-    public void test7() {
-        PoiPPT poiPPT2 = new PoiPPT("001", "1", 45);
-//        poiPptDao.addPoiPPT(poiPPT2);
-        System.out.println(poiPptDao.getPoiPPTByNo1pptId(45));
-        System.out.println("+++++++++++++++++++++++++++++++++");
-        System.out.println(poiPptDao.getPoiPPTById(1));
-    }
 }

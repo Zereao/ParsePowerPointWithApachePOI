@@ -3,8 +3,8 @@ package com.parse.ppt.poi.service.common;
 import com.parse.ppt.poi.common.ReturnCode;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -12,11 +12,11 @@ import java.io.*;
 @Deprecated
 @Service
 public class UnzipServiceImpl implements UnzipService {
-    private Logger logger = LogManager.getLogger(this.getClass());
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public String getPptName(String zipFileName) {
-        logger.info("------->  start!  zipFileName = " + zipFileName);
+        logger.info("------->  start!  zipFileName = {}", zipFileName);
         String zipFilePath = "文件输出/NO1PPTS/" + zipFileName;
         try (
                 InputStream inputStream = new FileInputStream(new File(zipFilePath));
@@ -29,7 +29,7 @@ public class UnzipServiceImpl implements UnzipService {
                 boolean isPPTFile = archiveEntryFileName.toLowerCase().contains(".ppt") ||
                         archiveEntryFileName.toLowerCase().contains(".pptx");
                 if (isPPTFile) {
-                    logger.info("------->  end!  PPT文件的文件名为 = " + archiveEntryFileName);
+                    logger.info("------->  end!  PPT文件的文件名为 = {}", archiveEntryFileName);
                     return archiveEntryFileName;
                 }
             }
@@ -43,7 +43,7 @@ public class UnzipServiceImpl implements UnzipService {
 
     @Override
     public String unzipFileByName(String zipFileName) {
-        logger.info("------->  start!  zipFileName = " + zipFileName);
+        logger.info("------->  start!  zipFileName = {}", zipFileName);
 
         final String BASE_PATH = "文件输出/NO1PPTS/";
         String zipFilePath = BASE_PATH + zipFileName;
@@ -72,10 +72,10 @@ public class UnzipServiceImpl implements UnzipService {
                 outputStream.write(content);
                 outputStream.flush();
             }
-            logger.info("------->  result = " + ReturnCode.SUCCESS);
+            logger.info("------->  result = {}", ReturnCode.SUCCESS);
             return ReturnCode.SUCCESS;
         } catch (Exception e) {
-            logger.error("------->  ERROR!  result = " + ReturnCode.FAILED);
+            logger.error("------->  ERROR!  result = {}", ReturnCode.FAILED);
             logger.error(e.getMessage());
         } finally {
             try {

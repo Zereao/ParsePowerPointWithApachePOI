@@ -1,31 +1,29 @@
 package com.parse.ppt.poi.service.common;
 
 import com.parse.ppt.poi.entity.No1PPT;
-import org.apache.poi.hslf.usermodel.HSLFSlideShow;
+import com.parse.ppt.poi.entity.PoiPPT;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 @Service
 public interface PptOperateService {
-    /**
-     * 把PPT文件转换为PNG格式的图片
-     *
-     * @param pptFile    .PPT格式的PPT文件
-     * @param targetPath 输出文件夹
-     * @return ReturnCode-返回码
-     */
-    String ppt2img(File pptFile, String targetPath);
 
     /**
-     * 判断PPT页码数是否符合条件
+     * 把No1PPT文件的所有幻灯片转换为PNG格式的图片
      *
-     * @param pptFile    .PPT格式的PPT文件
-     * @param minPageNum 最小幻灯片张数
-     * @return true-PPT页码数大于或等于minPageNum<br>
-     * false-PPT页码数小于minPageNum
+     * @param no1PPT .PPT格式的PPT文件
+     * @return 幻灯页张数 - 错误则返回-1
      */
-    boolean isPageMatchCondition(File pptFile, int minPageNum);
+    int ppt2img(No1PPT no1PPT);
+
+    /**
+     * 把PoiPPT文件的所有幻灯片转换为PNG格式的图片
+     *
+     * @param poiPPT .PPT格式的PPT文件
+     * @return 幻灯页张数 - 错误则返回-1
+     */
+    int ppt2img(PoiPPT poiPPT);
 
     /**
      * 重建PPT，去掉NoPPT对象对应的PPT文件中的广告页

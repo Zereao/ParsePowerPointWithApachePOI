@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
  * 用于发送邮件的类
  *
  * @author Jupiter
- * @date 2018/02/27/12:00
+ * @version 2018/02/27/12:00
  */
 @Service
 public interface MailService {

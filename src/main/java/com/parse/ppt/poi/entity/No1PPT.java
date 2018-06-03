@@ -13,6 +13,10 @@ public class No1PPT {
     private String downloadPageUrl;
     private String downloadUrl;
     private String fileName;
+    private Integer pageNum;
+    private String filePath;
+    private String thumbnailPath;
+    private String fileExt;
 
     public Integer getId() {
         return id;
@@ -62,6 +66,38 @@ public class No1PPT {
         this.fileName = fileName;
     }
 
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getThumbnailPath() {
+        return thumbnailPath;
+    }
+
+    public void setThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
+    }
+
+    public String getFileExt() {
+        return fileExt;
+    }
+
+    public void setFileExt(String fileExt) {
+        this.fileExt = fileExt;
+    }
+
     @Override
     public String toString() {
         return "No1PPT{" +
@@ -71,6 +107,10 @@ public class No1PPT {
                 ", downloadPageUrl='" + downloadPageUrl + '\'' +
                 ", downloadUrl='" + downloadUrl + '\'' +
                 ", fileName='" + fileName + '\'' +
+                ", pageNum=" + pageNum +
+                ", filePath='" + filePath + '\'' +
+                ", thumbnailPath='" + thumbnailPath + '\'' +
+                ", fileExt='" + fileExt + '\'' +
                 '}';
     }
 }

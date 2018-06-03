@@ -4,16 +4,17 @@ package com.parse.ppt.poi.entity;
  * 使用Apache-POI 技术操作过的PPT对象
  *
  * @author Jupiter
- * @date 2018/3/25/10:38
+ * @version 2018/3/25/10:38
  */
 public class PoiPPT {
     private Integer id;
-    private String pptDescription;
-    private String typeTag;
+    private String description;
     private Integer no1pptId;
-    private String pptImgAddress;
-    private String pptDownloadUrl;
-    private String pptFileName;
+    private String fileName;
+    private String pageNum;
+    private String filePath;
+    private String thumbnailPath;
+    private String fileExt;
 
     public Integer getId() {
         return id;
@@ -23,20 +24,12 @@ public class PoiPPT {
         this.id = id;
     }
 
-    public String getPptDescription() {
-        return pptDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPptDescription(String pptDescription) {
-        this.pptDescription = pptDescription;
-    }
-
-    public String getTypeTag() {
-        return typeTag;
-    }
-
-    public void setTypeTag(String typeTag) {
-        this.typeTag = typeTag;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getNo1pptId() {
@@ -47,40 +40,57 @@ public class PoiPPT {
         this.no1pptId = no1pptId;
     }
 
-    public String getPptImgAddress() {
-        return pptImgAddress;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setPptImgAddress(String pptImgAddress) {
-        this.pptImgAddress = pptImgAddress;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public String getPptDownloadUrl() {
-        return pptDownloadUrl;
+    public String getPageNum() {
+        return pageNum;
     }
 
-    public void setPptDownloadUrl(String pptDownloadUrl) {
-        this.pptDownloadUrl = pptDownloadUrl;
+    public void setPageNum(String pageNum) {
+        this.pageNum = pageNum;
     }
 
-    public String getPptFileName() {
-        return pptFileName;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setPptFileName(String pptFileName) {
-        this.pptFileName = pptFileName;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getThumbnailPath() {
+        return thumbnailPath;
+    }
+
+    public void setThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
+    }
+
+    public String getFileExt() {
+        return fileExt;
+    }
+
+    public void setFileExt(String fileExt) {
+        this.fileExt = fileExt;
     }
 
     @Override
     public String toString() {
         return "PoiPPT{" +
                 "id=" + id +
-                ", pptDescription='" + pptDescription + '\'' +
-                ", typeTag='" + typeTag + '\'' +
+                ", description='" + description + '\'' +
                 ", no1pptId=" + no1pptId +
-                ", pptImgAddress='" + pptImgAddress + '\'' +
-                ", pptDownloadUrl='" + pptDownloadUrl + '\'' +
-                ", pptFileName='" + pptFileName + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", pageNum='" + pageNum + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", thumbnailPath='" + thumbnailPath + '\'' +
+                ", fileExt='" + fileExt + '\'' +
                 '}';
     }
 }

@@ -99,45 +99,45 @@ public class PptxOperateServiceImpl implements PptxOperateService {
 
     @Override
     public String rebuildPPTX(No1PPT no1PPT, int[] adPageIndexs) {
-        logger.info("------->  start!" +
-                "   No1PPT no1PPT = " + no1PPT +
-                "   adPageIndexs = " + Arrays.toString(adPageIndexs));
-        OutputStream outputStream = null;
-        try (
-                InputStream pptFileInputStream = new FileInputStream(Objects.requireNonNull(PathUtil.getNo1PptFile(String.valueOf(no1PPT.getId()))));
-                XMLSlideShow slideShow = new XMLSlideShow(pptFileInputStream);
-        ) {
-            if (adPageIndexs == null || adPageIndexs.length == 0) {
-                logger.info("------->   end!  本地数据库中已经存在该PoiPPT，可以直接读取！ result = " + ReturnCode.RESOURCES_ALREADY_EXISTS);
-                return ReturnCode.RESOURCES_ALREADY_EXISTS;
-            } else if (adPageIndexs.length == 1 && adPageIndexs[0] == -1) {
-                logger.info("------->   end!  未经OCR识别的PPT，得到的直接是No1PPT对象！  result = " + ReturnCode.UN_OCR);
-                return ReturnCode.UN_OCR;
-            }
-            for (int adPageIndex : adPageIndexs) {
-                slideShow.removeSlide(adPageIndex);
-            }
-            String targetPath = PathUtil.getAbsolutePoiPptPathByTag(PptTag.TYPE_POI_REBUILD);
-            String pptxPath = targetPath + no1PPT.getSrcDescription() + ".pptx";
-            outputStream = new FileOutputStream(pptxPath);
-            slideShow.write(outputStream);
-            PoiPPT pptx = new PoiPPT(no1PPT.getSrcDescription(), PptTag.TYPE_POI_REBUILD, no1PPT.getId());
-            poiPptDao.addPoiPPT(pptx);
-            logger.info("------->  end!  result = " + ReturnCode.SUCCESS);
-            return ReturnCode.SUCCESS;
-        } catch (Exception e) {
-            logger.error("------->  ERROR!   返回 FAILED");
-            logger.error(e.getMessage());
-        } finally {
-            try {
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            } catch (IOException e) {
-                logger.error("------->  ERROR!   Finally Block Error");
-                logger.error(e.getMessage());
-            }
-        }
+//        logger.info("------->  start!" +
+//                "   No1PPT no1PPT = " + no1PPT +
+//                "   adPageIndexs = " + Arrays.toString(adPageIndexs));
+//        OutputStream outputStream = null;
+//        try (
+//                InputStream pptFileInputStream = new FileInputStream(Objects.requireNonNull(PathUtil.getNo1PptFile(String.valueOf(no1PPT.getId()))));
+//                XMLSlideShow slideShow = new XMLSlideShow(pptFileInputStream);
+//        ) {
+//            if (adPageIndexs == null || adPageIndexs.length == 0) {
+//                logger.info("------->   end!  本地数据库中已经存在该PoiPPT，可以直接读取！ result = " + ReturnCode.RESOURCES_ALREADY_EXISTS);
+//                return ReturnCode.RESOURCES_ALREADY_EXISTS;
+//            } else if (adPageIndexs.length == 1 && adPageIndexs[0] == -1) {
+//                logger.info("------->   end!  未经OCR识别的PPT，得到的直接是No1PPT对象！  result = " + ReturnCode.UN_OCR);
+//                return ReturnCode.UN_OCR;
+//            }
+//            for (int adPageIndex : adPageIndexs) {
+//                slideShow.removeSlide(adPageIndex);
+//            }
+//            String targetPath = PathUtil.getAbsolutePoiPptPathByTag(PptTag.TYPE_POI_REBUILD);
+//            String pptxPath = targetPath + no1PPT.getSrcDescription() + ".pptx";
+//            outputStream = new FileOutputStream(pptxPath);
+//            slideShow.write(outputStream);
+//            PoiPPT pptx = new PoiPPT(no1PPT.getSrcDescription(), PptTag.TYPE_POI_REBUILD, no1PPT.getId());
+//            poiPptDao.addPoiPPT(pptx);
+//            logger.info("------->  end!  result = " + ReturnCode.SUCCESS);
+//            return ReturnCode.SUCCESS;
+//        } catch (Exception e) {
+//            logger.error("------->  ERROR!   返回 FAILED");
+//            logger.error(e.getMessage());
+//        } finally {
+//            try {
+//                if (outputStream != null) {
+//                    outputStream.close();
+//                }
+//            } catch (IOException e) {
+//                logger.error("------->  ERROR!   Finally Block Error");
+//                logger.error(e.getMessage());
+//            }
+//        }
         return ReturnCode.FAILED;
     }
 }

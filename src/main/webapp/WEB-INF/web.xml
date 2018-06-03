@@ -6,13 +6,18 @@
          version="3.1">
     <display-name>Archetype Created Web Application</display-name>
 
+    <context-param>
+        <param-name>contextInitializerClasses</param-name>
+        <param-value>com.parse.ppt.poi.configuration.SpringConfig</param-value>
+    </context-param>
+
     <!-- SpringMVC Servlet -->
     <servlet>
         <servlet-name>springMVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/*.xml</param-value>
+            <param-value>classpath:spring/spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported>
@@ -21,4 +26,8 @@
         <servlet-name>springMVC</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>

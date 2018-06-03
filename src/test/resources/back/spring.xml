@@ -9,8 +9,12 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <context:property-placeholder location="classpath:properties/db_config.properties,
-                                            classpath:properties/mail_config.properties,
-                                            classpath:properties/redis_config.properties"/>
+
+    <import resource="classpath:spring/spring-mybatis.xml"/>
+    <import resource="classpath:spring/spring-mail.xml"/>
+    <import resource="classpath:spring/spring-redis.xml"/>
+    <import resource="classpath:spring/spring-task.xml"/>
+
+    <!--<context:property-placeholder -->
 
 </beans>

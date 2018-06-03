@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 主页 index.jsp 初始化Controller
+ *
  * @author Jupiter
  * @version 2018/03/09 10:41
  */
@@ -34,7 +36,7 @@ public class InitializeController {
         }
         JSONObject resultJson = initializeService.getInitializeInfo(request);
         if (logger.isDebugEnabled()) {
-            logger.info("------->  end!");
+            logger.info("------->  end!  resultJson = {}", resultJson.toString(2));
         }
         return resultJson;
     }

@@ -2,6 +2,7 @@ package com.parse.ppt.poi.service.common;
 
 import com.parse.ppt.poi.common.PathUtil;
 import com.parse.ppt.poi.common.ReturnCode;
+import com.parse.ppt.poi.dao.UserDownloadHistoryDao;
 import com.parse.ppt.poi.entity.User;
 import com.parse.ppt.poi.entity.UserDownloadHistory;
 import org.apache.logging.log4j.LogManager;
@@ -18,11 +19,11 @@ import java.io.*;
 public class PptDownloadServiceImpl implements PptDownloadService {
     private Logger logger = LogManager.getLogger(this.getClass());
 
-    private final UserDownloadHistoryService userDownloadHistoryService;
+    private final UserDownloadHistoryDao userDownloadHistoryDao;
 
     @Autowired
-    public PptDownloadServiceImpl(UserDownloadHistoryService userDownloadHistoryService) {
-        this.userDownloadHistoryService = userDownloadHistoryService;
+    public PptDownloadServiceImpl(UserDownloadHistoryDao userDownloadHistoryDao) {
+        this.userDownloadHistoryDao = userDownloadHistoryDao;
     }
 
     @Override
@@ -57,8 +58,11 @@ public class PptDownloadServiceImpl implements PptDownloadService {
             HttpSession session = request.getSession();
             if (session.getAttribute("user") != null) {
                 User user = (User) session.getAttribute("user");
-                UserDownloadHistory userDownloadHistory = new UserDownloadHistory(user.getEmail(), Integer.parseInt(pptId));
-                String result = userDownloadHistoryService.addDownloadHistory(userDownloadHistory);
+                UserDownloadHistory userDownloadHistory = new UserDownloadHistory();
+                userDownloadHistory.setPptId(Integer.parseInt(pptId));
+                userDownloadHistory.setEmail(user.getEmail());
+                userDownloadHistory.setPptType("PPT");
+                userDownloadHistoryDao.addDownloadHistory(userDownloadHistory);
             }
             logger.info("------->  end ! SUCCESS");
             return ReturnCode.SUCCESS;

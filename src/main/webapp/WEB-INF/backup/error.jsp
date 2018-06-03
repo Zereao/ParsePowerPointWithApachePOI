@@ -19,9 +19,9 @@
         window.scrollTo(0, 1);
     } </script>
 
-    <link href="../webResources/css/error_wallpoet_fonts.css" rel="stylesheet">
-    <link href="../webResources/css/error_hind_fonts.css" rel="stylesheet">
-    <link href="../webResources/css/error_style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="../../webResources/css/error_wallpoet_fonts.css" rel="stylesheet">
+    <link href="../../webResources/css/error_hind_fonts.css" rel="stylesheet">
+    <link href="../../webResources/css/error_style.css" rel="stylesheet" type="text/css" media="all"/>
 </head>
 <body>
 <div class="w3layouts-bg">
@@ -33,7 +33,7 @@
         <div class="w3ls-text">
             <h3>居然！出错了！</h3>
             <h4 class="w3-agileits2">十分好意思，出现了未知错误。</h4>
-            <p>现在，你可以返回<a href="../index.jsp">主页</a> ，或者，拜拜~ </p>
+            <p>现在，你可以返回<a href="../../index.jsp">主页</a> ，或者，拜拜~ </p>
             <p class="copyright">© 2017 - 2018 <a href="https://github.com/Zereao" target="_blank" title="访问我的GitHub">
                 白露</a>
                 All Rights Reserved</p>

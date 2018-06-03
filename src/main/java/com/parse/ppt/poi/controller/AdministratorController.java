@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 
 /**
+ * 用户管理员Controller，目前只有设置首页文章的功能<br>
+ * 后期可能会添加其他功能
+ *
  * @author Jupiter
  * @version 2018/03/09 11:52
  */
@@ -38,7 +41,7 @@ public class AdministratorController {
         }
         JSONObject resultJson = administratorService.setMainPageEssay(essayTitle, essayContent, session);
         if (logger.isDebugEnabled()) {
-            logger.info("------->  end!  resultJson = {}", resultJson);
+            logger.info("------->  end!  resultJson = {}", resultJson.toString(2));
         }
         return resultJson;
     }

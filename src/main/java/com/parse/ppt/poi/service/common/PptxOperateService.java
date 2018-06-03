@@ -8,6 +8,7 @@ import java.io.File;
 
 @Service
 public interface PptxOperateService {
+
     /**
      * 把PPTX文件转换为PNG格式的图片
      *

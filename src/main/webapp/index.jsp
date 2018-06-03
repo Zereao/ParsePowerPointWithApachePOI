@@ -24,8 +24,7 @@
     <script src="webResources/mainPage/js/jquery.magnific-popup.min.js"></script>
 
     <%-- 导入分离出的JavaScript --%>
-    <script src="webResources/js/common.op.js"></script>
-    <script src="webResources/mainPage/js/index.jsp.js"></script>
+    <script src="webResources/my-js/index.jsp.js"></script>
 
     <link rel="stylesheet" href="webResources/mainPage/font-awesome-4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="webResources/mainPage/css/bootstrap.min.css">
